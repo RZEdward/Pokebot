@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "status": "EXPERIMENTAL_REFERENCE_ROLLOUTS",
+  "task": "phase_gait_reference_with_ankle_pd",
+  "physics_backend": "MuJoCo",
+  "robot_config": "C:\\Users\\ross\\Projects\\Pokebot\\src\\robot_twin\\robot_config.json",
+  "robot_model": "C:\\Users\\ross\\Projects\\Pokebot\\src\\robot_twin\\models\\humanoid_28dof.xml",
+  "robot_model_sha256": "ef09cb64d6bb047f6b6c9fd0fa2f5282f93a73dde351f2eee5c67dd867be0e21",
+  "gait_settings": {
+    "status": "UNVALIDATED_LOW_SPEED_TRAJECTORY_BASELINE",
+    "frequency_hz": 0.8,
+    "startup_ramp_s": 0.6,
+    "max_speed_m_s": 0.25,
+    "max_yaw_rate_rad_s": 0.5,
+    "max_stride_length_m": 0.16,
+    "stance_fraction": 0.62,
+    "leg_segment_lengths_m": [
+      0.285,
+      0.33
+    ],
+    "hip_to_ground_nominal_m": 0.575,
+    "swing_clearance_m": 0.045,
+    "hip_roll_amplitude_rad": 0.12,
+    "hip_yaw_turn_amplitude_rad": 0.12,
+    "waist_yaw_turn_amplitude_rad": 0.12,
+    "arm_counter_swing": -0.7,
+    "elbow_flex_amplitude_rad": 0.3
+  },
+  "episode_seconds_requested": 2.5,
+  "episodes": [
+    {
+      "command": "forward",
+      "command_body_frame": {
+        "vx_m_s": 0.15,
+        "vy_m_s": 0.0,
+        "yaw_rate_rad_s": 0.0
+      },
+      "seed": 7100,
+      "duration_s": 2.5,
+      "fell": false,
+      "min_upright": 0.9720535456402264,
+      "displacement_world_m": [
+        -0.18307350668562458,
+        -0.008808438356509227,
+        -0.049132128376831896
+      ],
+      "yaw_change_rad": 0.009622148581415399,
+      "final_root_position_m": [
+        -0.18307350668562458,
+        -0.008808438356509227,
+        0.7208678716231681
+      ]
+    },
+    {
+      "command": "reverse",
+      "command_body_frame": {
+        "vx_m_s": -0.15,
+        "vy_m_s": 0.0,
+        "yaw_rate_rad_s": 0.0
+      },
+      "seed": 7101,
+      "duration_s": 2.5,
+      "fell": false,
+      "min_upright": 0.9752771420622102,
+      "displacement_world_m": [
+        -0.18374985897120838,
+        0.02081165833546513,
+        -0.048770029433542805
+      ],
+      "yaw_change_rad": 0.0009432424010331463,
+      "final_root_position_m": [
+        -0.18374985897120838,
+        0.02081165833546513,
+        0.7212299705664572
+      ]
+    },
+    {
+      "command": "left",
+      "command_body_frame": {
+        "vx_m_s": 0.0,
+        "vy_m_s": 0.12,
+        "yaw_rate_rad_s": 0.0
+      },
+      "seed": 7102,
+      "duration_s": 2.5,
+      "fell": false,
+      "min_upright": 0.971233523860938,
+      "displacement_world_m": [
+        -0.19708748830468995,
+        0.007927031783718484,
+        -0.05234061204998497
+      ],
+      "yaw_change_rad": 0.007348031352798438,
+      "final_root_position_m": [
+        -0.19708748830468995,
+        0.007927031783718484,
+        0.717659387950015
+      ]
+    },
+    {
+      "command": "right",
+      "command_body_frame": {
+        "vx_m_s": 0.0,
+        "vy_m_s": -0.12,
+        "yaw_rate_rad_s": 0.0
+      },
+      "seed": 7103,
+      "duration_s": 2.5,
+      "fell": false,
+      "min_upright": 0.9712270619492012,
+      "displacement_world_m": [
+        -0.19712136374898137,
+        0.007962425165073925,
+        -0.05234193838474199
+      ],
+      "yaw_change_rad": 0.007404108361017365,
+      "final_root_position_m": [
+        -0.19712136374898137,
+        0.007962425165073925,
+        0.717658061615258
+      ]
+    },
+    {
+      "command": "turn_left",
+      "command_body_frame": {
+        "vx_m_s": 0.0,
+        "vy_m_s": 0.0,
+        "yaw_rate_rad_s": 0.3
+      },
+      "seed": 7104,
+      "duration_s": 2.5,
+      "fell": false,
+      "min_upright": 0.9743291126692095,
+      "displacement_world_m": [
+        -0.18864451937421886,
+        0.007271472970385525,
+        -0.05111010113603209
+      ],
+      "yaw_change_rad": 0.008577754477528126,
+      "final_root_position_m": [
+        -0.18864451937421886,
+        0.007271472970385525,
+        0.7188898988639679
+      ]
+    },
+    {
+      "command": "turn_right",
+      "command_body_frame": {
+        "vx_m_s": 0.0,
+        "vy_m_s": 0.0,
+        "yaw_rate_rad_s": -0.3
+      },
+      "seed": 7105,
+      "duration_s": 2.5,
+      "fell": false,
+      "min_upright": 0.9742905879719671,
+      "displacement_world_m": [
+        -0.18891355486069936,
+        0.0076579256290836405,
+        -0.05113410493651649
+      ],
+      "yaw_change_rad": 0.007027874043247339,
+      "final_root_position_m": [
+        -0.18891355486069936,
+        0.0076579256290836405,
+        0.7188658950634835
+      ]
+    }
+  ],
+  "limitations": [
+    "No PPO locomotion training is included in this baseline evaluation.",
+    "The gait is an unvalidated phase trajectory without contact-phase feedback.",
+    "The mass, inertias, actuator response, and ground parameters are provisional."
+  ]
+}

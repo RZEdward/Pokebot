@@ -34,6 +34,12 @@ def main():
                     f.read_bytes() if f.exists() else json.dumps({"status": "waiting"}).encode()
                 )
                 kind = "application/json"
+            elif path == "/api/config":
+                f = run / "robot_config_snapshot.json"
+                if not f.is_file():
+                    f = ROOT / "src" / "robot_twin" / "robot_config.json"
+                payload = f.read_bytes()
+                kind = "application/json"
             elif path == "/latest.png":
                 f = run / "latest.png"
                 if not f.exists():

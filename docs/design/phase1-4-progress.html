@@ -28,7 +28,7 @@
   <section class="grid">
     <article class="card"><div class="label">Robot model</div><div class="value">28 DoF · 25 kg</div><p class="muted">MuJoCo model compiles to 35 generalized coordinates, 34 velocities, and 28 actuators. 25 kg is an explicit design allocation, not a measured robot mass.</p></article>
     <article class="card"><div class="label">CAD agreement</div><div class="value good">28 / 28 frames</div><p class="muted">The neutral MJCF joint anchors, axes, limits, and 25 kg mass case are checked against the simulation configuration copied from the CAD reference.</p></article>
-    <article class="card"><div class="label">Learned skills</div><div class="value warn">Balance · unverified</div><p class="muted">Standing is the only implemented task, and the latest PPO checkpoint failed the matched baseline comparison. Walking and whole-body actions remain future tasks.</p></article>
+    <article class="card"><div class="label">Learned skills</div><div class="value good">Balance · simulation</div><p class="muted">The bounded residual PPO matches the ankle-PD baseline on the saved evaluation set. This is simulation evidence only; walking and whole-body actions remain unimplemented.</p></article>
   </section>
 
   <section class="card">
@@ -67,8 +67,32 @@
       <h2>Training and observability</h2>
       <p>The task gives the policy gravity direction, base motion, joint positions/velocities, and prior action. PPO outputs normalized joint-position targets; MuJoCo applies finite-gain actuators with torque saturation. Episode resets vary total mass, link mass redistribution, ground friction, equivalent slope gravity, and contact softness.</p>
       <p>The local dashboard shows a real MuJoCo frame, training step/reward, robot state, domain parameters, and joint angles. Completed evaluation writes the same run’s MP4 and per-surface JSON.</p>
-      <a href="http://127.0.0.1:8771">Open live run monitor (while the local trainer/server is active)</a>
+      <a href="http://127.0.0.1:8773">Open live run monitor (while the local trainer/server is active)</a>
+      <p><a href="http://127.0.0.1:8776">Open current command-locomotion training monitor</a></p>
     </article>
+  </section>
+
+  <section class="card">
+    <h2>Commanded locomotion · experimental, not yet passed</h2>
+    <p>A configurable 28-joint PPO task receives body-frame forward, reverse, and lateral velocity commands. It applies a whole-body residual over ankle-PD attitude stabilization and supports randomized mass/contact training. A phase-based joint-space reference is retained as an interpretable baseline.</p>
+    <p>The first 20,224-transition policy stayed upright for all 12 held-out rollouts but did not walk: its mean velocity-tracking score was <b>0.568</b>, and average body velocity remained close to zero across the four commands. The phase-based reference fell in all 12 cases after a mean of <b>3.23 s</b>.</p>
+    <p>The first 100,352-transition policy was trained nominally because a reset bug suppressed its intended curriculum. At full-randomization evaluation it avoided falls in <b>7/12</b> cases (4.32 s mean survival) with a <b>0.175</b> tracking score; at mild randomization it avoided falls in 10/12, with a 0.190 mean score.</p>
+    <p>The corrected-curriculum 100,352-transition policy scored <b>0.167</b> and avoided falls in 9/12 randomized cases (5.00 s mean survival). A fourth, phase-aware 100,352-transition PPO run added sine/cosine gait phase to the observation and reached <b>0.174</b>, with 8/12 episodes avoiding falls (4.74 s mean survival). Its mean tracking scores by direction were forward 0.160, reverse 0.163, left 0.160, and right 0.211. It mostly stands still and does not pass the <b>0.70 per-command</b> walking gate. Gait-phase observation alone did not solve locomotion.</p>
+    <h3>First PPO run · mostly standing</h3>
+    <video controls preload="metadata" src="assets/locomotion-ppo-v1.mp4">First command-conditioned PPO evaluation across four directions.</video>
+    <p><a href="results/locomotion-v0/locomotion-ppo-v1-evaluation.json">First-run episode metrics</a> · <a href="results/locomotion-v0/policy.zip">First PPO checkpoint</a> · <a href="assets/locomotion-reference-v0.mp4">Failed phase-reference replay</a></p>
+    <h3>100k PPO run · randomized cases, gait criterion failed</h3>
+    <video controls preload="metadata" src="assets/locomotion-ppo-v2.mp4">100k PPO randomized held-out evaluation.</video>
+    <p><a href="results/locomotion-v1/locomotion-ppo-v2-evaluation.json">Randomized episode metrics</a> · <a href="results/locomotion-v1/locomotion-ppo-v2-mild-evaluation.json">Mild-randomization metrics</a> · <a href="results/locomotion-v1/policy.zip">100k checkpoint</a></p>
+    <h3>Corrected curriculum · 100k PPO, gait criterion failed</h3>
+    <video controls preload="metadata" src="assets/locomotion-ppo-v3.mp4">Corrected curriculum locomotion evaluation replay.</video>
+    <p><a href="results/locomotion-v2/locomotion-ppo-v3-evaluation.json">Corrected-run episode metrics</a> · <a href="results/locomotion-v2/policy.zip">Corrected-run checkpoint</a></p>
+    <h3>Phase-aware PPO · full randomized held-out evaluation, gait criterion failed</h3>
+    <video controls preload="metadata" src="assets/locomotion-ppo-v4.mp4">Phase-aware PPO command-conditioned simulation replay.</video>
+    <p><a href="results/locomotion-v3/locomotion-ppo-v4-evaluation.json">12-episode per-command metrics</a> · <a href="results/locomotion-v3/policy.zip">Exact PPO checkpoint</a> · <a href="results/locomotion-v3/run.json">Training manifest and source/config hashes</a></p>
+    <h3>Hand-authored motion prior + PPO residual · gait criterion failed</h3>
+    <video controls preload="metadata" src="assets/locomotion-ppo-v5-gait-prior-residual.mp4">PPO residual on a phase gait reference, randomized evaluation.</video>
+    <p>The residual-over-gait policy scored <b>0.164</b> and avoided falls in 5/12 episodes (4.05 s mean survival), below the phase-observation-only run's 0.174 and 8/12. This hand-authored reference is not a good motion prior for the current model. <a href="results/locomotion-v4/locomotion-ppo-v5-evaluation.json">Episode metrics</a> · <a href="results/locomotion-v4/policy.zip">Checkpoint</a> · <a href="results/locomotion-v4/run.json">Run manifest</a></p>
   </section>
 
   <section class="card">
@@ -118,6 +142,7 @@
       <li>Inspect one link in <a href="../../src/robot_twin/models/humanoid_28dof.xml">the MJCF</a>: <code>inertial</code> sets its mass/COM/inertia, <code>geom</code> sets collision or appearance, <code>joint</code> sets an axis/limit, and <code>position</code> sets a finite-gain actuator.</li>
       <li>Read <a href="../../src/robot_twin/model_validation.py">model_validation.py</a> to see which claims are checked mechanically against the CAD joint frames. Read <a href="../../src/robot_twin/env.py">env.py</a> for the sensor-like proprioceptive observation, reset randomization, reward and fall test.</li>
       <li>Read <a href="../../src/robot_twin/train.py">train.py</a>: PPO changes normalized desired joint targets from reward feedback. Then inspect <a href="../../src/robot_twin/evaluate.py">evaluate.py</a> to see matched seeded comparisons across fixed conditions.</li>
+      <li>For locomotion, compare <a href="../../src/robot_twin/locomotion_env.py">locomotion_env.py</a> (velocity command observation/reward) with <a href="../../src/robot_twin/locomotion.py">locomotion.py</a> (explicit, unvalidated trajectory reference).</li>
     </ol>
     <p>This order makes it easier to separate geometry, Newtonian dynamics, control, and the learning objective before tuning any reward or network setting.</p>
   </section>
@@ -127,17 +152,18 @@
     <table class="table">
       <thead><tr><th>Open source work</th><th>What we borrow or defer</th></tr></thead>
       <tbody>
-        <tr><td><a href="https://github.com/google-deepmind/mujoco">MuJoCo</a> / <a href="https://github.com/google-deepmind/mujoco_playground">MuJoCo Playground</a></td><td>Inspectable MJCF as model source, explicit tasks, replayable evaluation; GPU MJX/MuJoCo Warp is a later throughput option.</td></tr>
+        <tr><td><a href="https://github.com/google-deepmind/mujoco">MuJoCo</a> / <a href="https://github.com/google-deepmind/mujoco_playground">MuJoCo Playground</a></td><td>Inspectable MJCF, explicit tasks, replayable evaluation. The <a href="https://github.com/google-deepmind/mujoco_playground/blob/main/mujoco_playground/_src/locomotion/apollo/joystick.py">Apollo joystick task</a> is a concrete phase-aware gait reference with sampled frequency, foot-phase rewards, and pushes; this CPU prototype currently borrows only the sine/cosine phase input. GPU MJX/MuJoCo Warp is a later throughput option.</td></tr>
         <tr><td><a href="https://github.com/isaac-sim/IsaacLab">Isaac Lab</a> / <a href="https://github.com/newton-physics/newton">Newton</a></td><td>Backend seams for batched GPU training, high-quality camera/contact simulation, and ROS 2 once the local model and hardware data justify the larger stack.</td></tr>
         <tr><td><a href="https://github.com/leggedrobotics/legged_gym">Legged Gym</a></td><td>Actuator modeling and randomization of mass, friction, observations, and pushes; our domains stay modest placeholders until component identification exists.</td></tr>
         <tr><td><a href="https://arxiv.org/abs/2502.01143">ASAP (humanoid sim-to-real alignment)</a></td><td>Randomization does not make a digital twin: measure actuator response, COM/inertias, contact, and hardware tracking error before transfer claims.</td></tr>
+        <tr><td><a href="https://arxiv.org/abs/2610.36270">Phase-Conditioned Policy Optimization (Oct 2026 preprint)</a> / <a href="https://arxiv.org/abs/2509.20696">RuN</a></td><td>Phase-conditioned critics/curricula are relevant to future multi-step skills; motion generators plus bounded RL residuals may be a better locomotion starting point than reward-only gait discovery. Both remain research references, not dependencies.</td></tr>
         <tr><td><a href="https://github.com/huggingface/lerobot">LeRobot</a></td><td>Future synchronized state/action/video datasets and demonstrations for motion imitation or sensor-policy training.</td></tr>
       </tbody>
     </table>
   </section>
 
   <section class="status">
-    <b>Current boundary:</b> this work demonstrates a simulation/training pipeline, not hardware readiness. Balance must pass held-out rollouts across seeds and surfaces; falls and weak checkpoints are retained as evidence. Walking, sitting/get-up, prone/supine recovery, jump, kick, and punch remain unimplemented/untrained.
+    <b>Current boundary:</b> this work demonstrates a simulation/training pipeline, not hardware readiness. The balance result passes its recorded synthetic surface/mass set but does not prove physical transfer. Five locomotion PPO variants have been trained, including phase input and a heuristic-motion residual; none has passed the walking criterion. Sitting/get-up, prone/supine recovery, crouch, jump, kick, and punch remain unimplemented/untrained.
   </section>
   <p class="foot">For detailed assumptions and evidence, see <a href="robot-twin-architecture.md">the architecture note</a>, <a href="robot-twin-runbook.md">the runbook</a>, and <a href="../planning/phase-1-to-4-execution-plan.md">the phase plan</a>.</p>
 </main>

@@ -33,6 +33,9 @@ hitmonlee-summarize = "hitmonlee_sim.summarize:main"
 hitmonlee-inspect-model = "hitmonlee_sim.inspect_model:main"
 robot-twin-train = "robot_twin.train:main"
 robot-twin-evaluate = "robot_twin.evaluate:main"
+robot-twin-train-locomotion = "robot_twin.train_locomotion:main"
+robot-twin-evaluate-locomotion = "robot_twin.evaluate_locomotion_reference:main"
+robot-twin-evaluate-locomotion-policy = "robot_twin.evaluate_locomotion_policy:main"
 robot-twin-monitor = "robot_twin.monitor:main"
 
 [tool.setuptools]

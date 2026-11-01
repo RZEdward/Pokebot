@@ -126,6 +126,40 @@
       "roll_ankle_joints": ["left_ankle_roll", "right_ankle_roll"]
     }
   },
+  "locomotion_reference": {
+    "status": "UNVALIDATED_LOW_SPEED_TRAJECTORY_BASELINE",
+    "frequency_hz": 0.8,
+    "startup_ramp_s": 0.6,
+    "max_speed_m_s": 0.25,
+    "max_yaw_rate_rad_s": 0.5,
+    "max_stride_length_m": 0.16,
+    "stance_fraction": 0.62,
+    "leg_segment_lengths_m": [0.285, 0.33],
+    "hip_to_ground_nominal_m": 0.575,
+    "swing_clearance_m": 0.045,
+    "hip_roll_amplitude_rad": 0.12,
+    "hip_yaw_turn_amplitude_rad": 0.12,
+    "waist_yaw_turn_amplitude_rad": 0.12,
+    "arm_counter_swing": -0.7,
+    "elbow_flex_amplitude_rad": 0.3
+  },
+  "locomotion_training": {
+    "status": "EXPERIMENTAL_COMMAND_CONDITIONED_TASK",
+    "residual_scale": 0.5,
+    "tracking_sigma_m_s": 0.1,
+    "tracking_reward_weight": 6.0,
+    "upright_reward_weight": 0.5,
+    "height_reward_weight": 0.2,
+    "action_cost_weight": 0.01,
+    "smooth_cost_weight": 0.015,
+    "fall_penalty": 5.0,
+    "commands": [
+      [0.15, 0.0, 0.0],
+      [-0.15, 0.0, 0.0],
+      [0.0, 0.12, 0.0],
+      [0.0, -0.12, 0.0]
+    ]
+  },
   "surfaces": {
     "nominal": {
       "friction": 0.9,
@@ -185,10 +219,14 @@
   },
   "curriculum": {
     "implemented": [
-      "proprioceptive_stand"
+      "proprioceptive_stand",
+      "command_conditioned_planar_velocity_tracking_task"
+    ],
+    "experimental_trained": [
+      "command_conditioned_planar_velocity_tracking_task"
     ],
     "not_implemented_or_trained": [
-      "multi_direction_walking",
+      "validated_multi_direction_walking",
       "turning",
       "crouch",
       "sit_stand",

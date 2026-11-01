@@ -30,6 +30,27 @@ Result: 0 of 18 rollouts avoided a fall. This policy checkpoint is not archived 
 
 Both experiments use placeholder masses and actuator values. Neither is calibrated to an assembled robot.
 
+## Command-conditioned locomotion: experimental only
+
+- `locomotion-v0/` preserves the 20,224-step PPO checkpoint, exact model/config, first evaluation, and the failed phase-reference comparison.
+- `locomotion-v1/` preserves the 100,352-step nominal-only PPO checkpoint plus paired evaluations at mild and full randomization.
+- `locomotion-v2/` preserves a 100,352-step PPO run with the corrected randomization curriculum and its full randomized held-out evaluation.
+- `locomotion-v3/` preserves the 100,352-step, phase-aware PPO run, its exact model/config/policy and 12-episode held-out evaluation. The gait phase input was added following the phase/frequency seam used in MuJoCo Playground's Apollo joystick task.
+- `locomotion-v4/` preserves the 100,352-step experiment that added the hand-authored phase gait as a motion prior under PPO residuals. The run manifest records this reference mode; source snapshots, MJCF, config, policy, evaluation and MP4 are retained.
+- `../assets/locomotion-ppo-v1.mp4` through `../assets/locomotion-ppo-v5-gait-prior-residual.mp4` show the five PPO evaluations and the first failed reference. Episode reports include commands, seeds, initial states, randomization samples, velocities, falls, and displacements.
+
+The 20k policy stayed upright but averaged only 0.568 velocity-tracking score and remained near zero velocity. The nominal-only 100k policy scored 0.175 at full randomization (7/12 episodes without falls) and 0.190 at 0.25 randomization (10/12 without falls). The corrected-curriculum policy scored 0.167 at full randomization and avoided falls in 9/12 cases. The phase-aware policy scored 0.174 and avoided falls in 8/12 cases. Adding that hand-authored gait as a prior under PPO residuals scored 0.164 and avoided falls in 5/12. Neither phase input nor this unvalidated prior helped; all policies remained near zero velocity and failed the 0.70 per-command walking criterion. The next useful experiment needs a validated, stable motion prior or walking expert, not further tuning of this heuristic.
+
+Reproduce the archived gait-prior residual evaluation with the exact policy/config/model and reference mode from its run manifest:
+
+```powershell
+$env:PYTHONPATH = "src"
+.\.venv\Scripts\python.exe -m robot_twin.evaluate_locomotion_policy `
+  --model docs\design\results\locomotion-v4\policy.zip `
+  --episodes 3 --seconds 6 --randomization-intensity 1 --torch-threads 1 `
+  --output runs\locomotion-v4-replay.mp4
+```
+
 ## Reproduce v4 evaluation
 
 From the repository root, this runs the archived policy on the full matrix and writes the report under `runs/`:

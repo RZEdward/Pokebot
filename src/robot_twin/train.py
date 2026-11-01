@@ -5,98 +5,21 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import platform
 import shutil
-import tempfile
 import time
 from datetime import UTC, datetime
 from importlib.metadata import version
 from pathlib import Path
 
-import imageio.v2 as imageio
 import numpy as np
 import torch
 from stable_baselines3 import PPO
-from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 from robot_twin.env import CONFIG_PATH, ROOT, HumanoidBalanceEnv, load_config
-
-
-def write_json_atomic(path: Path, payload: dict) -> None:
-    """Keep readers of the local live monitor from seeing a partial JSON document."""
-    fd, temporary = tempfile.mkstemp(dir=path.parent, prefix=".state-", suffix=".tmp")
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as stream:
-            json.dump(payload, stream)
-            stream.flush()
-            os.fsync(stream.fileno())
-        replace_with_retry(Path(temporary), path)
-    finally:
-        Path(temporary).unlink(missing_ok=True)
-
-
-def replace_with_retry(source: Path, destination: Path) -> None:
-    """Retry transient Windows sharing violations from live dashboard readers."""
-    for attempt in range(5):
-        try:
-            os.replace(source, destination)
-            return
-        except PermissionError:
-            if attempt == 4:
-                raise
-            time.sleep(0.01 * (2**attempt))
-
-
-class RunTelemetry(BaseCallback):
-    def __init__(self, run_dir: Path):
-        super().__init__()
-        self.run_dir = run_dir
-        self.returns = []
-        self.last_checkpoint_step = 0
-
-    def _on_training_start(self) -> None:
-        self.training_env.envs[0].unwrapped.set_randomization_intensity(0.0)
-
-    def _on_step(self):
-        env = self.training_env.envs[0].unwrapped
-        scale = min(1.0, self.num_timesteps / max(1, int(self.model._total_timesteps * 0.6)))
-        env.set_randomization_intensity(scale)
-        for info in self.locals.get("infos", []):
-            if "episode" in info:
-                self.returns.append(float(info["episode"]["r"]))
-        if self.n_calls % 50 == 0:
-            info = (self.locals.get("infos") or [{}])[0]
-            payload = {
-                "step": int(self.num_timesteps),
-                "reward": float(info.get("reward", 0)),
-                "position": info.get("root_position", [0, 0, 0]),
-                "upright": info.get("upright", 0),
-                "episode_step": info.get("episode_step", 0),
-                "joint_angles": info.get("joint_angles", []),
-                "randomization": info.get("randomization", {}),
-                "episode_returns": self.returns,
-            }
-            write_json_atomic(self.run_dir / "telemetry.json", payload)
-        if self.num_timesteps - self.last_checkpoint_step >= 10_000:
-            checkpoint = self.run_dir / "policy-checkpoint.zip"
-            temporary = self.run_dir / f".policy-checkpoint-{self.num_timesteps}.zip"
-            self.model.save(temporary)
-            replace_with_retry(temporary, checkpoint)
-            write_json_atomic(
-                self.run_dir / "checkpoint.json",
-                {"step": int(self.num_timesteps), "path": checkpoint.name},
-            )
-            self.last_checkpoint_step = self.num_timesteps
-        if self.n_calls % 500 == 0:
-            frame = env.render()
-            if frame is not None:
-                temporary = self.run_dir / "latest.tmp.png"
-                imageio.imwrite(temporary, frame)
-                replace_with_retry(temporary, self.run_dir / "latest.png")
-        return True
+from robot_twin.experiments import RunTelemetry, write_json_atomic
 
 
 def main():

@@ -1,0 +1,605 @@
+{
+  "schema_version": 1,
+  "status": "EXPERIMENTAL_HELD_OUT_COMMAND_EVALUATION",
+  "task": "command_conditioned_velocity_tracking",
+  "episodes_requested_per_command_controller": 3,
+  "episode_seconds": 6.0,
+  "robot_model_sha256": "ef09cb64d6bb047f6b6c9fd0fa2f5282f93a73dde351f2eee5c67dd867be0e21",
+  "controller_summary": {
+    "phase_gait_reference": {
+      "episodes": 12,
+      "no_fall_fraction": 0.0,
+      "mean_tracking_score": 0.38563168789089103,
+      "mean_survival_s": 3.2300000000000004
+    },
+    "ppo": {
+      "episodes": 12,
+      "no_fall_fraction": 1.0,
+      "mean_tracking_score": 0.5684614471200746,
+      "mean_survival_s": 6.0
+    }
+  },
+  "episodes": [
+    {
+      "controller": "phase_gait_reference",
+      "command": "forward",
+      "command_body_m_s": [
+        0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12000,
+      "duration_s": 3.2600000000000002,
+      "fell": true,
+      "mean_tracking_score": 0.19319712683285578,
+      "mean_body_velocity_m_s": [
+        -0.2712428570954788,
+        0.002118482642913094,
+        0.020448709861613856
+      ],
+      "min_upright": 0.4842680975895209,
+      "displacement_world_m": [
+        -0.7652425043585641,
+        0.021915132096062717,
+        -0.3782575253555733
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "forward",
+      "command_body_m_s": [
+        0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12000,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.5252606754195601,
+      "mean_body_velocity_m_s": [
+        0.005295130302836701,
+        -6.666794959792063e-06,
+        -0.00012657044589795555
+      ],
+      "min_upright": 0.9980608496190952,
+      "displacement_world_m": [
+        0.031830395848454644,
+        0.00010882701176998167,
+        -0.0009865035775079578
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "forward",
+      "command_body_m_s": [
+        0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12001,
+      "duration_s": 3.2600000000000002,
+      "fell": true,
+      "mean_tracking_score": 0.19319712683285578,
+      "mean_body_velocity_m_s": [
+        -0.2712428570954788,
+        0.002118482642913094,
+        0.020448709861613856
+      ],
+      "min_upright": 0.4842680975895209,
+      "displacement_world_m": [
+        -0.7652425043585641,
+        0.021915132096062717,
+        -0.3782575253555733
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "forward",
+      "command_body_m_s": [
+        0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12001,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.5252606754195601,
+      "mean_body_velocity_m_s": [
+        0.005295130302836701,
+        -6.666794959792063e-06,
+        -0.00012657044589795555
+      ],
+      "min_upright": 0.9980608496190952,
+      "displacement_world_m": [
+        0.031830395848454644,
+        0.00010882701176998167,
+        -0.0009865035775079578
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "forward",
+      "command_body_m_s": [
+        0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12002,
+      "duration_s": 3.2600000000000002,
+      "fell": true,
+      "mean_tracking_score": 0.19319712683285578,
+      "mean_body_velocity_m_s": [
+        -0.2712428570954788,
+        0.002118482642913094,
+        0.020448709861613856
+      ],
+      "min_upright": 0.4842680975895209,
+      "displacement_world_m": [
+        -0.7652425043585641,
+        0.021915132096062717,
+        -0.3782575253555733
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "forward",
+      "command_body_m_s": [
+        0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12002,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.5252606754195601,
+      "mean_body_velocity_m_s": [
+        0.005295130302836701,
+        -6.666794959792063e-06,
+        -0.00012657044589795555
+      ],
+      "min_upright": 0.9980608496190952,
+      "displacement_world_m": [
+        0.031830395848454644,
+        0.00010882701176998167,
+        -0.0009865035775079578
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "reverse",
+      "command_body_m_s": [
+        -0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12100,
+      "duration_s": 3.2600000000000002,
+      "fell": true,
+      "mean_tracking_score": 0.5787677880205051,
+      "mean_body_velocity_m_s": [
+        -0.266308076110051,
+        -0.005337550143078748,
+        0.019671443006403975
+      ],
+      "min_upright": 0.5005465249806225,
+      "displacement_world_m": [
+        -0.7558558789451811,
+        -0.025315630975315962,
+        -0.36494263090746243
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "reverse",
+      "command_body_m_s": [
+        -0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12100,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.4789569040079842,
+      "mean_body_velocity_m_s": [
+        0.004886864881782277,
+        2.4516477409518006e-05,
+        -0.00011226004225936071
+      ],
+      "min_upright": 0.9983663027730312,
+      "displacement_world_m": [
+        0.029376313917651515,
+        0.0002713349529975923,
+        -0.0008666580353021702
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "reverse",
+      "command_body_m_s": [
+        -0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12101,
+      "duration_s": 3.2600000000000002,
+      "fell": true,
+      "mean_tracking_score": 0.5787677880205051,
+      "mean_body_velocity_m_s": [
+        -0.266308076110051,
+        -0.005337550143078748,
+        0.019671443006403975
+      ],
+      "min_upright": 0.5005465249806225,
+      "displacement_world_m": [
+        -0.7558558789451811,
+        -0.025315630975315962,
+        -0.36494263090746243
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "reverse",
+      "command_body_m_s": [
+        -0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12101,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.4789569040079842,
+      "mean_body_velocity_m_s": [
+        0.004886864881782277,
+        2.4516477409518006e-05,
+        -0.00011226004225936071
+      ],
+      "min_upright": 0.9983663027730312,
+      "displacement_world_m": [
+        0.029376313917651515,
+        0.0002713349529975923,
+        -0.0008666580353021702
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "reverse",
+      "command_body_m_s": [
+        -0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12102,
+      "duration_s": 3.2600000000000002,
+      "fell": true,
+      "mean_tracking_score": 0.5787677880205051,
+      "mean_body_velocity_m_s": [
+        -0.266308076110051,
+        -0.005337550143078748,
+        0.019671443006403975
+      ],
+      "min_upright": 0.5005465249806225,
+      "displacement_world_m": [
+        -0.7558558789451811,
+        -0.025315630975315962,
+        -0.36494263090746243
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "reverse",
+      "command_body_m_s": [
+        -0.15,
+        0.0,
+        0.0
+      ],
+      "seed": 12102,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.4789569040079842,
+      "mean_body_velocity_m_s": [
+        0.004886864881782277,
+        2.4516477409518006e-05,
+        -0.00011226004225936071
+      ],
+      "min_upright": 0.9983663027730312,
+      "displacement_world_m": [
+        0.029376313917651515,
+        0.0002713349529975923,
+        -0.0008666580353021702
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "left",
+      "command_body_m_s": [
+        0.0,
+        0.12,
+        0.0
+      ],
+      "seed": 12200,
+      "duration_s": 3.2,
+      "fell": true,
+      "mean_tracking_score": 0.39030180039539186,
+      "mean_body_velocity_m_s": [
+        -0.2716252393868439,
+        -0.001310924149966277,
+        0.014733166881698878
+      ],
+      "min_upright": 0.5373341155941201,
+      "displacement_world_m": [
+        -0.7561307162653549,
+        0.00010766763104642617,
+        -0.36215751827272236
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "left",
+      "command_body_m_s": [
+        0.0,
+        0.12,
+        0.0
+      ],
+      "seed": 12200,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.6349580799778923,
+      "mean_body_velocity_m_s": [
+        0.005056877793744608,
+        1.2620027259861453e-05,
+        -0.00011845348650762299
+      ],
+      "min_upright": 0.9982468086703046,
+      "displacement_world_m": [
+        0.03039840683115457,
+        0.00021059462167667372,
+        -0.0009154021400087364
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "left",
+      "command_body_m_s": [
+        0.0,
+        0.12,
+        0.0
+      ],
+      "seed": 12201,
+      "duration_s": 3.2,
+      "fell": true,
+      "mean_tracking_score": 0.39030180039539186,
+      "mean_body_velocity_m_s": [
+        -0.2716252393868439,
+        -0.001310924149966277,
+        0.014733166881698878
+      ],
+      "min_upright": 0.5373341155941201,
+      "displacement_world_m": [
+        -0.7561307162653549,
+        0.00010766763104642617,
+        -0.36215751827272236
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "left",
+      "command_body_m_s": [
+        0.0,
+        0.12,
+        0.0
+      ],
+      "seed": 12201,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.6349580799778923,
+      "mean_body_velocity_m_s": [
+        0.005056877793744608,
+        1.2620027259861453e-05,
+        -0.00011845348650762299
+      ],
+      "min_upright": 0.9982468086703046,
+      "displacement_world_m": [
+        0.03039840683115457,
+        0.00021059462167667372,
+        -0.0009154021400087364
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "left",
+      "command_body_m_s": [
+        0.0,
+        0.12,
+        0.0
+      ],
+      "seed": 12202,
+      "duration_s": 3.2,
+      "fell": true,
+      "mean_tracking_score": 0.39030180039539186,
+      "mean_body_velocity_m_s": [
+        -0.2716252393868439,
+        -0.001310924149966277,
+        0.014733166881698878
+      ],
+      "min_upright": 0.5373341155941201,
+      "displacement_world_m": [
+        -0.7561307162653549,
+        0.00010766763104642617,
+        -0.36215751827272236
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "left",
+      "command_body_m_s": [
+        0.0,
+        0.12,
+        0.0
+      ],
+      "seed": 12202,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.6349580799778923,
+      "mean_body_velocity_m_s": [
+        0.005056877793744608,
+        1.2620027259861453e-05,
+        -0.00011845348650762299
+      ],
+      "min_upright": 0.9982468086703046,
+      "displacement_world_m": [
+        0.03039840683115457,
+        0.00021059462167667372,
+        -0.0009154021400087364
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "right",
+      "command_body_m_s": [
+        0.0,
+        -0.12,
+        0.0
+      ],
+      "seed": 12300,
+      "duration_s": 3.2,
+      "fell": true,
+      "mean_tracking_score": 0.3802600363148113,
+      "mean_body_velocity_m_s": [
+        -0.27172293160495736,
+        -0.001654048566563317,
+        0.01467131544126494
+      ],
+      "min_upright": 0.5369206061515859,
+      "displacement_world_m": [
+        -0.7562760728978286,
+        -0.0006849164646502398,
+        -0.3625322625114978
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "right",
+      "command_body_m_s": [
+        0.0,
+        -0.12,
+        0.0
+      ],
+      "seed": 12300,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.6346701290748618,
+      "mean_body_velocity_m_s": [
+        0.005127552933176381,
+        5.548236773046339e-06,
+        -0.00012030906449896623
+      ],
+      "min_upright": 0.9981840128837403,
+      "displacement_world_m": [
+        0.0308228386149818,
+        0.0001711413861486166,
+        -0.0009361282371114221
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "right",
+      "command_body_m_s": [
+        0.0,
+        -0.12,
+        0.0
+      ],
+      "seed": 12301,
+      "duration_s": 3.2,
+      "fell": true,
+      "mean_tracking_score": 0.3802600363148113,
+      "mean_body_velocity_m_s": [
+        -0.27172293160495736,
+        -0.001654048566563317,
+        0.01467131544126494
+      ],
+      "min_upright": 0.5369206061515859,
+      "displacement_world_m": [
+        -0.7562760728978286,
+        -0.0006849164646502398,
+        -0.3625322625114978
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "right",
+      "command_body_m_s": [
+        0.0,
+        -0.12,
+        0.0
+      ],
+      "seed": 12301,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.6346701290748618,
+      "mean_body_velocity_m_s": [
+        0.005127552933176381,
+        5.548236773046339e-06,
+        -0.00012030906449896623
+      ],
+      "min_upright": 0.9981840128837403,
+      "displacement_world_m": [
+        0.0308228386149818,
+        0.0001711413861486166,
+        -0.0009361282371114221
+      ]
+    },
+    {
+      "controller": "phase_gait_reference",
+      "command": "right",
+      "command_body_m_s": [
+        0.0,
+        -0.12,
+        0.0
+      ],
+      "seed": 12302,
+      "duration_s": 3.2,
+      "fell": true,
+      "mean_tracking_score": 0.3802600363148113,
+      "mean_body_velocity_m_s": [
+        -0.27172293160495736,
+        -0.001654048566563317,
+        0.01467131544126494
+      ],
+      "min_upright": 0.5369206061515859,
+      "displacement_world_m": [
+        -0.7562760728978286,
+        -0.0006849164646502398,
+        -0.3625322625114978
+      ]
+    },
+    {
+      "controller": "ppo",
+      "command": "right",
+      "command_body_m_s": [
+        0.0,
+        -0.12,
+        0.0
+      ],
+      "seed": 12302,
+      "duration_s": 6.0,
+      "fell": false,
+      "mean_tracking_score": 0.6346701290748618,
+      "mean_body_velocity_m_s": [
+        0.005127552933176381,
+        5.548236773046339e-06,
+        -0.00012030906449896623
+      ],
+      "min_upright": 0.9981840128837403,
+      "displacement_world_m": [
+        0.0308228386149818,
+        0.0001711413861486166,
+        -0.0009361282371114221
+      ]
+    }
+  ],
+  "success_criterion": "No fall and mean tracking score >= 0.70 in every command condition.",
+  "limitations": [
+    "Simulation only, with provisional masses, inertias, contact and actuator parameters.",
+    "Held-out episodes vary seeds only; physical hardware transfer is not evaluated."
+  ]
+}

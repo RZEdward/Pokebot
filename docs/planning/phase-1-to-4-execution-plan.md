@@ -37,7 +37,7 @@ Training sequence (do not bundle every behavior into one reward or one checkpoin
 
 1. Establish a non-learning stand controller and deterministic replay on a nominal level plane.
 2. Train/evaluate proprioceptive balance under a fixed grid of friction, slope, and contact-compliance cases, plus held-out combinations and bounded disturbances. Report per-condition success, falls, recovery time, actuator-limit events, and uncertainty; include an untrained/baseline comparison.
-3. Add command-conditioned stepping and walking: forward/reverse, lateral translation, and heading turns. Progress from flat ground to surface variations only after gait stability is repeatable.
+3. Add command-conditioned stepping and walking: forward/reverse, lateral translation, and heading turns. A first planar velocity-tracking PPO environment is now implemented and trained experimentally for translation commands; it is not a validated gait yet. The current translation gate is a mean tracking score of at least 0.70 in each command over three held-out seeds, with no falls in the six-second episodes. Progress from flat ground to surface variations only after held-out gait stability and command tracking are repeatable.
 4. Add crouch, sit/stand, supine/prone lying and recovery as explicit pose-transition tasks with contact and self-collision checks.
 5. Treat jump, kick, and punch as impact/dynamic skills requiring actuator torque-speed/thermal limits, structural and contact assumptions, and harnessed hardware review. Sim results alone do not approve hardware trials.
 
@@ -56,4 +56,4 @@ Use reference motion/trajectory tracking or model-based control as a baseline an
 
 ## Scope boundary for this work session
 
-The first success is a credible, inspectable 3D design/model and a measured balance experiment across a bounded surface matrix. Walking and all named pose/impact skills are subsequent curriculum items: each requires its own implementation and evidence. No training duration, policy score, CAD envelope, or camera/microphone mount can establish real-world transfer without chosen components, measured masses/inertias, actuator characterization, sensor calibration, and safeguarded physical validation.
+The first success is a credible, inspectable 3D design/model and a reproducible balance experiment across a bounded synthetic surface matrix. Command-conditioned planar locomotion is now an experimental task; it must pass held-out command-by-command evaluation before being called walking. Sitting/get-up, prone/supine recovery, crouching, jump, kick, and punch remain separate curriculum items. No training duration, policy score, CAD envelope, or camera/microphone mount can establish real-world transfer without chosen components, measured masses/inertias, actuator characterization, sensor calibration, and safeguarded physical validation.

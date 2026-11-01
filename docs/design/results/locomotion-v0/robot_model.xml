@@ -1,0 +1,79 @@
+<mujoco model="generic_28dof_humanoid">
+  <compiler angle="radian" autolimits="true" inertiafromgeom="true" balanceinertia="true"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast" cone="elliptic" impratio="10"/>
+  <size njmax="3000" nconmax="500"/>
+  <default>
+    <joint limited="true" damping="1.5" armature="0.02" frictionloss="0.1"/>
+    <geom contype="2" conaffinity="1" condim="4" friction="0.9 0.01 0.001" solref="0.01 1" solimp="0.95 0.99 0.001" rgba="0.78 0.43 0.12 1"/>
+  </default>
+  <visual><headlight ambient="0.34 0.34 0.34" diffuse="0.84 0.84 0.84" specular="0.12 0.12 0.12"/><rgba haze="0.12 0.16 0.19 1"/><global offwidth="960" offheight="720"/></visual>
+  <worldbody>
+    <light name="key" pos="0 -2 3" dir="0 0 -1" diffuse="0.9 0.9 0.9"/>
+    <camera name="overview" pos="2.8 -3.5 1.75" xyaxes="0.78 0.63 0 -0.23 0.28 0.93" fovy="42"/>
+    <geom name="floor" type="plane" size="5 5 0.1" contype="1" conaffinity="2" rgba="0.23 0.26 0.30 1" friction="0.9 0.01 0.001"/>
+    <body name="pelvis" pos="0 0 0.77">
+      <freejoint name="root_free"/>
+      <inertial pos="0 0 0" mass="4.182" diaginertia="0.045 0.035 0.03"/>
+      <geom name="pelvis_collision" type="ellipsoid" pos="0 0 0" size="0.17 0.24 0.12" mass="0" rgba="0.38 0.10 0.12 1"/>
+      <geom name="shorts_shell" type="ellipsoid" pos="0.01 0 -0.025" size="0.182 0.252 0.115" contype="0" conaffinity="0" mass="0" rgba="0.34 0.065 0.085 1"/>
+      <body name="waist_yaw_link" pos="0 0 0.105"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="waist_yaw" axis="0 0 1" range="-0.611 0.611"/><body name="torso" pos="0 0 0">
+        <joint name="waist_pitch" axis="0 1 0" range="-0.349 0.349"/>
+        <inertial pos="0 0 0.12" mass="6.3" diaginertia="0.13 0.10 0.08"/>
+        <geom name="torso_collision" type="capsule" fromto="0 0 0 0 0 0.29" size="0.14" mass="0"/>
+        <geom name="chest_shell" type="ellipsoid" pos="0.015 0 0.19" size="0.19 0.245 0.16" contype="0" conaffinity="0" mass="0" rgba="0.78 0.43 0.12 1"/>
+        <geom name="abdomen_shell" type="ellipsoid" pos="0.005 0 0.055" size="0.145 0.205 0.12" contype="0" conaffinity="0" mass="0" rgba="0.72 0.36 0.095 1"/>
+        <camera name="camera_side_left" pos="0 0.135 0.285" xyaxes="1 0 0 0 0 1" fovy="100"/>
+        <camera name="camera_side_right" pos="0 -0.135 0.285" xyaxes="1 0 0 0 0 -1" fovy="100"/>
+        <camera name="camera_rear" pos="-0.145 0 0.285" xyaxes="0 1 0 0 0 1" fovy="100"/>
+        <camera name="camera_downward" pos="0 0 -0.115" xyaxes="1 0 0 0 1 0" fovy="95"/>
+        <body name="neck_yaw_link" pos="0 0 0.255"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="neck_yaw" axis="0 0 1" range="-0.785 0.785"/><body name="head" pos="0 0 0">
+          <joint name="neck_pitch" axis="0 1 0" range="-0.436 0.436"/><inertial pos="0 0 0.11" mass="1.3" diaginertia="0.012 0.011 0.009"/>
+          <geom name="head_collision" type="ellipsoid" pos="0.015 0 0.06" size="0.12 0.13 0.15" mass="0" rgba="0.70 0.38 0.12 1"/>
+          <geom name="eye_left_shell" type="ellipsoid" pos="0.109 0.050 0.093" size="0.022 0.019 0.026" contype="0" conaffinity="0" mass="0" rgba="0.93 0.87 0.65 1"/>
+          <geom name="eye_right_shell" type="ellipsoid" pos="0.109 -0.050 0.093" size="0.022 0.019 0.026" contype="0" conaffinity="0" mass="0" rgba="0.93 0.87 0.65 1"/>
+          <geom name="pupil_left" type="ellipsoid" pos="0.128 0.050 0.093" size="0.009 0.010 0.014" contype="0" conaffinity="0" mass="0" rgba="0.12 0.075 0.055 1"/>
+          <geom name="pupil_right" type="ellipsoid" pos="0.128 -0.050 0.093" size="0.009 0.010 0.014" contype="0" conaffinity="0" mass="0" rgba="0.12 0.075 0.055 1"/>
+          <camera name="camera_eye_left" pos="0.105 0.032 0.11" xyaxes="0 1 0 0 0 -1" fovy="75"/>
+          <camera name="camera_eye_right" pos="0.105 -0.032 0.11" xyaxes="0 1 0 0 0 -1" fovy="75"/>
+          <camera name="camera_upward" pos="0 0 0.195" xyaxes="1 0 0 0 -1 0" fovy="95"/>
+          <site name="mic_front_left" pos="0.05 0.055 0.17" size="0.006"/><site name="mic_front_right" pos="0.05 -0.055 0.17" size="0.006"/>
+          <site name="mic_rear_left" pos="-0.075 0.055 0.16" size="0.006"/><site name="mic_rear_right" pos="-0.075 -0.055 0.16" size="0.006"/><site name="speaker_front" pos="0.11 0 0" size="0.01"/>
+        </body></body>
+        <body name="left_shoulder_yaw_link" pos="0 0.245 0.145"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="left_shoulder_yaw" axis="0 0 1" range="-1.571 1.571"/><body name="left_shoulder_roll_link"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="left_shoulder_roll" axis="1 0 0" range="-1.571 1.571"/><body name="left_upper_arm">
+          <joint name="left_shoulder_pitch" axis="0 1 0" range="-2.094 1.571"/><inertial pos="0.01 0.025 -0.095" mass="0.95" diaginertia="0.009 0.008 0.004"/><geom type="capsule" fromto="0 0 0 0.02 0.045 -0.19" size="0.058" mass="0"/>
+          <body name="left_elbow_link" pos="0.02 0.045 -0.19"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="left_elbow_pitch" axis="0 1 0" range="0 2.356"/><body name="left_forearm"><inertial pos="0.015 0.012 -0.10" mass="0.7" diaginertia="0.004 0.0035 0.002"/><geom type="capsule" fromto="0 0 0 0.015 0.025 -0.20" size="0.043" mass="0"/>
+            <body name="left_wrist_yaw_link" pos="0.015 0.025 -0.20"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="left_wrist_yaw" axis="0 0 1" range="-0.785 0.785"/><body name="left_wrist_pitch_link"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="left_wrist_pitch" axis="0 1 0" range="-0.785 0.785"/><body name="left_hand" pos="0 0 -0.05"><inertial pos="0.01 0 0" mass="0.25" diaginertia="0.0008 0.0008 0.0006"/><geom type="ellipsoid" pos="0.015 0 -0.03" size="0.055 0.045 0.075" mass="0"/></body></body></body>
+          </body></body>
+        </body></body></body>
+        <body name="right_shoulder_yaw_link" pos="0 -0.245 0.145"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="right_shoulder_yaw" axis="0 0 1" range="-1.571 1.571"/><body name="right_shoulder_roll_link"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="right_shoulder_roll" axis="1 0 0" range="-1.571 1.571"/><body name="right_upper_arm">
+          <joint name="right_shoulder_pitch" axis="0 1 0" range="-2.094 1.571"/><inertial pos="0.01 -0.025 -0.095" mass="0.95" diaginertia="0.009 0.008 0.004"/><geom type="capsule" fromto="0 0 0 0.02 -0.045 -0.19" size="0.058" mass="0"/>
+          <body name="right_elbow_link" pos="0.02 -0.045 -0.19"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="right_elbow_pitch" axis="0 1 0" range="0 2.356"/><body name="right_forearm"><inertial pos="0.015 -0.012 -0.10" mass="0.7" diaginertia="0.004 0.0035 0.002"/><geom type="capsule" fromto="0 0 0 0.015 -0.025 -0.20" size="0.043" mass="0"/>
+            <body name="right_wrist_yaw_link" pos="0.015 -0.025 -0.20"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="right_wrist_yaw" axis="0 0 1" range="-0.785 0.785"/><body name="right_wrist_pitch_link"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="right_wrist_pitch" axis="0 1 0" range="-0.785 0.785"/><body name="right_hand" pos="0 0 -0.05"><inertial pos="0.01 0 0" mass="0.25" diaginertia="0.0008 0.0008 0.0006"/><geom type="ellipsoid" pos="0.015 0 -0.03" size="0.055 0.045 0.075" mass="0"/></body></body></body>
+          </body></body>
+        </body></body></body>
+      </body></body>
+      <body name="left_hip_yaw_link" pos="0 0.15 -0.01"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="left_hip_yaw" axis="0 0 1" range="-0.611 0.611"/><body name="left_hip_roll_link"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="left_hip_roll" axis="1 0 0" range="-0.436 0.436"/><body name="left_thigh">
+        <joint name="left_hip_pitch" axis="0 1 0" range="-1.745 0.785"/><inertial pos="0 0 -0.14" mass="2.1" diaginertia="0.025 0.024 0.009"/><geom type="capsule" fromto="0 0 0 0 0 -0.285" size="0.085" mass="0"/>
+        <body name="left_shank" pos="0 0.015 -0.285"><joint name="left_knee_pitch" axis="0 1 0" range="0 2.356"/><inertial pos="0 0 -0.185" mass="1.5" diaginertia="0.014 0.013 0.005"/><geom type="capsule" fromto="0 0 0 0 0 -0.285" size="0.045" mass="0" rgba="0.54 0.32 0.15 1"/>
+          <body name="left_ankle_pitch_link" pos="0 -0.01 -0.33"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="left_ankle_pitch" axis="0 1 0" range="-0.611 0.611"/><body name="left_foot" pos="0 0 0"><joint name="left_ankle_roll" axis="1 0 0" range="-0.349 0.349"/><inertial pos="0.04 0 -0.125" mass="1.1" diaginertia="0.006 0.012 0.014"/><geom name="left_ankle_strut" type="capsule" fromto="0 0 0 0 0 -0.11" size="0.025" contype="0" conaffinity="0" mass="0"/><geom name="left_sole" type="box" pos="0.072 0 -0.133" size="0.19 0.075 0.012" mass="0" rgba="0.17 0.15 0.13 1"/></body></body>
+        </body></body></body>
+      </body>
+      <body name="right_hip_yaw_link" pos="0 -0.15 -0.01"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="right_hip_yaw" axis="0 0 1" range="-0.611 0.611"/><body name="right_hip_roll_link"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="right_hip_roll" axis="1 0 0" range="-0.436 0.436"/><body name="right_thigh">
+        <joint name="right_hip_pitch" axis="0 1 0" range="-1.745 0.785"/><inertial pos="0 0 -0.14" mass="2.1" diaginertia="0.025 0.024 0.009"/><geom type="capsule" fromto="0 0 0 0 0 -0.285" size="0.085" mass="0"/>
+        <body name="right_shank" pos="0 -0.015 -0.285"><joint name="right_knee_pitch" axis="0 1 0" range="0 2.356"/><inertial pos="0 0 -0.185" mass="1.5" diaginertia="0.014 0.013 0.005"/><geom type="capsule" fromto="0 0 0 0 0 -0.285" size="0.045" mass="0" rgba="0.54 0.32 0.15 1"/>
+          <body name="right_ankle_pitch_link" pos="0 0.01 -0.33"><inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/><joint name="right_ankle_pitch" axis="0 1 0" range="-0.611 0.611"/><body name="right_foot" pos="0 0 0"><joint name="right_ankle_roll" axis="1 0 0" range="-0.349 0.349"/><inertial pos="0.04 0 -0.125" mass="1.1" diaginertia="0.006 0.012 0.014"/><geom name="right_ankle_strut" type="capsule" fromto="0 0 0 0 0 -0.11" size="0.025" contype="0" conaffinity="0" mass="0"/><geom name="right_sole" type="box" pos="0.072 0 -0.133" size="0.19 0.075 0.012" mass="0" rgba="0.17 0.15 0.13 1"/></body></body>
+        </body></body></body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="act_waist_yaw" joint="waist_yaw" kp="65" kv="7" ctrlrange="-0.611 0.611" forcerange="-55 55"/><position name="act_waist_pitch" joint="waist_pitch" kp="65" kv="7" ctrlrange="-0.349 0.349" forcerange="-55 55"/>
+    <position name="act_neck_yaw" joint="neck_yaw" kp="16" kv="2" ctrlrange="-0.785 0.785" forcerange="-10 10"/><position name="act_neck_pitch" joint="neck_pitch" kp="16" kv="2" ctrlrange="-0.436 0.436" forcerange="-10 10"/>
+    <position name="act_left_hip_yaw" joint="left_hip_yaw" kp="115" kv="10" ctrlrange="-0.611 0.611" forcerange="-120 120"/><position name="act_left_hip_roll" joint="left_hip_roll" kp="115" kv="10" ctrlrange="-0.436 0.436" forcerange="-120 120"/><position name="act_left_hip_pitch" joint="left_hip_pitch" kp="115" kv="10" ctrlrange="-1.745 0.785" forcerange="-120 120"/>
+    <position name="act_left_knee_pitch" joint="left_knee_pitch" kp="100" kv="9" ctrlrange="0 2.356" forcerange="-100 100"/><position name="act_left_ankle_pitch" joint="left_ankle_pitch" kp="62" kv="6" ctrlrange="-0.611 0.611" forcerange="-60 60"/><position name="act_left_ankle_roll" joint="left_ankle_roll" kp="62" kv="6" ctrlrange="-0.349 0.349" forcerange="-60 60"/>
+    <position name="act_right_hip_yaw" joint="right_hip_yaw" kp="115" kv="10" ctrlrange="-0.611 0.611" forcerange="-120 120"/><position name="act_right_hip_roll" joint="right_hip_roll" kp="115" kv="10" ctrlrange="-0.436 0.436" forcerange="-120 120"/><position name="act_right_hip_pitch" joint="right_hip_pitch" kp="115" kv="10" ctrlrange="-1.745 0.785" forcerange="-120 120"/>
+    <position name="act_right_knee_pitch" joint="right_knee_pitch" kp="100" kv="9" ctrlrange="0 2.356" forcerange="-100 100"/><position name="act_right_ankle_pitch" joint="right_ankle_pitch" kp="62" kv="6" ctrlrange="-0.611 0.611" forcerange="-60 60"/><position name="act_right_ankle_roll" joint="right_ankle_roll" kp="62" kv="6" ctrlrange="-0.349 0.349" forcerange="-60 60"/>
+    <position name="act_left_shoulder_yaw" joint="left_shoulder_yaw" kp="38" kv="4.5" ctrlrange="-1.571 1.571" forcerange="-35 35"/><position name="act_left_shoulder_roll" joint="left_shoulder_roll" kp="38" kv="4.5" ctrlrange="-1.571 1.571" forcerange="-35 35"/><position name="act_left_shoulder_pitch" joint="left_shoulder_pitch" kp="38" kv="4.5" ctrlrange="-2.094 1.571" forcerange="-35 35"/><position name="act_left_elbow_pitch" joint="left_elbow_pitch" kp="25" kv="3" ctrlrange="0 2.356" forcerange="-22 22"/><position name="act_left_wrist_yaw" joint="left_wrist_yaw" kp="12" kv="1.5" ctrlrange="-0.785 0.785" forcerange="-9 9"/><position name="act_left_wrist_pitch" joint="left_wrist_pitch" kp="12" kv="1.5" ctrlrange="-0.785 0.785" forcerange="-9 9"/>
+    <position name="act_right_shoulder_yaw" joint="right_shoulder_yaw" kp="38" kv="4.5" ctrlrange="-1.571 1.571" forcerange="-35 35"/><position name="act_right_shoulder_roll" joint="right_shoulder_roll" kp="38" kv="4.5" ctrlrange="-1.571 1.571" forcerange="-35 35"/><position name="act_right_shoulder_pitch" joint="right_shoulder_pitch" kp="38" kv="4.5" ctrlrange="-2.094 1.571" forcerange="-35 35"/><position name="act_right_elbow_pitch" joint="right_elbow_pitch" kp="25" kv="3" ctrlrange="0 2.356" forcerange="-22 22"/><position name="act_right_wrist_yaw" joint="right_wrist_yaw" kp="12" kv="1.5" ctrlrange="-0.785 0.785" forcerange="-9 9"/><position name="act_right_wrist_pitch" joint="right_wrist_pitch" kp="12" kv="1.5" ctrlrange="-0.785 0.785" forcerange="-9 9"/>
+  </actuator>
+</mujoco>
