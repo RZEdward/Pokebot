@@ -21,6 +21,20 @@ Result: direct-action PPO fell in all 18 full-matrix cases, with 2.37 s mean sur
 
 At residual scale 0.05, ankle PD and residual PPO both completed 48/54 held-out-seed cases and averaged 7.29 s of an 8 s episode. Per mass scale, both passed 18/18 at 0.8×, 15/18 at 1.0×, and 15/18 at 1.2×. The residual policy matches the stabilizer in this test; it has not demonstrated an improvement. Mass properties and controller gains remain synthetic design allocations.
 
+## Provisional mass-envelope extrapolation
+
+`mass-envelope/` keeps the same 25 kg residual-PPO policy and MJCF while extrapolating total mass to 35 kg (1.4×) and 50 kg (2.0×). Each scale covers six configured surfaces, three seeds per condition, and neutral hold, ankle PD, and PPO. At 35 kg, PPO avoided falls in only 1/18 trials (4.91 s mean survival); ankle PD and neutral hold passed 0/18. At 50 kg, all three controllers passed 0/18 (PPO 2.34 s mean survival). This rejects a transfer claim for the current policy at those masses. It is an extrapolation: per-link mass shares are perturbed by bounded random factors and renormalized to the target total; inertia tensors are then scaled with each link's mass ratio. Actuator torque caps are held fixed, and none of these properties comes from a selected/assembled robot. The 50 kg case is a stress point near the character reference, not a build requirement.
+
+Reproduce the mass sweep with the evaluation-only config, which widens the allowed test interval but does not change the archived training config:
+
+```powershell
+$env:PYTHONPATH = "src"
+.\.venv\Scripts\python.exe -m robot_twin.evaluate `
+  --model docs\design\results\mass-envelope\policy.zip `
+  --config docs\design\results\mass-envelope\evaluation_config.json `
+  --mass-scales 1.4 2.0 --episodes 3 --torch-threads 1
+```
+
 ## v3: corrected model, initial training schedule
 
 - `balance-v3-run.json`, `balance-v3-robot-config.json`, and `balance-v3-evaluation.json` preserve the earlier run's manifest, config, and 18-episode report.

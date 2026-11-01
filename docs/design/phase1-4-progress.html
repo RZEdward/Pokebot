@@ -39,7 +39,7 @@
       <div class="node"><b>03 · Physics model</b><code>src/robot_twin/models/humanoid_28dof.xml</code><small>Collision shapes, link inertias, finite-gain actuators, cameras/sites</small></div>
       <div class="node"><b>04 · Experiment</b><code>env.py → train.py → evaluate.py</code><small>Gymnasium task, PPO run, fixed-condition matrix, matched baseline, and replay artifact</small></div>
     </div>
-    <p>CAD and MJCF remain separate authoring files today, with a validator detecting drift. A later step should generate both from one parametric robot description. Appearance geometry, collision proxies, and mass/inertia are deliberately separate concepts; the current shell panels and collision primitives are not supplier-ready parts.</p>
+    <p>CAD and MJCF remain separate authoring files today, with a validator detecting drift. A later step should generate both from one parametric robot description. Appearance geometry, collision proxies, and mass/inertia are deliberately separate concepts. New MJCF visual-only shells add muscular limb profiles, light joint bands, shoulder covers, and three-part toe shaping; their geoms have zero mass and disabled contact, so the accepted collision/inertial model is unchanged. The shell panels remain concept parts, not supplier-ready geometry.</p>
     <figure style="margin:18px auto;max-width:760px">
       <img src="assets/humanoid-28dof-preview.png" alt="Rendered articulated 3D robot proxy in MuJoCo" style="display:block;width:100%;border-radius:10px;border:1px solid var(--line)">
       <figcaption class="muted">Current articulated visual/physics proxy in MuJoCo. CAD details and collision/inertial assumptions are separate layers.</figcaption>
@@ -57,19 +57,25 @@
     <article class="card">
       <h2>Physical case and evidence</h2>
       <ul>
-        <li>Compiled model mass is exactly 25.0 kg. Its neutral computed center of mass is <b>0.7081 m</b>; the CAD placeholder ledger says <b>0.7126 m</b>, a 4.6 mm difference.</li>
+        <li>Compiled model mass is exactly 25.0 kg. Neutral COM is <b>[0.00715, 0, 0.70807] m</b>; the CAD placeholder ledger is [0.0113, 0, 0.7126] m. The vertical difference is 4.5 mm and the full 3D position error is 6.15 mm.</li>
         <li>Hip/knee/ankle and shoulder/elbow/wrist frame origins are checked against CAD with a 2 mm tolerance; joint axes and ranges are checked too.</li>
         <li>Nominal body height is a 1.35 m fit target. Cameras and microphones have frames/sites, but no sensor component selection, calibration, acoustic simulation, or policy input.</li>
         <li>Model mass/inertia still come from placeholder link allocations. Actuator gains and torque caps are tunable estimates, not supplier ratings.</li>
+        <li>Scale check: the <a href="https://ph.portal-pokemon.com/pokedex/0106/">official Pokédex</a> lists Hitmonlee at 1.50 m / 49.8 kg. The <a href="https://unitree-robot.com/g1/">Unitree G1</a> is a real 35 kg humanoid comparator, with a <a href="https://github.com/google-deepmind/mujoco_menagerie/tree/main/unitree_g1">BSD-3-Clause, 29-DoF MuJoCo model</a>. Our 1.35 m / 25 kg case is only a provisional, lighter simulation hypothesis; it is not a measured or approved robot mass.</li>
       </ul>
     </article>
     <article class="card">
       <h2>Training and observability</h2>
       <p>The task gives the policy gravity direction, base motion, joint positions/velocities, and prior action. PPO outputs normalized joint-position targets; MuJoCo applies finite-gain actuators with torque saturation. Episode resets vary total mass, link mass redistribution, ground friction, equivalent slope gravity, and contact softness.</p>
       <p>The local dashboard shows a real MuJoCo frame, training step/reward, robot state, domain parameters, and joint angles. Completed evaluation writes the same run’s MP4 and per-surface JSON.</p>
-      <a href="http://127.0.0.1:8773">Open live run monitor (while the local trainer/server is active)</a>
-      <p><a href="http://127.0.0.1:8776">Open current command-locomotion training monitor</a></p>
+      <p><a href="http://127.0.0.1:8776">Open the current gait-prior locomotion run dashboard</a>. It serves the last checkpoint telemetry and preview frame; start a trainer monitor separately to watch a new run live.</p>
     </article>
+  </section>
+
+  <section class="card">
+    <h2>Mass-envelope stress test · 35 kg and 50 kg fail</h2>
+    <p>The three-seed balance policy was trained around the provisional 25 kg model and only randomized through 0.8–1.2×. I evaluated it outside that training range at 35 kg (1.4×) and 50 kg (2.0×) across six surfaces, alongside ankle PD and neutral hold. At 35 kg, PPO passed only 1/18 episodes (4.91 s mean survival), while PD and neutral hold passed 0/18. At 50 kg, all controllers passed 0/18; PPO averaged 2.34 s. These are synthetic extrapolations with fixed actuator caps and mass-scaled inertias, not hardware predictions. They show the 25 kg balance claim cannot be carried over to a likely heavier build.</p>
+    <p><a href="results/mass-envelope/evaluation.json">Full 108-episode metrics</a> · <a href="results/mass-envelope/policy.zip">Policy</a> · <a href="results/mass-envelope/evaluation_config.json">Evaluation-only mass envelope config</a> · <a href="results/mass-envelope/robot_config_snapshot.json">Exact 25 kg training config</a> · <a href="results/mass-envelope/run.json">Original training manifest</a></p>
   </section>
 
   <section class="card">
@@ -153,6 +159,7 @@
       <thead><tr><th>Open source work</th><th>What we borrow or defer</th></tr></thead>
       <tbody>
         <tr><td><a href="https://github.com/google-deepmind/mujoco">MuJoCo</a> / <a href="https://github.com/google-deepmind/mujoco_playground">MuJoCo Playground</a></td><td>Inspectable MJCF, explicit tasks, replayable evaluation. The <a href="https://github.com/google-deepmind/mujoco_playground/blob/main/mujoco_playground/_src/locomotion/apollo/joystick.py">Apollo joystick task</a> is a concrete phase-aware gait reference with sampled frequency, foot-phase rewards, and pushes; this CPU prototype currently borrows only the sine/cosine phase input. GPU MJX/MuJoCo Warp is a later throughput option.</td></tr>
+        <tr><td><a href="https://github.com/google-deepmind/mujoco_menagerie/tree/main/unitree_g1">MuJoCo Menagerie · Unitree G1</a></td><td>BSD-3-Clause humanoid MJCF reference for checking model organization and link-level mass/inertia, joint limits, and actuator ranges. The G1 is a 35 kg physical platform; its parameters are not copied into this still-provisional design.</td></tr>
         <tr><td><a href="https://github.com/isaac-sim/IsaacLab">Isaac Lab</a> / <a href="https://github.com/newton-physics/newton">Newton</a></td><td>Backend seams for batched GPU training, high-quality camera/contact simulation, and ROS 2 once the local model and hardware data justify the larger stack.</td></tr>
         <tr><td><a href="https://github.com/leggedrobotics/legged_gym">Legged Gym</a></td><td>Actuator modeling and randomization of mass, friction, observations, and pushes; our domains stay modest placeholders until component identification exists.</td></tr>
         <tr><td><a href="https://arxiv.org/abs/2502.01143">ASAP (humanoid sim-to-real alignment)</a></td><td>Randomization does not make a digital twin: measure actuator response, COM/inertias, contact, and hardware tracking error before transfer claims.</td></tr>

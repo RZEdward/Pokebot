@@ -31,7 +31,7 @@
   },
   "parameter_source": "design/cad/body-layout-v2.json",
   "generator": "tools/cad/build_hitmonlee_body_v2.FCMacro",
-  "config_sha256": "d454cb56fef011dffac825c4aeecb44934dbd48a24f4764851d48e004f9e0bc6",
+  "config_sha256": "83ab255e81bad4e108ed70f89f4337f00b65139a891637acf93f3ca295936815",
   "generator_sha256": "a5bdc21591a1771e3b3b1c5e6cfba77d87ccdbd9102a933b049cba0508b1043b",
   "source_model": "assets/reference_models/pokemon-3d-api/hitmonlee_106.glb",
   "source_model_sha256": "A11A7365AF8BA1D899359C3D964618C98F6037AF85C7A713C380A9016EFA86CE",
