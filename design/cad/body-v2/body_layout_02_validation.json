@@ -1,0 +1,7227 @@
+{
+  "design_id": "HITMONLEE-BODY-LAYOUT-02",
+  "status": "PROVISIONAL_3D_MECHANICS_AND_SENSOR_ENVELOPES_NOT_FOR_MANUFACTURE",
+  "freecad_version": [
+    "1",
+    "1",
+    "4",
+    "20260928 (Git shallow)",
+    "Unknown",
+    "2026/09/28 13:46:34",
+    "(HEAD detached at 4fd3bf320)",
+    "4fd3bf320d9566a27e60069fc8387448aaa3a094"
+  ],
+  "native_document": "design/cad/body-v2/hitmonlee_body_layout_02.FCStd",
+  "step_export": "design/cad/body-v2/hitmonlee_body_layout_02_concept_envelopes.step",
+  "shell_exports": {
+    "status": "PROTOTYPE_ONLY_NOT_FOR_MANUFACTURE",
+    "step": "design/cad/body-v2/hitmonlee_shell_panels_02_prototype.step",
+    "stl": "design/cad/body-v2/hitmonlee_shell_panels_02_prototype.stl",
+    "panel_count": 30,
+    "nominal_radial_wall_inset_mm": 3.0,
+    "mesh_facet_count": 267966,
+    "mesh_point_count": 134041,
+    "step_roundtrip": {
+      "imported_feature_count": 30,
+      "invalid_imported_shapes": [],
+      "relative_total_volume_delta": 0.0001320334555808064,
+      "overall_bbox_delta_mm": 195.0000000000001,
+      "verified": false
+    }
+  },
+  "parameter_source": "design/cad/body-layout-v2.json",
+  "generator": "tools/cad/build_hitmonlee_body_v2.FCMacro",
+  "config_sha256": "d454cb56fef011dffac825c4aeecb44934dbd48a24f4764851d48e004f9e0bc6",
+  "generator_sha256": "a5bdc21591a1771e3b3b1c5e6cfba77d87ccdbd9102a933b049cba0508b1043b",
+  "source_model": "assets/reference_models/pokemon-3d-api/hitmonlee_106.glb",
+  "source_model_sha256": "A11A7365AF8BA1D899359C3D964618C98F6037AF85C7A713C380A9016EFA86CE",
+  "transformed_reference_mesh": "assets/reference_models/pokemon-3d-api/hitmonlee_1350mm_robot_frame.obj",
+  "transformed_reference_sha256": "c9f5774615d2ae16c1630447751c76a5f9f69ddf4e09109056790de20d2c28e8",
+  "source_mesh_count": 2,
+  "source_mesh_vertices": 6147,
+  "source_mesh_triangles": 9492,
+  "normalized_study_height_mm": 1350,
+  "source_mesh_bounds_mm": {
+    "x_mm": [
+      -279.0509948730469,
+      279.0509948730469
+    ],
+    "y_mm": [
+      -1080.7784423828125,
+      1080.7784423828125
+    ],
+    "z_mm": [
+      0.0,
+      1350.0
+    ]
+  },
+  "concept_solids_count": 99,
+  "part_manifest": [
+    {
+      "object_name": "SpinalFrame",
+      "label": "Spinal frame / cable corridor",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.spine",
+      "source_configuration_value": "{\"radius_bottom_mm\":30,\"radius_top_mm\":38}",
+      "volume_mm3": 1083588.8991504407,
+      "bounds_mm": {
+        "x_mm": [
+          -38.0,
+          38.0
+        ],
+        "y_mm": [
+          -38.0,
+          38.0
+        ],
+        "z_mm": [
+          740.0,
+          1058.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "PelvisCrossbar",
+      "label": "Pelvis cross-member envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.pelvis_crossbar",
+      "source_configuration_value": "{\"radius_mm\":28,\"y_span_mm\":340}",
+      "volume_mm3": 837422.9377408955,
+      "bounds_mm": {
+        "x_mm": [
+          -28.0,
+          28.0
+        ],
+        "y_mm": [
+          -170.0,
+          170.0
+        ],
+        "z_mm": [
+          742.0,
+          798.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "ShoulderCrossbar",
+      "label": "Shoulder cross-member envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.shoulder_crossbar",
+      "source_configuration_value": "{\"radius_mm\":24,\"y_span_mm\":520}",
+      "volume_mm3": 940969.8316032145,
+      "bounds_mm": {
+        "x_mm": [
+          -24.0,
+          24.0
+        ],
+        "y_mm": [
+          -260.0,
+          260.0
+        ],
+        "z_mm": [
+          996.0,
+          1044.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftHipMount",
+      "label": "Left hip mounting plate envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.hip_mount_size_mm",
+      "source_configuration_value": "[78,46,126]",
+      "volume_mm3": 452088.0,
+      "bounds_mm": {
+        "x_mm": [
+          -47.0,
+          31.0
+        ],
+        "y_mm": [
+          127.0,
+          173.0
+        ],
+        "z_mm": [
+          697.0,
+          823.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftShoulderMount",
+      "label": "Left shoulder mounting plate envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.shoulder_mount_size_mm",
+      "source_configuration_value": "[68,48,136]",
+      "volume_mm3": 443904.0,
+      "bounds_mm": {
+        "x_mm": [
+          -34.0,
+          34.0
+        ],
+        "y_mm": [
+          221.0,
+          269.0
+        ],
+        "z_mm": [
+          952.0,
+          1088.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftFemurRail",
+      "label": "Left femur link envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.femur_rail",
+      "source_configuration_value": "{\"radius_hip_mm\":27,\"radius_knee_mm\":22}",
+      "volume_mm3": 603573.4822368156,
+      "bounds_mm": {
+        "x_mm": [
+          -27.0,
+          27.0
+        ],
+        "y_mm": [
+          123.0,
+          187.0
+        ],
+        "z_mm": [
+          453.0,
+          787.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftTibiaRail",
+      "label": "Left tibia link envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.tibia_rail",
+      "source_configuration_value": "{\"radius_ankle_mm\":18,\"radius_knee_mm\":21}",
+      "volume_mm3": 426784.49267500953,
+      "bounds_mm": {
+        "x_mm": [
+          -21.0,
+          21.0
+        ],
+        "y_mm": [
+          137.0,
+          186.0
+        ],
+        "z_mm": [
+          127.0,
+          496.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftFootPlate",
+      "label": "Left load-bearing foot plate envelope",
+      "design_role": "FOOT_STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.foot_plate_mm",
+      "source_configuration_value": "{\"center_x\":72,\"center_z\":12,\"length_x\":380,\"thickness_z\":24,\"width_y\":150}",
+      "volume_mm3": 1368000.0,
+      "bounds_mm": {
+        "x_mm": [
+          -118.0,
+          262.0
+        ],
+        "y_mm": [
+          80.0,
+          230.0
+        ],
+        "z_mm": [
+          0.0,
+          24.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftUpperArmRail",
+      "label": "Left upper arm rail envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.upper_arm_rail",
+      "source_configuration_value": "{\"radius_elbow_mm\":18,\"radius_shoulder_mm\":22}",
+      "volume_mm3": 281988.2138660305,
+      "bounds_mm": {
+        "x_mm": [
+          -22.0,
+          38.0
+        ],
+        "y_mm": [
+          223.0,
+          308.0
+        ],
+        "z_mm": [
+          812.0,
+          1042.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftForearmRail",
+      "label": "Left forearm rail envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.forearm_rail",
+      "source_configuration_value": "{\"radius_elbow_mm\":18,\"radius_wrist_mm\":14}",
+      "volume_mm3": 181357.9203105522,
+      "bounds_mm": {
+        "x_mm": [
+          2.0,
+          49.0
+        ],
+        "y_mm": [
+          272.0,
+          329.0
+        ],
+        "z_mm": [
+          616.0,
+          848.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftHandFrame",
+      "label": "Left distal hand support envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.hand_frame",
+      "source_configuration_value": "{\"radius_palm_mm\":14,\"radius_wrist_mm\":18}",
+      "volume_mm3": 72198.24477098978,
+      "bounds_mm": {
+        "x_mm": [
+          17.0,
+          79.0
+        ],
+        "y_mm": [
+          297.0,
+          333.0
+        ],
+        "z_mm": [
+          556.0,
+          648.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightHipMount",
+      "label": "Right hip mounting plate envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.hip_mount_size_mm",
+      "source_configuration_value": "[78,46,126]",
+      "volume_mm3": 452088.0,
+      "bounds_mm": {
+        "x_mm": [
+          -47.0,
+          31.0
+        ],
+        "y_mm": [
+          -173.0,
+          -127.0
+        ],
+        "z_mm": [
+          697.0,
+          823.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightShoulderMount",
+      "label": "Right shoulder mounting plate envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.shoulder_mount_size_mm",
+      "source_configuration_value": "[68,48,136]",
+      "volume_mm3": 443904.0,
+      "bounds_mm": {
+        "x_mm": [
+          -34.0,
+          34.0
+        ],
+        "y_mm": [
+          -269.0,
+          -221.0
+        ],
+        "z_mm": [
+          952.0,
+          1088.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightFemurRail",
+      "label": "Right femur link envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.femur_rail",
+      "source_configuration_value": "{\"radius_hip_mm\":27,\"radius_knee_mm\":22}",
+      "volume_mm3": 603573.4822338592,
+      "bounds_mm": {
+        "x_mm": [
+          -27.0,
+          27.0
+        ],
+        "y_mm": [
+          -187.0,
+          -123.0
+        ],
+        "z_mm": [
+          453.0,
+          787.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightTibiaRail",
+      "label": "Right tibia link envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.tibia_rail",
+      "source_configuration_value": "{\"radius_ankle_mm\":18,\"radius_knee_mm\":21}",
+      "volume_mm3": 426784.4926784432,
+      "bounds_mm": {
+        "x_mm": [
+          -21.0,
+          21.0
+        ],
+        "y_mm": [
+          -186.0,
+          -137.0
+        ],
+        "z_mm": [
+          127.0,
+          496.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightFootPlate",
+      "label": "Right load-bearing foot plate envelope",
+      "design_role": "FOOT_STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.foot_plate_mm",
+      "source_configuration_value": "{\"center_x\":72,\"center_z\":12,\"length_x\":380,\"thickness_z\":24,\"width_y\":150}",
+      "volume_mm3": 1368000.0,
+      "bounds_mm": {
+        "x_mm": [
+          -118.0,
+          262.0
+        ],
+        "y_mm": [
+          -230.0,
+          -80.0
+        ],
+        "z_mm": [
+          0.0,
+          24.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightUpperArmRail",
+      "label": "Right upper arm rail envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.upper_arm_rail",
+      "source_configuration_value": "{\"radius_elbow_mm\":18,\"radius_shoulder_mm\":22}",
+      "volume_mm3": 281988.21386294154,
+      "bounds_mm": {
+        "x_mm": [
+          -22.0,
+          38.0
+        ],
+        "y_mm": [
+          -308.0,
+          -223.0
+        ],
+        "z_mm": [
+          812.0,
+          1042.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightForearmRail",
+      "label": "Right forearm rail envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.forearm_rail",
+      "source_configuration_value": "{\"radius_elbow_mm\":18,\"radius_wrist_mm\":14}",
+      "volume_mm3": 181357.92030585223,
+      "bounds_mm": {
+        "x_mm": [
+          2.0,
+          49.0
+        ],
+        "y_mm": [
+          -329.0,
+          -272.0
+        ],
+        "z_mm": [
+          616.0,
+          848.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightHandFrame",
+      "label": "Right distal hand support envelope",
+      "design_role": "STRUCTURE_ENVELOPE",
+      "source_parameter": "structure.hand_frame",
+      "source_configuration_value": "{\"radius_palm_mm\":14,\"radius_wrist_mm\":18}",
+      "volume_mm3": 72198.24477098978,
+      "bounds_mm": {
+        "x_mm": [
+          17.0,
+          79.0
+        ],
+        "y_mm": [
+          -333.0,
+          -297.0
+        ],
+        "z_mm": [
+          556.0,
+          648.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftHipActuator",
+      "label": "Left hip actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.hip",
+      "source_configuration_value": "{\"axial_length_mm\":90,\"diameter_mm\":105}",
+      "volume_mm3": 779311.327631118,
+      "bounds_mm": {
+        "x_mm": [
+          -52.5,
+          52.5
+        ],
+        "y_mm": [
+          105.0,
+          195.0
+        ],
+        "z_mm": [
+          707.5,
+          812.5
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftHipBearing",
+      "label": "Left hip bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.hip",
+      "source_configuration_value": "{\"axial_length_mm\":90,\"diameter_mm\":105}",
+      "volume_mm3": 106446.30742142952,
+      "bounds_mm": {
+        "x_mm": [
+          -29.400000000000002,
+          29.400000000000002
+        ],
+        "y_mm": [
+          120.6,
+          179.4
+        ],
+        "z_mm": [
+          730.6,
+          789.4
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightHipActuator",
+      "label": "Right hip actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.hip",
+      "source_configuration_value": "{\"axial_length_mm\":90,\"diameter_mm\":105}",
+      "volume_mm3": 779311.327631118,
+      "bounds_mm": {
+        "x_mm": [
+          -52.5,
+          52.5
+        ],
+        "y_mm": [
+          -195.0,
+          -105.0
+        ],
+        "z_mm": [
+          707.5,
+          812.5
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightHipBearing",
+      "label": "Right hip bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.hip",
+      "source_configuration_value": "{\"axial_length_mm\":90,\"diameter_mm\":105}",
+      "volume_mm3": 106446.30742142952,
+      "bounds_mm": {
+        "x_mm": [
+          -29.400000000000002,
+          29.400000000000002
+        ],
+        "y_mm": [
+          -179.4,
+          -120.6
+        ],
+        "z_mm": [
+          730.6,
+          789.4
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftKneeActuator",
+      "label": "Left knee actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.knee",
+      "source_configuration_value": "{\"axial_length_mm\":76,\"diameter_mm\":90}",
+      "volume_mm3": 483491.1093874691,
+      "bounds_mm": {
+        "x_mm": [
+          -45.0,
+          45.0
+        ],
+        "y_mm": [
+          127.0,
+          203.0
+        ],
+        "z_mm": [
+          430.0,
+          520.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftKneeBearing",
+      "label": "Left knee bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.knee",
+      "source_configuration_value": "{\"axial_length_mm\":76,\"diameter_mm\":90}",
+      "volume_mm3": 67033.24315751827,
+      "bounds_mm": {
+        "x_mm": [
+          -25.200000000000003,
+          25.200000000000003
+        ],
+        "y_mm": [
+          139.8,
+          190.2
+        ],
+        "z_mm": [
+          449.8,
+          500.2
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightKneeActuator",
+      "label": "Right knee actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.knee",
+      "source_configuration_value": "{\"axial_length_mm\":76,\"diameter_mm\":90}",
+      "volume_mm3": 483491.1093874691,
+      "bounds_mm": {
+        "x_mm": [
+          -45.0,
+          45.0
+        ],
+        "y_mm": [
+          -203.0,
+          -127.0
+        ],
+        "z_mm": [
+          430.0,
+          520.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightKneeBearing",
+      "label": "Right knee bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.knee",
+      "source_configuration_value": "{\"axial_length_mm\":76,\"diameter_mm\":90}",
+      "volume_mm3": 67033.24315751827,
+      "bounds_mm": {
+        "x_mm": [
+          -25.200000000000003,
+          25.200000000000003
+        ],
+        "y_mm": [
+          -190.2,
+          -139.8
+        ],
+        "z_mm": [
+          449.8,
+          500.2
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftAnkleActuator",
+      "label": "Left ankle actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.ankle",
+      "source_configuration_value": "{\"axial_length_mm\":66,\"diameter_mm\":80}",
+      "volume_mm3": 331752.1842190822,
+      "bounds_mm": {
+        "x_mm": [
+          -40.0,
+          40.0
+        ],
+        "y_mm": [
+          122.0,
+          188.0
+        ],
+        "z_mm": [
+          105.0,
+          185.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftAnkleBearing",
+      "label": "Left ankle bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.ankle",
+      "source_configuration_value": "{\"axial_length_mm\":66,\"diameter_mm\":80}",
+      "volume_mm3": 47079.58915864108,
+      "bounds_mm": {
+        "x_mm": [
+          -22.400000000000002,
+          22.400000000000002
+        ],
+        "y_mm": [
+          132.6,
+          177.4
+        ],
+        "z_mm": [
+          122.6,
+          167.4
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightAnkleActuator",
+      "label": "Right ankle actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.ankle",
+      "source_configuration_value": "{\"axial_length_mm\":66,\"diameter_mm\":80}",
+      "volume_mm3": 331752.1842190822,
+      "bounds_mm": {
+        "x_mm": [
+          -40.0,
+          40.0
+        ],
+        "y_mm": [
+          -188.0,
+          -122.0
+        ],
+        "z_mm": [
+          105.0,
+          185.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightAnkleBearing",
+      "label": "Right ankle bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.ankle",
+      "source_configuration_value": "{\"axial_length_mm\":66,\"diameter_mm\":80}",
+      "volume_mm3": 47079.58915864108,
+      "bounds_mm": {
+        "x_mm": [
+          -22.400000000000002,
+          22.400000000000002
+        ],
+        "y_mm": [
+          -177.4,
+          -132.6
+        ],
+        "z_mm": [
+          122.6,
+          167.4
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftShoulderActuator",
+      "label": "Left shoulder actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.shoulder",
+      "source_configuration_value": "{\"axial_length_mm\":78,\"diameter_mm\":100}",
+      "volume_mm3": 612610.5674500095,
+      "bounds_mm": {
+        "x_mm": [
+          -50.0,
+          50.0
+        ],
+        "y_mm": [
+          206.0,
+          284.0
+        ],
+        "z_mm": [
+          970.0,
+          1070.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftShoulderBearing",
+      "label": "Left shoulder bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.shoulder",
+      "source_configuration_value": "{\"axial_length_mm\":78,\"diameter_mm\":100}",
+      "volume_mm3": 91952.32257547085,
+      "bounds_mm": {
+        "x_mm": [
+          -28.000000000000004,
+          28.000000000000004
+        ],
+        "y_mm": [
+          217.0,
+          273.0
+        ],
+        "z_mm": [
+          992.0,
+          1048.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightShoulderActuator",
+      "label": "Right shoulder actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.shoulder",
+      "source_configuration_value": "{\"axial_length_mm\":78,\"diameter_mm\":100}",
+      "volume_mm3": 612610.5674500095,
+      "bounds_mm": {
+        "x_mm": [
+          -50.0,
+          50.0
+        ],
+        "y_mm": [
+          -284.0,
+          -206.0
+        ],
+        "z_mm": [
+          970.0,
+          1070.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightShoulderBearing",
+      "label": "Right shoulder bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.shoulder",
+      "source_configuration_value": "{\"axial_length_mm\":78,\"diameter_mm\":100}",
+      "volume_mm3": 91952.32257547087,
+      "bounds_mm": {
+        "x_mm": [
+          -28.000000000000004,
+          28.000000000000004
+        ],
+        "y_mm": [
+          -273.0,
+          -217.0
+        ],
+        "z_mm": [
+          992.0,
+          1048.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftElbowActuator",
+      "label": "Left elbow actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.elbow",
+      "source_configuration_value": "{\"axial_length_mm\":60,\"diameter_mm\":76}",
+      "volume_mm3": 272187.5875070197,
+      "bounds_mm": {
+        "x_mm": [
+          -18.0,
+          58.0
+        ],
+        "y_mm": [
+          260.0,
+          320.0
+        ],
+        "z_mm": [
+          792.0,
+          868.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftElbowBearing",
+      "label": "Left elbow bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.elbow",
+      "source_configuration_value": "{\"axial_length_mm\":60,\"diameter_mm\":76}",
+      "volume_mm3": 40364.862754889924,
+      "bounds_mm": {
+        "x_mm": [
+          -1.2800000000000011,
+          41.28
+        ],
+        "y_mm": [
+          268.72,
+          311.28
+        ],
+        "z_mm": [
+          808.72,
+          851.28
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightElbowActuator",
+      "label": "Right elbow actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.elbow",
+      "source_configuration_value": "{\"axial_length_mm\":60,\"diameter_mm\":76}",
+      "volume_mm3": 272187.5875070197,
+      "bounds_mm": {
+        "x_mm": [
+          -18.0,
+          58.0
+        ],
+        "y_mm": [
+          -320.0,
+          -260.0
+        ],
+        "z_mm": [
+          792.0,
+          868.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightElbowBearing",
+      "label": "Right elbow bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.elbow",
+      "source_configuration_value": "{\"axial_length_mm\":60,\"diameter_mm\":76}",
+      "volume_mm3": 40364.862754889924,
+      "bounds_mm": {
+        "x_mm": [
+          -1.2800000000000011,
+          41.28
+        ],
+        "y_mm": [
+          -311.28,
+          -268.72
+        ],
+        "z_mm": [
+          808.72,
+          851.28
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftWristActuator",
+      "label": "Left wrist actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.wrist",
+      "source_configuration_value": "{\"axial_length_mm\":52,\"diameter_mm\":60}",
+      "volume_mm3": 147026.53618800233,
+      "bounds_mm": {
+        "x_mm": [
+          5.0,
+          65.0
+        ],
+        "y_mm": [
+          289.0,
+          341.0
+        ],
+        "z_mm": [
+          600.0,
+          660.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftWristBearing",
+      "label": "Left wrist bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.wrist",
+      "source_configuration_value": "{\"axial_length_mm\":52,\"diameter_mm\":60}",
+      "volume_mm3": 19861.70167630171,
+      "bounds_mm": {
+        "x_mm": [
+          18.2,
+          51.8
+        ],
+        "y_mm": [
+          298.2,
+          331.8
+        ],
+        "z_mm": [
+          613.2,
+          646.8
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightWristActuator",
+      "label": "Right wrist actuator clearance envelope",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.wrist",
+      "source_configuration_value": "{\"axial_length_mm\":52,\"diameter_mm\":60}",
+      "volume_mm3": 147026.53618800233,
+      "bounds_mm": {
+        "x_mm": [
+          5.0,
+          65.0
+        ],
+        "y_mm": [
+          -341.0,
+          -289.0
+        ],
+        "z_mm": [
+          600.0,
+          660.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightWristBearing",
+      "label": "Right wrist bearing / output pivot envelope",
+      "design_role": "JOINT_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.wrist",
+      "source_configuration_value": "{\"axial_length_mm\":52,\"diameter_mm\":60}",
+      "volume_mm3": 19861.70167630171,
+      "bounds_mm": {
+        "x_mm": [
+          18.2,
+          51.8
+        ],
+        "y_mm": [
+          -331.8,
+          -298.2
+        ],
+        "z_mm": [
+          613.2,
+          646.8
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "WaistActuator",
+      "label": "Waist drive placeholder",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.waist",
+      "source_configuration_value": "{\"axial_length_mm\":86,\"diameter_mm\":110}",
+      "volume_mm3": 817285.3288313847,
+      "bounds_mm": {
+        "x_mm": [
+          -55.0,
+          55.0
+        ],
+        "y_mm": [
+          -55.0,
+          55.0
+        ],
+        "z_mm": [
+          832.0,
+          918.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "NeckActuator",
+      "label": "Neck drive placeholder",
+      "design_role": "ACTUATOR_CLEARANCE_PLACEHOLDER",
+      "source_parameter": "actuator_envelopes.neck",
+      "source_configuration_value": "{\"axial_length_mm\":58,\"diameter_mm\":72}",
+      "volume_mm3": 236147.23658503755,
+      "bounds_mm": {
+        "x_mm": [
+          -36.0,
+          36.0
+        ],
+        "y_mm": [
+          -36.0,
+          36.0
+        ],
+        "z_mm": [
+          1101.0,
+          1159.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Head_Camera",
+      "label": "Head Camera envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.head_camera",
+      "source_configuration_value": "{\"center_mm\":[165,0,1250],\"role\":\"forward RGB camera volume; field of view and vendor lens unselected\",\"size_mm\":[48,48,38]}",
+      "volume_mm3": 87552.0,
+      "bounds_mm": {
+        "x_mm": [
+          141.0,
+          189.0
+        ],
+        "y_mm": [
+          -24.0,
+          24.0
+        ],
+        "z_mm": [
+          1231.0,
+          1269.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Head_Camera_Lens",
+      "label": "Head Camera Lens envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.head_camera_lens",
+      "source_configuration_value": "{\"axis\":[1,0,0],\"center_mm\":[208,0,1250],\"diameter_mm\":14,\"length_mm\":20,\"role\":\"forward camera lens clearance placeholder; optical module unselected\"}",
+      "volume_mm3": 3078.7608005179923,
+      "bounds_mm": {
+        "x_mm": [
+          198.0,
+          218.0
+        ],
+        "y_mm": [
+          -7.0,
+          7.0
+        ],
+        "z_mm": [
+          1243.0,
+          1257.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Head_Compute",
+      "label": "Head Compute envelope",
+      "design_role": "POWER_COMPUTE_PLACEHOLDER",
+      "source_parameter": "electronics.head_compute",
+      "source_configuration_value": "{\"center_mm\":[-30,0,1230],\"role\":\"head compute / cable-clearance volume; board unselected\",\"size_mm\":[82,115,32]}",
+      "volume_mm3": 301760.0,
+      "bounds_mm": {
+        "x_mm": [
+          -71.0,
+          11.0
+        ],
+        "y_mm": [
+          -57.5,
+          57.5
+        ],
+        "z_mm": [
+          1214.0,
+          1246.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Torso_Imu",
+      "label": "Torso Imu envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.torso_imu",
+      "source_configuration_value": "{\"center_mm\":[0,0,960],\"role\":\"IMU placement envelope; isolation and alignment unverified\",\"size_mm\":[38,38,22]}",
+      "volume_mm3": 31768.0,
+      "bounds_mm": {
+        "x_mm": [
+          -19.0,
+          19.0
+        ],
+        "y_mm": [
+          -19.0,
+          19.0
+        ],
+        "z_mm": [
+          949.0,
+          971.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Battery",
+      "label": "Battery envelope",
+      "design_role": "POWER_COMPUTE_PLACEHOLDER",
+      "source_parameter": "electronics.battery",
+      "source_configuration_value": "{\"center_mm\":[-35,0,850],\"role\":\"battery placeholder; chemistry, enclosure, mass, thermal and retention design unselected\",\"size_mm\":[190,160,220]}",
+      "volume_mm3": 6688000.0,
+      "bounds_mm": {
+        "x_mm": [
+          -130.0,
+          60.0
+        ],
+        "y_mm": [
+          -80.0,
+          80.0
+        ],
+        "z_mm": [
+          740.0,
+          960.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Body_Compute",
+      "label": "Body Compute envelope",
+      "design_role": "POWER_COMPUTE_PLACEHOLDER",
+      "source_parameter": "electronics.body_compute",
+      "source_configuration_value": "{\"center_mm\":[-35,0,1010],\"role\":\"body compute / power electronics placeholder\",\"size_mm\":[140,150,55]}",
+      "volume_mm3": 1155000.0,
+      "bounds_mm": {
+        "x_mm": [
+          -105.0,
+          35.0
+        ],
+        "y_mm": [
+          -75.0,
+          75.0
+        ],
+        "z_mm": [
+          982.5,
+          1037.5
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Eye_Camera_Left",
+      "label": "Eye Camera Left envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.eye_camera_left",
+      "source_configuration_value": "{\"center_mm\":[195,32,1240],\"role\":\"camera housing clearance; lens, field of view, and module unselected\",\"size_mm\":[28,28,20]}",
+      "volume_mm3": 15680.0,
+      "bounds_mm": {
+        "x_mm": [
+          181.0,
+          209.0
+        ],
+        "y_mm": [
+          18.0,
+          46.0
+        ],
+        "z_mm": [
+          1230.0,
+          1250.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Eye_Camera_Right",
+      "label": "Eye Camera Right envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.eye_camera_right",
+      "source_configuration_value": "{\"center_mm\":[195,-32,1240],\"role\":\"camera housing clearance; lens, field of view, and module unselected\",\"size_mm\":[28,28,20]}",
+      "volume_mm3": 15680.0,
+      "bounds_mm": {
+        "x_mm": [
+          181.0,
+          209.0
+        ],
+        "y_mm": [
+          -46.0,
+          -18.0
+        ],
+        "z_mm": [
+          1230.0,
+          1250.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Side_Camera_Left",
+      "label": "Side Camera Left envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.side_camera_left",
+      "source_configuration_value": "{\"center_mm\":[20,135,1160],\"role\":\"camera housing clearance; lens, field of view, and module unselected\",\"size_mm\":[28,28,20]}",
+      "volume_mm3": 15680.0,
+      "bounds_mm": {
+        "x_mm": [
+          6.0,
+          34.0
+        ],
+        "y_mm": [
+          121.0,
+          149.0
+        ],
+        "z_mm": [
+          1150.0,
+          1170.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Side_Camera_Right",
+      "label": "Side Camera Right envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.side_camera_right",
+      "source_configuration_value": "{\"center_mm\":[20,-135,1160],\"role\":\"camera housing clearance; lens, field of view, and module unselected\",\"size_mm\":[28,28,20]}",
+      "volume_mm3": 15680.0,
+      "bounds_mm": {
+        "x_mm": [
+          6.0,
+          34.0
+        ],
+        "y_mm": [
+          -149.0,
+          -121.0
+        ],
+        "z_mm": [
+          1150.0,
+          1170.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Rear_Camera",
+      "label": "Rear Camera envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.rear_camera",
+      "source_configuration_value": "{\"center_mm\":[-145,0,1160],\"role\":\"camera housing clearance; lens, field of view, and module unselected\",\"size_mm\":[28,28,20]}",
+      "volume_mm3": 15680.0,
+      "bounds_mm": {
+        "x_mm": [
+          -159.0,
+          -131.0
+        ],
+        "y_mm": [
+          -14.0,
+          14.0
+        ],
+        "z_mm": [
+          1150.0,
+          1170.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Down_Camera",
+      "label": "Down Camera envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.down_camera",
+      "source_configuration_value": "{\"center_mm\":[0,0,760],\"role\":\"camera housing clearance; lens, field of view, and module unselected\",\"size_mm\":[28,28,20]}",
+      "volume_mm3": 15680.0,
+      "bounds_mm": {
+        "x_mm": [
+          -14.0,
+          14.0
+        ],
+        "y_mm": [
+          -14.0,
+          14.0
+        ],
+        "z_mm": [
+          750.0,
+          770.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Up_Camera",
+      "label": "Up Camera envelope",
+      "design_role": "SENSOR_PLACEHOLDER",
+      "source_parameter": "electronics.up_camera",
+      "source_configuration_value": "{\"center_mm\":[0,0,1325],\"role\":\"camera housing clearance; lens, field of view, and module unselected\",\"size_mm\":[28,28,20]}",
+      "volume_mm3": 15680.0,
+      "bounds_mm": {
+        "x_mm": [
+          -14.0,
+          14.0
+        ],
+        "y_mm": [
+          -14.0,
+          14.0
+        ],
+        "z_mm": [
+          1315.0,
+          1335.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Microphone_Front_Left",
+      "label": "Microphone Front Left envelope",
+      "design_role": "POWER_COMPUTE_PLACEHOLDER",
+      "source_parameter": "electronics.microphone_front_left",
+      "source_configuration_value": "{\"center_mm\":[50,55,1300],\"role\":\"four-channel microphone array port/package placeholder; acoustic design unselected\",\"size_mm\":[10,10,5]}",
+      "volume_mm3": 499.9999999999999,
+      "bounds_mm": {
+        "x_mm": [
+          45.0,
+          55.0
+        ],
+        "y_mm": [
+          50.0,
+          60.0
+        ],
+        "z_mm": [
+          1297.5,
+          1302.5
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Microphone_Front_Right",
+      "label": "Microphone Front Right envelope",
+      "design_role": "POWER_COMPUTE_PLACEHOLDER",
+      "source_parameter": "electronics.microphone_front_right",
+      "source_configuration_value": "{\"center_mm\":[50,-55,1300],\"role\":\"four-channel microphone array port/package placeholder; acoustic design unselected\",\"size_mm\":[10,10,5]}",
+      "volume_mm3": 499.9999999999999,
+      "bounds_mm": {
+        "x_mm": [
+          45.0,
+          55.0
+        ],
+        "y_mm": [
+          -60.0,
+          -50.0
+        ],
+        "z_mm": [
+          1297.5,
+          1302.5
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Microphone_Rear_Left",
+      "label": "Microphone Rear Left envelope",
+      "design_role": "POWER_COMPUTE_PLACEHOLDER",
+      "source_parameter": "electronics.microphone_rear_left",
+      "source_configuration_value": "{\"center_mm\":[-75,55,1290],\"role\":\"four-channel microphone array port/package placeholder; acoustic design unselected\",\"size_mm\":[10,10,5]}",
+      "volume_mm3": 499.9999999999999,
+      "bounds_mm": {
+        "x_mm": [
+          -80.0,
+          -70.0
+        ],
+        "y_mm": [
+          50.0,
+          60.0
+        ],
+        "z_mm": [
+          1287.5,
+          1292.5
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Microphone_Rear_Right",
+      "label": "Microphone Rear Right envelope",
+      "design_role": "POWER_COMPUTE_PLACEHOLDER",
+      "source_parameter": "electronics.microphone_rear_right",
+      "source_configuration_value": "{\"center_mm\":[-75,-55,1290],\"role\":\"four-channel microphone array port/package placeholder; acoustic design unselected\",\"size_mm\":[10,10,5]}",
+      "volume_mm3": 499.9999999999999,
+      "bounds_mm": {
+        "x_mm": [
+          -80.0,
+          -70.0
+        ],
+        "y_mm": [
+          -60.0,
+          -50.0
+        ],
+        "z_mm": [
+          1287.5,
+          1292.5
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "Speaker",
+      "label": "Speaker envelope",
+      "design_role": "POWER_COMPUTE_PLACEHOLDER",
+      "source_parameter": "electronics.speaker",
+      "source_configuration_value": "{\"center_mm\":[150,0,1120],\"role\":\"speaker / acoustic-output envelope; driver, SPL, enclosure and feedback control unselected\",\"size_mm\":[55,70,28]}",
+      "volume_mm3": 107800.0,
+      "bounds_mm": {
+        "x_mm": [
+          122.5,
+          177.5
+        ],
+        "y_mm": [
+          -35.0,
+          35.0
+        ],
+        "z_mm": [
+          1106.0,
+          1134.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "HeadCowlFront",
+      "label": "Head cowl hollow prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.head_radii_mm; shells.wall_inset_mm; shells.head_lens_aperture_diameter_mm",
+      "source_configuration_value": "{\"shells.head_lens_aperture_diameter_mm\":36,\"shells.head_radii_mm\":[185,205,130],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 543801.199469876,
+      "bounds_mm": {
+        "x_mm": [
+          35.0,
+          219.99732526594872
+        ],
+        "y_mm": [
+          -204.99320637879103,
+          204.99320637683792
+        ],
+        "z_mm": [
+          1090.0,
+          1350.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "HeadCowlRear",
+      "label": "Head cowl hollow prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.head_radii_mm; shells.wall_inset_mm; shells.head_lens_aperture_diameter_mm",
+      "source_configuration_value": "{\"shells.head_lens_aperture_diameter_mm\":36,\"shells.head_radii_mm\":[185,205,130],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 547064.196346797,
+      "bounds_mm": {
+        "x_mm": [
+          -149.99999999999997,
+          39.1652826121563
+        ],
+        "y_mm": [
+          -204.99320637879103,
+          204.99320637683792
+        ],
+        "z_mm": [
+          1090.0,
+          1350.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "TorsoFairingFront",
+      "label": "Torso fairing hollow prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.torso_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.torso_radii_mm\":[185,255,155],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 713734.2176898532,
+      "bounds_mm": {
+        "x_mm": [
+          -1.1327982892113017e-14,
+          184.99999999999997
+        ],
+        "y_mm": [
+          -254.9997918815825,
+          254.9996334308036
+        ],
+        "z_mm": [
+          775.0,
+          1085.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "TorsoFairingRear",
+      "label": "Torso fairing hollow prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.torso_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.torso_radii_mm\":[185,255,155],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 713734.2176898532,
+      "bounds_mm": {
+        "x_mm": [
+          -184.99999999999997,
+          3.850971195048558
+        ],
+        "y_mm": [
+          -254.9997918815825,
+          254.9996334308036
+        ],
+        "z_mm": [
+          775.0,
+          1085.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "PelvicGuardFront",
+      "label": "Pelvic guard hollow prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.pelvis_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.pelvis_radii_mm\":[155,185,95],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 374953.1490581073,
+      "bounds_mm": {
+        "x_mm": [
+          -9.491012693391987e-15,
+          154.99999999999997
+        ],
+        "y_mm": [
+          -184.9998434590175,
+          184.99985208130025
+        ],
+        "z_mm": [
+          675.0,
+          865.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "PelvicGuardRear",
+      "label": "Pelvic guard hollow prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.pelvis_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.pelvis_radii_mm\":[155,185,95],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 374953.1490581073,
+      "bounds_mm": {
+        "x_mm": [
+          -154.99999999999997,
+          4.105656481631188
+        ],
+        "y_mm": [
+          -184.9998434590175,
+          184.99985208130025
+        ],
+        "z_mm": [
+          675.0,
+          865.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftThighShellFront",
+      "label": "Left thigh shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.thigh_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.thigh_radii_mm\":[88,78],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 220751.1556559652,
+      "bounds_mm": {
+        "x_mm": [
+          -2.1553783664993418e-14,
+          87.92863183909813
+        ],
+        "y_mm": [
+          62.11994517176933,
+          242.89368496138627
+        ],
+        "z_mm": [
+          480.92890148285437,
+          776.593034224472
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftThighShellRear",
+      "label": "Left thigh shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.thigh_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.thigh_radii_mm\":[88,78],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 220751.1556559652,
+      "bounds_mm": {
+        "x_mm": [
+          -87.92863183909813,
+          2.1553783664993418e-14
+        ],
+        "y_mm": [
+          62.11994517176933,
+          242.89368496138627
+        ],
+        "z_mm": [
+          480.92890148285437,
+          776.593034224472
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftShankShellFront",
+      "label": "Left shank shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.shank_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.shank_radii_mm\":[67,52],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 162443.22553652234,
+      "bounds_mm": {
+        "x_mm": [
+          -1.6410267108574535e-14,
+          67.0
+        ],
+        "y_mm": [
+          98.03794572367258,
+          231.96205427632742
+        ],
+        "z_mm": [
+          168.25014984553545,
+          469.2546146220986
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftShankShellRear",
+      "label": "Left shank shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.shank_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.shank_radii_mm\":[67,52],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 162443.22553652234,
+      "bounds_mm": {
+        "x_mm": [
+          -67.0,
+          1.6410267108574535e-14
+        ],
+        "y_mm": [
+          98.03794572367258,
+          231.96205427632742
+        ],
+        "z_mm": [
+          168.25014984553545,
+          469.2546146220986
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftUpperArmShellFront",
+      "label": "Left upper arm shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.upper_arm_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.upper_arm_radii_mm\":[64,56],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 96247.02271532547,
+      "bounds_mm": {
+        "x_mm": [
+          -1.337140340565659e-14,
+          63.59476829552995
+        ],
+        "y_mm": [
+          182.7228616006394,
+          341.33178332189124
+        ],
+        "z_mm": [
+          815.9608502831242,
+          1034.7498485682697
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftUpperArmShellRear",
+      "label": "Left upper arm shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.upper_arm_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.upper_arm_radii_mm\":[64,56],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 96247.02271532558,
+      "bounds_mm": {
+        "x_mm": [
+          -63.59476829552995,
+          1.337140340565659e-14
+        ],
+        "y_mm": [
+          182.7228616006394,
+          341.33178332189124
+        ],
+        "z_mm": [
+          815.9608502831242,
+          1034.7498485682697
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftForearmShellFront",
+      "label": "Left forearm shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.forearm_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.forearm_radii_mm\":[54,43],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 98719.6603376526,
+      "bounds_mm": {
+        "x_mm": [
+          34.99999999999999,
+          103.84542613665909
+        ],
+        "y_mm": [
+          236.45389995392395,
+          357.6679486986877
+        ],
+        "z_mm": [
+          623.8038408184924,
+          837.5404855114543
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftForearmShellRear",
+      "label": "Left forearm shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.forearm_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.forearm_radii_mm\":[54,43],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 98719.6603376526,
+      "bounds_mm": {
+        "x_mm": [
+          -33.84542613665909,
+          35.00000000000001
+        ],
+        "y_mm": [
+          236.45389995392395,
+          357.6679486986877
+        ],
+        "z_mm": [
+          623.8038408184924,
+          837.5404855114543
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftHandShellFront",
+      "label": "Left hand shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.hand_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.hand_radii_mm\":[55,38,28],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 27264.64220403244,
+      "bounds_mm": {
+        "x_mm": [
+          65.0,
+          119.99999999999999
+        ],
+        "y_mm": [
+          277.01324125811954,
+          352.98675874187825
+        ],
+        "z_mm": [
+          542.0,
+          598.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftHandShellRear",
+      "label": "Left hand shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.hand_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.hand_radii_mm\":[55,38,28],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 27264.642204032454,
+      "bounds_mm": {
+        "x_mm": [
+          10.000000000000014,
+          67.65469033118467
+        ],
+        "y_mm": [
+          277.01324125811954,
+          352.98675874187825
+        ],
+        "z_mm": [
+          542.0,
+          598.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftFootUpperShellFront",
+      "label": "Left foot upper shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.foot_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.foot_radii_mm\":[195,85,48],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 182446.96609724336,
+      "bounds_mm": {
+        "x_mm": [
+          71.99999999999999,
+          266.9999999999999
+        ],
+        "y_mm": [
+          70.03635203206636,
+          239.96364797327087
+        ],
+        "z_mm": [
+          24.0,
+          120.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftFootUpperShellRear",
+      "label": "Left foot upper shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.foot_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.foot_radii_mm\":[195,85,48],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 182446.96609724336,
+      "bounds_mm": {
+        "x_mm": [
+          -122.99999999999989,
+          79.58326821400962
+        ],
+        "y_mm": [
+          70.03635203206636,
+          239.96364797327087
+        ],
+        "z_mm": [
+          24.0,
+          120.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftShankBand1",
+      "label": "Left shank cover break 1",
+      "design_role": "FLEXIBLE_COVER_VISUAL_PLACEHOLDER",
+      "source_parameter": "shells.shank_band_width_mm",
+      "source_configuration_value": "22",
+      "volume_mm3": 66350.43684381642,
+      "bounds_mm": {
+        "x_mm": [
+          -64.0,
+          64.0
+        ],
+        "y_mm": [
+          91.0,
+          219.0
+        ],
+        "z_mm": [
+          229.0,
+          251.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftShankBand2",
+      "label": "Left shank cover break 2",
+      "design_role": "FLEXIBLE_COVER_VISUAL_PLACEHOLDER",
+      "source_parameter": "shells.shank_band_width_mm",
+      "source_configuration_value": "22",
+      "volume_mm3": 66350.43684381642,
+      "bounds_mm": {
+        "x_mm": [
+          -64.0,
+          64.0
+        ],
+        "y_mm": [
+          91.0,
+          219.0
+        ],
+        "z_mm": [
+          311.0,
+          333.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "LeftShankBand3",
+      "label": "Left shank cover break 3",
+      "design_role": "FLEXIBLE_COVER_VISUAL_PLACEHOLDER",
+      "source_parameter": "shells.shank_band_width_mm",
+      "source_configuration_value": "22",
+      "volume_mm3": 66350.43684381642,
+      "bounds_mm": {
+        "x_mm": [
+          -64.0,
+          64.0
+        ],
+        "y_mm": [
+          91.0,
+          219.0
+        ],
+        "z_mm": [
+          393.0,
+          415.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightThighShellFront",
+      "label": "Right thigh shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.thigh_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.thigh_radii_mm\":[88,78],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 220751.15565595822,
+      "bounds_mm": {
+        "x_mm": [
+          -2.1553783664993418e-14,
+          87.92863183909813
+        ],
+        "y_mm": [
+          -242.89368496138627,
+          -62.11994517176933
+        ],
+        "z_mm": [
+          480.92890148285437,
+          776.593034224472
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightThighShellRear",
+      "label": "Right thigh shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.thigh_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.thigh_radii_mm\":[88,78],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 220751.15565595822,
+      "bounds_mm": {
+        "x_mm": [
+          -87.92863183909813,
+          2.1553783664993418e-14
+        ],
+        "y_mm": [
+          -242.89368496138627,
+          -62.11994517176933
+        ],
+        "z_mm": [
+          480.92890148285437,
+          776.593034224472
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightShankShellFront",
+      "label": "Right shank shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.shank_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.shank_radii_mm\":[67,52],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 162443.22553652292,
+      "bounds_mm": {
+        "x_mm": [
+          -1.6410267108574532e-14,
+          67.0
+        ],
+        "y_mm": [
+          -231.96205427632742,
+          -98.03794572367258
+        ],
+        "z_mm": [
+          168.25014984553545,
+          469.2546146220986
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightShankShellRear",
+      "label": "Right shank shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.shank_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.shank_radii_mm\":[67,52],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 162443.2255365227,
+      "bounds_mm": {
+        "x_mm": [
+          -67.0,
+          1.6410267108574532e-14
+        ],
+        "y_mm": [
+          -231.96205427632742,
+          -98.03794572367258
+        ],
+        "z_mm": [
+          168.25014984553545,
+          469.2546146220986
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightUpperArmShellFront",
+      "label": "Right upper arm shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.upper_arm_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.upper_arm_radii_mm\":[64,56],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 96247.0227153207,
+      "bounds_mm": {
+        "x_mm": [
+          -1.337140340565659e-14,
+          63.59476829552995
+        ],
+        "y_mm": [
+          -341.33178332189124,
+          -182.72286160063942
+        ],
+        "z_mm": [
+          815.9608502831242,
+          1034.7498485682697
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightUpperArmShellRear",
+      "label": "Right upper arm shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.upper_arm_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.upper_arm_radii_mm\":[64,56],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 96247.0227153207,
+      "bounds_mm": {
+        "x_mm": [
+          -63.59476829552995,
+          1.337140340565659e-14
+        ],
+        "y_mm": [
+          -341.33178332189124,
+          -182.72286160063942
+        ],
+        "z_mm": [
+          815.9608502831242,
+          1034.7498485682697
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightForearmShellFront",
+      "label": "Right forearm shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.forearm_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.forearm_radii_mm\":[54,43],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 98719.66033765255,
+      "bounds_mm": {
+        "x_mm": [
+          34.999999999999964,
+          103.84542613665909
+        ],
+        "y_mm": [
+          -357.6679486986877,
+          -236.41699465746197
+        ],
+        "z_mm": [
+          623.8038408184924,
+          837.5404855114543
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightForearmShellRear",
+      "label": "Right forearm shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.forearm_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.forearm_radii_mm\":[54,43],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 98719.66033765243,
+      "bounds_mm": {
+        "x_mm": [
+          -33.84542613665909,
+          35.000000000000036
+        ],
+        "y_mm": [
+          -357.6679486986877,
+          -236.41699465746197
+        ],
+        "z_mm": [
+          623.8038408184924,
+          837.5404855114543
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightHandShellFront",
+      "label": "Right hand shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.hand_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.hand_radii_mm\":[55,38,28],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 27264.642204026604,
+      "bounds_mm": {
+        "x_mm": [
+          65.0,
+          119.99999999999999
+        ],
+        "y_mm": [
+          -352.9867587418811,
+          -277.0132412581207
+        ],
+        "z_mm": [
+          542.0,
+          598.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightHandShellRear",
+      "label": "Right hand shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.hand_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.hand_radii_mm\":[55,38,28],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 27264.642204026604,
+      "bounds_mm": {
+        "x_mm": [
+          10.000000000000014,
+          67.65469033118465
+        ],
+        "y_mm": [
+          -352.9867587418811,
+          -277.0132412581207
+        ],
+        "z_mm": [
+          542.0,
+          598.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightFootUpperShellFront",
+      "label": "Right foot upper shell prototype \u00b7 front panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.foot_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.foot_radii_mm\":[195,85,48],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 182446.96609733673,
+      "bounds_mm": {
+        "x_mm": [
+          71.99999999999999,
+          266.9999999999999
+        ],
+        "y_mm": [
+          -239.96364796793523,
+          -70.03635202670087
+        ],
+        "z_mm": [
+          24.0,
+          120.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightFootUpperShellRear",
+      "label": "Right foot upper shell prototype \u00b7 rear panel",
+      "design_role": "HOLLOW_SPLIT_SHELL_PROTOTYPE",
+      "source_parameter": "shells.foot_radii_mm; shells.wall_inset_mm",
+      "source_configuration_value": "{\"shells.foot_radii_mm\":[195,85,48],\"shells.wall_inset_mm\":3}",
+      "volume_mm3": 182446.96609733673,
+      "bounds_mm": {
+        "x_mm": [
+          -122.99999999999989,
+          79.5832682139853
+        ],
+        "y_mm": [
+          -239.96364796793523,
+          -70.03635202670087
+        ],
+        "z_mm": [
+          24.0,
+          120.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightShankBand1",
+      "label": "Right shank cover break 1",
+      "design_role": "FLEXIBLE_COVER_VISUAL_PLACEHOLDER",
+      "source_parameter": "shells.shank_band_width_mm",
+      "source_configuration_value": "22",
+      "volume_mm3": 66350.43684381642,
+      "bounds_mm": {
+        "x_mm": [
+          -64.0,
+          64.0
+        ],
+        "y_mm": [
+          -219.0,
+          -91.0
+        ],
+        "z_mm": [
+          229.0,
+          251.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightShankBand2",
+      "label": "Right shank cover break 2",
+      "design_role": "FLEXIBLE_COVER_VISUAL_PLACEHOLDER",
+      "source_parameter": "shells.shank_band_width_mm",
+      "source_configuration_value": "22",
+      "volume_mm3": 66350.43684381642,
+      "bounds_mm": {
+        "x_mm": [
+          -64.0,
+          64.0
+        ],
+        "y_mm": [
+          -219.0,
+          -91.0
+        ],
+        "z_mm": [
+          311.0,
+          333.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    },
+    {
+      "object_name": "RightShankBand3",
+      "label": "Right shank cover break 3",
+      "design_role": "FLEXIBLE_COVER_VISUAL_PLACEHOLDER",
+      "source_parameter": "shells.shank_band_width_mm",
+      "source_configuration_value": "22",
+      "volume_mm3": 66350.43684381642,
+      "bounds_mm": {
+        "x_mm": [
+          -64.0,
+          64.0
+        ],
+        "y_mm": [
+          -219.0,
+          -91.0
+        ],
+        "z_mm": [
+          393.0,
+          415.0
+        ]
+      },
+      "valid": true,
+      "neutral_export": "STEP concept envelope only; not released for manufacture"
+    }
+  ],
+  "parts_missing_source_parameter": [],
+  "invalid_concept_solids": [],
+  "bounds_outside_source_global_bbox": [],
+  "concept_solids_bounds_mm": {
+    "x_mm": [
+      -184.99999999999997,
+      266.9999999999999
+    ],
+    "y_mm": [
+      -357.6679486986877,
+      357.6679486986877
+    ],
+    "z_mm": [
+      0.0,
+      1350.0
+    ]
+  },
+  "ground_interface": {
+    "ground_z_mm": 0.0,
+    "foot_plate_min_z_mm": [
+      0.0,
+      0.0
+    ],
+    "foot_plates_touch_ground": true,
+    "evidence_limit": "Geometric contact of concept plate proxy with datum plane only; no sole/contact material, deflection, stability or load is validated."
+  },
+  "group_counts": {
+    "structure_and_feet": 19,
+    "joint_actuator_and_bearing_envelopes": 26,
+    "sensor_compute_and_power_envelopes": 18,
+    "shell_proxy_components": 36,
+    "kinematic_axis_references": 28
+  },
+  "kinematic_reference": {
+    "status": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS",
+    "range_authority": "Engineering study ranges only; not supplier or safety limits.",
+    "joint_count": 28,
+    "frames": [
+      {
+        "joint": "waist_yaw",
+        "parent_link": "pelvis",
+        "child_link": "torso_yaw",
+        "center_mm": [
+          0,
+          0,
+          875
+        ],
+        "axis_robot": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "range_deg": [
+          -35,
+          35
+        ],
+        "module": "waist",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "waist_pitch",
+        "parent_link": "torso_yaw",
+        "child_link": "torso",
+        "center_mm": [
+          0,
+          0,
+          875
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -20,
+          20
+        ],
+        "module": "waist",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "neck_yaw",
+        "parent_link": "torso",
+        "child_link": "neck_yaw_link",
+        "center_mm": [
+          0,
+          0,
+          1130
+        ],
+        "axis_robot": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "range_deg": [
+          -45,
+          45
+        ],
+        "module": "neck",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "neck_pitch",
+        "parent_link": "neck_yaw_link",
+        "child_link": "head",
+        "center_mm": [
+          0,
+          0,
+          1130
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -25,
+          25
+        ],
+        "module": "neck",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_hip_yaw",
+        "parent_link": "pelvis",
+        "child_link": "left_hip_yaw_link",
+        "center_mm": [
+          0,
+          150,
+          760
+        ],
+        "axis_robot": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "range_deg": [
+          -35,
+          35
+        ],
+        "module": "hip",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_hip_roll",
+        "parent_link": "left_hip_yaw_link",
+        "child_link": "left_hip_roll_link",
+        "center_mm": [
+          0,
+          150,
+          760
+        ],
+        "axis_robot": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "range_deg": [
+          -25,
+          25
+        ],
+        "module": "hip",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_hip_pitch",
+        "parent_link": "left_hip_roll_link",
+        "child_link": "left_thigh",
+        "center_mm": [
+          0,
+          150,
+          760
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -100,
+          45
+        ],
+        "module": "hip",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_knee_pitch",
+        "parent_link": "left_thigh",
+        "child_link": "left_shank",
+        "center_mm": [
+          0,
+          165,
+          475
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          0,
+          135
+        ],
+        "module": "knee",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_ankle_pitch",
+        "parent_link": "left_shank",
+        "child_link": "left_ankle_pitch_link",
+        "center_mm": [
+          0,
+          155,
+          145
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -35,
+          35
+        ],
+        "module": "ankle",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_ankle_roll",
+        "parent_link": "left_ankle_pitch_link",
+        "child_link": "left_foot",
+        "center_mm": [
+          0,
+          155,
+          145
+        ],
+        "axis_robot": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "range_deg": [
+          -20,
+          20
+        ],
+        "module": "ankle",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_hip_yaw",
+        "parent_link": "pelvis",
+        "child_link": "right_hip_yaw_link",
+        "center_mm": [
+          0,
+          -150,
+          760
+        ],
+        "axis_robot": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "range_deg": [
+          -35,
+          35
+        ],
+        "module": "hip",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_hip_roll",
+        "parent_link": "right_hip_yaw_link",
+        "child_link": "right_hip_roll_link",
+        "center_mm": [
+          0,
+          -150,
+          760
+        ],
+        "axis_robot": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "range_deg": [
+          -25,
+          25
+        ],
+        "module": "hip",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_hip_pitch",
+        "parent_link": "right_hip_roll_link",
+        "child_link": "right_thigh",
+        "center_mm": [
+          0,
+          -150,
+          760
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -100,
+          45
+        ],
+        "module": "hip",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_knee_pitch",
+        "parent_link": "right_thigh",
+        "child_link": "right_shank",
+        "center_mm": [
+          0,
+          -165,
+          475
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          0,
+          135
+        ],
+        "module": "knee",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_ankle_pitch",
+        "parent_link": "right_shank",
+        "child_link": "right_ankle_pitch_link",
+        "center_mm": [
+          0,
+          -155,
+          145
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -35,
+          35
+        ],
+        "module": "ankle",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_ankle_roll",
+        "parent_link": "right_ankle_pitch_link",
+        "child_link": "right_foot",
+        "center_mm": [
+          0,
+          -155,
+          145
+        ],
+        "axis_robot": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "range_deg": [
+          -20,
+          20
+        ],
+        "module": "ankle",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_shoulder_yaw",
+        "parent_link": "torso",
+        "child_link": "left_shoulder_yaw_link",
+        "center_mm": [
+          0,
+          245,
+          1020
+        ],
+        "axis_robot": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "range_deg": [
+          -90,
+          90
+        ],
+        "module": "shoulder",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_shoulder_roll",
+        "parent_link": "left_shoulder_yaw_link",
+        "child_link": "left_shoulder_roll_link",
+        "center_mm": [
+          0,
+          245,
+          1020
+        ],
+        "axis_robot": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "range_deg": [
+          -90,
+          90
+        ],
+        "module": "shoulder",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_shoulder_pitch",
+        "parent_link": "left_shoulder_roll_link",
+        "child_link": "left_upper_arm",
+        "center_mm": [
+          0,
+          245,
+          1020
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -120,
+          90
+        ],
+        "module": "shoulder",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_elbow_pitch",
+        "parent_link": "left_upper_arm",
+        "child_link": "left_forearm",
+        "center_mm": [
+          20,
+          290,
+          830
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          0,
+          135
+        ],
+        "module": "elbow",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_wrist_yaw",
+        "parent_link": "left_forearm",
+        "child_link": "left_wrist_yaw_link",
+        "center_mm": [
+          35,
+          315,
+          630
+        ],
+        "axis_robot": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "range_deg": [
+          -45,
+          45
+        ],
+        "module": "wrist",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "left_wrist_pitch",
+        "parent_link": "left_wrist_yaw_link",
+        "child_link": "left_hand",
+        "center_mm": [
+          35,
+          315,
+          630
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -45,
+          45
+        ],
+        "module": "wrist",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_shoulder_yaw",
+        "parent_link": "torso",
+        "child_link": "right_shoulder_yaw_link",
+        "center_mm": [
+          0,
+          -245,
+          1020
+        ],
+        "axis_robot": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "range_deg": [
+          -90,
+          90
+        ],
+        "module": "shoulder",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_shoulder_roll",
+        "parent_link": "right_shoulder_yaw_link",
+        "child_link": "right_shoulder_roll_link",
+        "center_mm": [
+          0,
+          -245,
+          1020
+        ],
+        "axis_robot": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "range_deg": [
+          -90,
+          90
+        ],
+        "module": "shoulder",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_shoulder_pitch",
+        "parent_link": "right_shoulder_roll_link",
+        "child_link": "right_upper_arm",
+        "center_mm": [
+          0,
+          -245,
+          1020
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -120,
+          90
+        ],
+        "module": "shoulder",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_elbow_pitch",
+        "parent_link": "right_upper_arm",
+        "child_link": "right_forearm",
+        "center_mm": [
+          20,
+          -290,
+          830
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          0,
+          135
+        ],
+        "module": "elbow",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_wrist_yaw",
+        "parent_link": "right_forearm",
+        "child_link": "right_wrist_yaw_link",
+        "center_mm": [
+          35,
+          -315,
+          630
+        ],
+        "axis_robot": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "range_deg": [
+          -45,
+          45
+        ],
+        "module": "wrist",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      },
+      {
+        "joint": "right_wrist_pitch",
+        "parent_link": "right_wrist_yaw_link",
+        "child_link": "right_hand",
+        "center_mm": [
+          35,
+          -315,
+          630
+        ],
+        "axis_robot": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "range_deg": [
+          -45,
+          45
+        ],
+        "module": "wrist",
+        "evidence": "PROVISIONAL_PACKAGING_KINEMATICS_NOT_HARDWARE_LIMITS"
+      }
+    ]
+  },
+  "mass_budget": {
+    "status": "PLACEHOLDER_DESIGN_CASE_NOT_AS_BUILT",
+    "authority": "PLACEHOLDER",
+    "nominal_total_kg": 25.0,
+    "computed_center_of_mass_robot_mm": [
+      11.276,
+      0.0,
+      712.62
+    ],
+    "component_uncertainty_relative": 0.25,
+    "components": [
+      {
+        "id": "pelvis_and_hip_modules",
+        "mass_kg": 4.2,
+        "center_of_mass_robot_mm": [
+          0,
+          0,
+          770
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "pelvis/waist structure and hip drive allocation"
+      },
+      {
+        "id": "torso_battery_compute_and_structure",
+        "mass_kg": 6.3,
+        "center_of_mass_robot_mm": [
+          0,
+          0,
+          1000
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "torso, central battery/compute allocation and structure"
+      },
+      {
+        "id": "head_neck_sensor_and_speaker",
+        "mass_kg": 1.3,
+        "center_of_mass_robot_mm": [
+          25,
+          0,
+          1240
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "head/neck, camera and acoustic payload allocation"
+      },
+      {
+        "id": "left_thigh_and_hip_knee_allocation",
+        "mass_kg": 2.1,
+        "center_of_mass_robot_mm": [
+          0,
+          150,
+          620
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "left thigh structure and adjacent actuator allocation"
+      },
+      {
+        "id": "right_thigh_and_hip_knee_allocation",
+        "mass_kg": 2.1,
+        "center_of_mass_robot_mm": [
+          0,
+          -150,
+          620
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "right thigh structure and adjacent actuator allocation"
+      },
+      {
+        "id": "left_shank_and_knee_ankle_allocation",
+        "mass_kg": 1.5,
+        "center_of_mass_robot_mm": [
+          0,
+          165,
+          310
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "left shank structure and adjacent actuator allocation"
+      },
+      {
+        "id": "right_shank_and_knee_ankle_allocation",
+        "mass_kg": 1.5,
+        "center_of_mass_robot_mm": [
+          0,
+          -165,
+          310
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "right shank structure and adjacent actuator allocation"
+      },
+      {
+        "id": "left_foot_and_ankle_allocation",
+        "mass_kg": 1.1,
+        "center_of_mass_robot_mm": [
+          72,
+          155,
+          30
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "left foot and ankle allocation"
+      },
+      {
+        "id": "right_foot_and_ankle_allocation",
+        "mass_kg": 1.1,
+        "center_of_mass_robot_mm": [
+          72,
+          -155,
+          30
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "right foot and ankle allocation"
+      },
+      {
+        "id": "left_upper_arm_and_shoulder_allocation",
+        "mass_kg": 0.95,
+        "center_of_mass_robot_mm": [
+          10,
+          270,
+          925
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "left upper arm and shoulder allocation"
+      },
+      {
+        "id": "right_upper_arm_and_shoulder_allocation",
+        "mass_kg": 0.95,
+        "center_of_mass_robot_mm": [
+          10,
+          -270,
+          925
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "right upper arm and shoulder allocation"
+      },
+      {
+        "id": "left_forearm_and_elbow_allocation",
+        "mass_kg": 0.7,
+        "center_of_mass_robot_mm": [
+          30,
+          302,
+          730
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "left forearm and elbow allocation"
+      },
+      {
+        "id": "right_forearm_and_elbow_allocation",
+        "mass_kg": 0.7,
+        "center_of_mass_robot_mm": [
+          30,
+          -302,
+          730
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "right forearm and elbow allocation"
+      },
+      {
+        "id": "left_hand_and_wrist_allocation",
+        "mass_kg": 0.25,
+        "center_of_mass_robot_mm": [
+          60,
+          315,
+          580
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "left hand and wrist allocation"
+      },
+      {
+        "id": "right_hand_and_wrist_allocation",
+        "mass_kg": 0.25,
+        "center_of_mass_robot_mm": [
+          60,
+          -315,
+          580
+        ],
+        "source": "PLACEHOLDER",
+        "uncertainty_relative": 0.25,
+        "allocation_note": "right hand and wrist allocation"
+      }
+    ],
+    "evidence_limit": "PLACEHOLDER allocations for a nominal simulation case; not material-derived or measured inertial properties."
+  },
+  "sensor_architecture": {
+    "status": "MOUNT_AND_FRAME_STUDY_ONLY_NO_SENSOR_HARDWARE_SELECTED",
+    "camera_frame_convention": "Robot frame +X forward, +Y left, +Z up; camera frame orientation is xyzw not frozen until lens calibration.",
+    "cameras": [
+      {
+        "frame_id": "camera_eye_left",
+        "position_robot_mm": [
+          195,
+          32,
+          1240
+        ],
+        "quaternion_wxyz": [
+          0.7071068,
+          0,
+          -0.7071068,
+          0
+        ],
+        "view": "forward",
+        "role": "reserved calibrated sensor frame; camera and lens unselected"
+      },
+      {
+        "frame_id": "camera_eye_right",
+        "position_robot_mm": [
+          195,
+          -32,
+          1240
+        ],
+        "quaternion_wxyz": [
+          0.7071068,
+          0,
+          -0.7071068,
+          0
+        ],
+        "view": "forward",
+        "role": "reserved calibrated sensor frame; camera and lens unselected"
+      },
+      {
+        "frame_id": "camera_side_left",
+        "position_robot_mm": [
+          20,
+          135,
+          1160
+        ],
+        "quaternion_wxyz": [
+          0.7071068,
+          0.7071068,
+          0,
+          0
+        ],
+        "view": "left",
+        "role": "reserved calibrated sensor frame; camera and lens unselected"
+      },
+      {
+        "frame_id": "camera_side_right",
+        "position_robot_mm": [
+          20,
+          -135,
+          1160
+        ],
+        "quaternion_wxyz": [
+          0.7071068,
+          -0.7071068,
+          0,
+          0
+        ],
+        "view": "right",
+        "role": "reserved calibrated sensor frame; camera and lens unselected"
+      },
+      {
+        "frame_id": "camera_rear",
+        "position_robot_mm": [
+          -145,
+          0,
+          1160
+        ],
+        "quaternion_wxyz": [
+          0.7071068,
+          0,
+          0.7071068,
+          0
+        ],
+        "view": "rear",
+        "role": "reserved calibrated sensor frame; camera and lens unselected"
+      },
+      {
+        "frame_id": "camera_downward",
+        "position_robot_mm": [
+          0,
+          0,
+          760
+        ],
+        "quaternion_wxyz": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "view": "down",
+        "role": "reserved calibrated sensor frame; camera and lens unselected"
+      },
+      {
+        "frame_id": "camera_upward",
+        "position_robot_mm": [
+          0,
+          0,
+          1325
+        ],
+        "quaternion_wxyz": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "view": "up",
+        "role": "reserved calibrated sensor frame; camera and lens unselected"
+      }
+    ],
+    "microphone_array": {
+      "count": 4,
+      "channels": [
+        "mic_front_left",
+        "mic_front_right",
+        "mic_rear_left",
+        "mic_rear_right"
+      ],
+      "positions_robot_mm": [
+        [
+          50,
+          55,
+          1300
+        ],
+        [
+          50,
+          -55,
+          1300
+        ],
+        [
+          -75,
+          55,
+          1290
+        ],
+        [
+          -75,
+          -55,
+          1290
+        ]
+      ],
+      "status": "four synchronized MEMS channels are a packaging baseline, not a chosen count; verify beamforming, echo cancellation, acoustic shadowing, and target noise field on the actual head"
+    },
+    "speaker": {
+      "frame_id": "speaker_front",
+      "position_robot_mm": [
+        150,
+        0,
+        1120
+      ],
+      "role": "own synthesized tones/voice output; output level and acoustic echo path unselected"
+    },
+    "calibration_requirements": [
+      "camera intrinsics/distortion per sensor",
+      "camera-to-base extrinsics per CAD and measured fixture",
+      "common timestamp/clock and dropped-frame metadata",
+      "microphone channel phase/gain and array geometry",
+      "speaker-to-microphone echo path and output mute/feedback policy"
+    ]
+  },
+  "validation_scope": "OCC solid validity, source mesh bbox, and STEP round-trip are checked. Bbox containment is not surface fit, collision clearance, kinematics or physical validation.",
+  "not_verified": [
+    "The normalized 1350 mm scale remains a working envelope, not source-model evidence or a physical measurement.",
+    "The 25 kg mass allocation and center of mass are PLACEHOLDER inputs only; no as-built mass claim is authorized.",
+    "All links, actuator envelopes, joint origins and limits require selected-component and load-case review.",
+    "Neutral-pose arm anchors are corrected to hang beside the body; full swept self-collision and cable/service-volume checks remain required.",
+    "Sensor boxes/frames reserve space only. Camera lenses, intrinsics, acoustic array geometry, speaker and processing hardware are unselected.",
+    "No shell panel is a supplier-ready part: material, inserts, tolerances, load cases, fit and structural/thermal behavior are open.",
+    "Collision/dynamics MJCF is a simplified model. Validate contact, inertias, actuator torque-speed/thermal limits, and model/backend convergence before transfer claims."
+  ],
+  "step_roundtrip": {
+    "imported_part_feature_count": 99,
+    "invalid_imported_shapes": [],
+    "source_total_volume_mm3": 32877989.82123948,
+    "imported_total_volume_mm3": 32877142.265971486,
+    "relative_total_volume_delta": 2.5778804379513263e-05,
+    "bounds_mm": {
+      "x_mm": [
+        -370.0,
+        462.0
+      ],
+      "y_mm": [
+        -441.67295593,
+        441.67295593006
+      ],
+      "z_mm": [
+        0.0,
+        1350.0
+      ]
+    },
+    "overall_bbox_delta_mm": 195.0000000000001,
+    "part_manifest": [
+      {
+        "source_object": "SpinalFrame",
+        "source_label": "Spinal frame / cable corridor",
+        "imported_object": "Part__Feature",
+        "imported_label": "Spinal frame / cable corridor",
+        "source_volume_mm3": 1083588.8991504407,
+        "imported_volume_mm3": 1083588.8991503508,
+        "relative_volume_delta": 8.293978327099506e-14,
+        "source_bounds_mm": {
+          "x_mm": [
+            -38.0,
+            38.0
+          ],
+          "y_mm": [
+            -38.0,
+            38.0
+          ],
+          "z_mm": [
+            740.0,
+            1058.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -38.0,
+            38.0
+          ],
+          "y_mm": [
+            -38.0,
+            38.0
+          ],
+          "z_mm": [
+            740.0,
+            1058.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "PelvisCrossbar",
+        "source_label": "Pelvis cross-member envelope",
+        "imported_object": "Part__Feature001",
+        "imported_label": "Pelvis cross-member envelope",
+        "source_volume_mm3": 837422.9377408955,
+        "imported_volume_mm3": 837422.9377408955,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -28.0,
+            28.0
+          ],
+          "y_mm": [
+            -170.0,
+            170.0
+          ],
+          "z_mm": [
+            742.0,
+            798.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -28.0,
+            28.0
+          ],
+          "y_mm": [
+            -170.0,
+            170.0
+          ],
+          "z_mm": [
+            742.0,
+            798.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "ShoulderCrossbar",
+        "source_label": "Shoulder cross-member envelope",
+        "imported_object": "Part__Feature002",
+        "imported_label": "Shoulder cross-member envelope",
+        "source_volume_mm3": 940969.8316032145,
+        "imported_volume_mm3": 940969.8316032145,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -24.0,
+            24.0
+          ],
+          "y_mm": [
+            -260.0,
+            260.0
+          ],
+          "z_mm": [
+            996.0,
+            1044.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -24.0,
+            24.0
+          ],
+          "y_mm": [
+            -260.0,
+            260.0
+          ],
+          "z_mm": [
+            996.0,
+            1044.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftHipMount",
+        "source_label": "Left hip mounting plate envelope",
+        "imported_object": "Part__Feature003",
+        "imported_label": "Left hip mounting plate envelope",
+        "source_volume_mm3": 452088.0,
+        "imported_volume_mm3": 452088.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -47.0,
+            31.0
+          ],
+          "y_mm": [
+            127.0,
+            173.0
+          ],
+          "z_mm": [
+            697.0,
+            823.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -47.0,
+            31.0
+          ],
+          "y_mm": [
+            127.0,
+            173.0
+          ],
+          "z_mm": [
+            697.0,
+            823.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftShoulderMount",
+        "source_label": "Left shoulder mounting plate envelope",
+        "imported_object": "Part__Feature004",
+        "imported_label": "Left shoulder mounting plate envelope",
+        "source_volume_mm3": 443904.0,
+        "imported_volume_mm3": 443904.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -34.0,
+            34.0
+          ],
+          "y_mm": [
+            221.0,
+            269.0
+          ],
+          "z_mm": [
+            952.0,
+            1088.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -34.0,
+            34.0
+          ],
+          "y_mm": [
+            221.0,
+            269.0
+          ],
+          "z_mm": [
+            952.0,
+            1088.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftFemurRail",
+        "source_label": "Left femur link envelope",
+        "imported_object": "Part__Feature005",
+        "imported_label": "Left femur link envelope",
+        "source_volume_mm3": 603573.4822368156,
+        "imported_volume_mm3": 603573.4825109165,
+        "relative_volume_delta": 4.541301615233476e-10,
+        "source_bounds_mm": {
+          "x_mm": [
+            -27.0,
+            27.0
+          ],
+          "y_mm": [
+            123.0,
+            187.0
+          ],
+          "z_mm": [
+            453.0,
+            787.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -27.0,
+            27.0
+          ],
+          "y_mm": [
+            123.0,
+            187.0
+          ],
+          "z_mm": [
+            453.0,
+            787.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftTibiaRail",
+        "source_label": "Left tibia link envelope",
+        "imported_object": "Part__Feature006",
+        "imported_label": "Left tibia link envelope",
+        "source_volume_mm3": 426784.49267500953,
+        "imported_volume_mm3": 426784.4944999948,
+        "relative_volume_delta": 4.276128326131408e-09,
+        "source_bounds_mm": {
+          "x_mm": [
+            -21.0,
+            21.0
+          ],
+          "y_mm": [
+            137.0,
+            186.0
+          ],
+          "z_mm": [
+            127.0,
+            496.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -21.0,
+            21.0
+          ],
+          "y_mm": [
+            137.0,
+            186.0
+          ],
+          "z_mm": [
+            127.0,
+            496.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftFootPlate",
+        "source_label": "Left load-bearing foot plate envelope",
+        "imported_object": "Part__Feature007",
+        "imported_label": "Left load-bearing foot plate envelope",
+        "source_volume_mm3": 1368000.0,
+        "imported_volume_mm3": 1368000.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -118.0,
+            262.0
+          ],
+          "y_mm": [
+            80.0,
+            230.0
+          ],
+          "z_mm": [
+            0.0,
+            24.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -118.0,
+            262.0
+          ],
+          "y_mm": [
+            80.0,
+            230.0
+          ],
+          "z_mm": [
+            0.0,
+            24.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftUpperArmRail",
+        "source_label": "Left upper arm rail envelope",
+        "imported_object": "Part__Feature008",
+        "imported_label": "Left upper arm rail envelope",
+        "source_volume_mm3": 281988.2138660305,
+        "imported_volume_mm3": 281988.219972894,
+        "relative_volume_delta": 2.1656449441984134e-08,
+        "source_bounds_mm": {
+          "x_mm": [
+            -22.0,
+            38.0
+          ],
+          "y_mm": [
+            223.0,
+            308.0
+          ],
+          "z_mm": [
+            812.0,
+            1042.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -22.0,
+            38.0
+          ],
+          "y_mm": [
+            223.0,
+            308.0
+          ],
+          "z_mm": [
+            812.0,
+            1042.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftForearmRail",
+        "source_label": "Left forearm rail envelope",
+        "imported_object": "Part__Feature009",
+        "imported_label": "Left forearm rail envelope",
+        "source_volume_mm3": 181357.9203105522,
+        "imported_volume_mm3": 181357.9199525823,
+        "relative_volume_delta": 1.9738310643113557e-09,
+        "source_bounds_mm": {
+          "x_mm": [
+            2.0,
+            49.0
+          ],
+          "y_mm": [
+            272.0,
+            329.0
+          ],
+          "z_mm": [
+            616.0,
+            848.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            2.0,
+            49.0
+          ],
+          "y_mm": [
+            272.0,
+            329.0
+          ],
+          "z_mm": [
+            616.0,
+            848.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftHandFrame",
+        "source_label": "Left distal hand support envelope",
+        "imported_object": "Part__Feature010",
+        "imported_label": "Left distal hand support envelope",
+        "source_volume_mm3": 72198.24477098978,
+        "imported_volume_mm3": 72198.23218368011,
+        "relative_volume_delta": 1.7434370751528523e-07,
+        "source_bounds_mm": {
+          "x_mm": [
+            17.0,
+            79.0
+          ],
+          "y_mm": [
+            297.0,
+            333.0
+          ],
+          "z_mm": [
+            556.0,
+            648.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            17.0,
+            79.0
+          ],
+          "y_mm": [
+            297.0,
+            333.0
+          ],
+          "z_mm": [
+            556.0,
+            648.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightHipMount",
+        "source_label": "Right hip mounting plate envelope",
+        "imported_object": "Part__Feature011",
+        "imported_label": "Right hip mounting plate envelope",
+        "source_volume_mm3": 452088.0,
+        "imported_volume_mm3": 452088.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -47.0,
+            31.0
+          ],
+          "y_mm": [
+            -173.0,
+            -127.0
+          ],
+          "z_mm": [
+            697.0,
+            823.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -47.0,
+            31.0
+          ],
+          "y_mm": [
+            -173.0,
+            -127.0
+          ],
+          "z_mm": [
+            697.0,
+            823.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightShoulderMount",
+        "source_label": "Right shoulder mounting plate envelope",
+        "imported_object": "Part__Feature012",
+        "imported_label": "Right shoulder mounting plate envelope",
+        "source_volume_mm3": 443904.0,
+        "imported_volume_mm3": 443904.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -34.0,
+            34.0
+          ],
+          "y_mm": [
+            -269.0,
+            -221.0
+          ],
+          "z_mm": [
+            952.0,
+            1088.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -34.0,
+            34.0
+          ],
+          "y_mm": [
+            -269.0,
+            -221.0
+          ],
+          "z_mm": [
+            952.0,
+            1088.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightFemurRail",
+        "source_label": "Right femur link envelope",
+        "imported_object": "Part__Feature013",
+        "imported_label": "Right femur link envelope",
+        "source_volume_mm3": 603573.4822338592,
+        "imported_volume_mm3": 603573.4899834071,
+        "relative_volume_delta": 1.2839443846942985e-08,
+        "source_bounds_mm": {
+          "x_mm": [
+            -27.0,
+            27.0
+          ],
+          "y_mm": [
+            -187.0,
+            -123.0
+          ],
+          "z_mm": [
+            453.0,
+            787.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -27.0,
+            27.0
+          ],
+          "y_mm": [
+            -187.0,
+            -123.0
+          ],
+          "z_mm": [
+            453.0,
+            787.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightTibiaRail",
+        "source_label": "Right tibia link envelope",
+        "imported_object": "Part__Feature014",
+        "imported_label": "Right tibia link envelope",
+        "source_volume_mm3": 426784.4926784432,
+        "imported_volume_mm3": 426784.49283972784,
+        "relative_volume_delta": 3.779065120717464e-10,
+        "source_bounds_mm": {
+          "x_mm": [
+            -21.0,
+            21.0
+          ],
+          "y_mm": [
+            -186.0,
+            -137.0
+          ],
+          "z_mm": [
+            127.0,
+            496.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -21.0,
+            21.0
+          ],
+          "y_mm": [
+            -186.0,
+            -137.0
+          ],
+          "z_mm": [
+            127.0,
+            496.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightFootPlate",
+        "source_label": "Right load-bearing foot plate envelope",
+        "imported_object": "Part__Feature015",
+        "imported_label": "Right load-bearing foot plate envelope",
+        "source_volume_mm3": 1368000.0,
+        "imported_volume_mm3": 1368000.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -118.0,
+            262.0
+          ],
+          "y_mm": [
+            -230.0,
+            -80.0
+          ],
+          "z_mm": [
+            0.0,
+            24.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -118.0,
+            262.0
+          ],
+          "y_mm": [
+            -230.0,
+            -80.0
+          ],
+          "z_mm": [
+            0.0,
+            24.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightUpperArmRail",
+        "source_label": "Right upper arm rail envelope",
+        "imported_object": "Part__Feature016",
+        "imported_label": "Right upper arm rail envelope",
+        "source_volume_mm3": 281988.21386294154,
+        "imported_volume_mm3": 281988.27549394104,
+        "relative_volume_delta": 2.1855877822172025e-07,
+        "source_bounds_mm": {
+          "x_mm": [
+            -22.0,
+            38.0
+          ],
+          "y_mm": [
+            -308.0,
+            -223.0
+          ],
+          "z_mm": [
+            812.0,
+            1042.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -22.0,
+            38.0
+          ],
+          "y_mm": [
+            -308.0,
+            -223.0
+          ],
+          "z_mm": [
+            812.0,
+            1042.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightForearmRail",
+        "source_label": "Right forearm rail envelope",
+        "imported_object": "Part__Feature017",
+        "imported_label": "Right forearm rail envelope",
+        "source_volume_mm3": 181357.92030585223,
+        "imported_volume_mm3": 181357.93206675228,
+        "relative_volume_delta": 6.484911185120659e-08,
+        "source_bounds_mm": {
+          "x_mm": [
+            2.0,
+            49.0
+          ],
+          "y_mm": [
+            -329.0,
+            -272.0
+          ],
+          "z_mm": [
+            616.0,
+            848.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            2.0,
+            49.0
+          ],
+          "y_mm": [
+            -329.0,
+            -272.0
+          ],
+          "z_mm": [
+            616.0,
+            848.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightHandFrame",
+        "source_label": "Right distal hand support envelope",
+        "imported_object": "Part__Feature018",
+        "imported_label": "Right distal hand support envelope",
+        "source_volume_mm3": 72198.24477098978,
+        "imported_volume_mm3": 72198.23218368011,
+        "relative_volume_delta": 1.7434370751528523e-07,
+        "source_bounds_mm": {
+          "x_mm": [
+            17.0,
+            79.0
+          ],
+          "y_mm": [
+            -333.0,
+            -297.0
+          ],
+          "z_mm": [
+            556.0,
+            648.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            17.0,
+            79.0
+          ],
+          "y_mm": [
+            -333.0,
+            -297.0
+          ],
+          "z_mm": [
+            556.0,
+            648.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftHipActuator",
+        "source_label": "Left hip actuator clearance envelope",
+        "imported_object": "Part__Feature019",
+        "imported_label": "Left hip actuator clearance envelope",
+        "source_volume_mm3": 779311.327631118,
+        "imported_volume_mm3": 779311.327631118,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -52.5,
+            52.5
+          ],
+          "y_mm": [
+            105.0,
+            195.0
+          ],
+          "z_mm": [
+            707.5,
+            812.5
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -52.5,
+            52.5
+          ],
+          "y_mm": [
+            105.0,
+            195.0
+          ],
+          "z_mm": [
+            707.5,
+            812.5
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftHipBearing",
+        "source_label": "Left hip bearing / output pivot envelope",
+        "imported_object": "Part__Feature020",
+        "imported_label": "Left hip bearing / output pivot envelope",
+        "source_volume_mm3": 106446.30742142952,
+        "imported_volume_mm3": 106446.30742142948,
+        "relative_volume_delta": 4.1011986928080027e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -29.400000000000002,
+            29.400000000000002
+          ],
+          "y_mm": [
+            120.6,
+            179.4
+          ],
+          "z_mm": [
+            730.6,
+            789.4
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -29.4,
+            29.4
+          ],
+          "y_mm": [
+            120.6,
+            179.4
+          ],
+          "z_mm": [
+            730.6,
+            789.4
+          ]
+        },
+        "max_bbox_delta_mm": 3.552713678800501e-15
+      },
+      {
+        "source_object": "RightHipActuator",
+        "source_label": "Right hip actuator clearance envelope",
+        "imported_object": "Part__Feature021",
+        "imported_label": "Right hip actuator clearance envelope",
+        "source_volume_mm3": 779311.327631118,
+        "imported_volume_mm3": 779311.327631118,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -52.5,
+            52.5
+          ],
+          "y_mm": [
+            -195.0,
+            -105.0
+          ],
+          "z_mm": [
+            707.5,
+            812.5
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -52.5,
+            52.5
+          ],
+          "y_mm": [
+            -195.0,
+            -105.0
+          ],
+          "z_mm": [
+            707.5,
+            812.5
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightHipBearing",
+        "source_label": "Right hip bearing / output pivot envelope",
+        "imported_object": "Part__Feature022",
+        "imported_label": "Right hip bearing / output pivot envelope",
+        "source_volume_mm3": 106446.30742142952,
+        "imported_volume_mm3": 106446.30742142948,
+        "relative_volume_delta": 4.1011986928080027e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -29.400000000000002,
+            29.400000000000002
+          ],
+          "y_mm": [
+            -179.4,
+            -120.6
+          ],
+          "z_mm": [
+            730.6,
+            789.4
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -29.4,
+            29.4
+          ],
+          "y_mm": [
+            -179.4,
+            -120.6
+          ],
+          "z_mm": [
+            730.6,
+            789.4
+          ]
+        },
+        "max_bbox_delta_mm": 3.552713678800501e-15
+      },
+      {
+        "source_object": "LeftKneeActuator",
+        "source_label": "Left knee actuator clearance envelope",
+        "imported_object": "Part__Feature023",
+        "imported_label": "Left knee actuator clearance envelope",
+        "source_volume_mm3": 483491.1093874691,
+        "imported_volume_mm3": 483491.1093874691,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -45.0,
+            45.0
+          ],
+          "y_mm": [
+            127.0,
+            203.0
+          ],
+          "z_mm": [
+            430.0,
+            520.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -45.0,
+            45.0
+          ],
+          "y_mm": [
+            127.0,
+            203.0
+          ],
+          "z_mm": [
+            430.0,
+            520.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftKneeBearing",
+        "source_label": "Left knee bearing / output pivot envelope",
+        "imported_object": "Part__Feature024",
+        "imported_label": "Left knee bearing / output pivot envelope",
+        "source_volume_mm3": 67033.24315751827,
+        "imported_volume_mm3": 67033.24315751824,
+        "relative_volume_delta": 4.341701085287486e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -25.200000000000003,
+            25.200000000000003
+          ],
+          "y_mm": [
+            139.8,
+            190.2
+          ],
+          "z_mm": [
+            449.8,
+            500.2
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -25.2,
+            25.2
+          ],
+          "y_mm": [
+            139.8,
+            190.2
+          ],
+          "z_mm": [
+            449.8,
+            500.2
+          ]
+        },
+        "max_bbox_delta_mm": 3.552713678800501e-15
+      },
+      {
+        "source_object": "RightKneeActuator",
+        "source_label": "Right knee actuator clearance envelope",
+        "imported_object": "Part__Feature025",
+        "imported_label": "Right knee actuator clearance envelope",
+        "source_volume_mm3": 483491.1093874691,
+        "imported_volume_mm3": 483491.1093874691,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -45.0,
+            45.0
+          ],
+          "y_mm": [
+            -203.0,
+            -127.0
+          ],
+          "z_mm": [
+            430.0,
+            520.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -45.0,
+            45.0
+          ],
+          "y_mm": [
+            -203.0,
+            -127.0
+          ],
+          "z_mm": [
+            430.0,
+            520.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightKneeBearing",
+        "source_label": "Right knee bearing / output pivot envelope",
+        "imported_object": "Part__Feature026",
+        "imported_label": "Right knee bearing / output pivot envelope",
+        "source_volume_mm3": 67033.24315751827,
+        "imported_volume_mm3": 67033.24315751824,
+        "relative_volume_delta": 4.341701085287486e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -25.200000000000003,
+            25.200000000000003
+          ],
+          "y_mm": [
+            -190.2,
+            -139.8
+          ],
+          "z_mm": [
+            449.8,
+            500.2
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -25.2,
+            25.2
+          ],
+          "y_mm": [
+            -190.2,
+            -139.8
+          ],
+          "z_mm": [
+            449.8,
+            500.2
+          ]
+        },
+        "max_bbox_delta_mm": 3.552713678800501e-15
+      },
+      {
+        "source_object": "LeftAnkleActuator",
+        "source_label": "Left ankle actuator clearance envelope",
+        "imported_object": "Part__Feature027",
+        "imported_label": "Left ankle actuator clearance envelope",
+        "source_volume_mm3": 331752.1842190822,
+        "imported_volume_mm3": 331752.1842190822,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -40.0,
+            40.0
+          ],
+          "y_mm": [
+            122.0,
+            188.0
+          ],
+          "z_mm": [
+            105.0,
+            185.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -40.0,
+            40.0
+          ],
+          "y_mm": [
+            122.0,
+            188.0
+          ],
+          "z_mm": [
+            105.0,
+            185.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftAnkleBearing",
+        "source_label": "Left ankle bearing / output pivot envelope",
+        "imported_object": "Part__Feature028",
+        "imported_label": "Left ankle bearing / output pivot envelope",
+        "source_volume_mm3": 47079.58915864108,
+        "imported_volume_mm3": 47079.589158641065,
+        "relative_volume_delta": 3.090918057787674e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -22.400000000000002,
+            22.400000000000002
+          ],
+          "y_mm": [
+            132.6,
+            177.4
+          ],
+          "z_mm": [
+            122.6,
+            167.4
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -22.4,
+            22.4
+          ],
+          "y_mm": [
+            132.6,
+            177.4
+          ],
+          "z_mm": [
+            122.6,
+            167.4
+          ]
+        },
+        "max_bbox_delta_mm": 3.552713678800501e-15
+      },
+      {
+        "source_object": "RightAnkleActuator",
+        "source_label": "Right ankle actuator clearance envelope",
+        "imported_object": "Part__Feature029",
+        "imported_label": "Right ankle actuator clearance envelope",
+        "source_volume_mm3": 331752.1842190822,
+        "imported_volume_mm3": 331752.1842190822,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -40.0,
+            40.0
+          ],
+          "y_mm": [
+            -188.0,
+            -122.0
+          ],
+          "z_mm": [
+            105.0,
+            185.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -40.0,
+            40.0
+          ],
+          "y_mm": [
+            -188.0,
+            -122.0
+          ],
+          "z_mm": [
+            105.0,
+            185.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightAnkleBearing",
+        "source_label": "Right ankle bearing / output pivot envelope",
+        "imported_object": "Part__Feature030",
+        "imported_label": "Right ankle bearing / output pivot envelope",
+        "source_volume_mm3": 47079.58915864108,
+        "imported_volume_mm3": 47079.589158641065,
+        "relative_volume_delta": 3.090918057787674e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -22.400000000000002,
+            22.400000000000002
+          ],
+          "y_mm": [
+            -177.4,
+            -132.6
+          ],
+          "z_mm": [
+            122.6,
+            167.4
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -22.4,
+            22.4
+          ],
+          "y_mm": [
+            -177.4,
+            -132.6
+          ],
+          "z_mm": [
+            122.6,
+            167.4
+          ]
+        },
+        "max_bbox_delta_mm": 3.552713678800501e-15
+      },
+      {
+        "source_object": "LeftShoulderActuator",
+        "source_label": "Left shoulder actuator clearance envelope",
+        "imported_object": "Part__Feature031",
+        "imported_label": "Left shoulder actuator clearance envelope",
+        "source_volume_mm3": 612610.5674500095,
+        "imported_volume_mm3": 612610.5674500095,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -50.0,
+            50.0
+          ],
+          "y_mm": [
+            206.0,
+            284.0
+          ],
+          "z_mm": [
+            970.0,
+            1070.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -50.0,
+            50.0
+          ],
+          "y_mm": [
+            206.0,
+            284.0
+          ],
+          "z_mm": [
+            970.0,
+            1070.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftShoulderBearing",
+        "source_label": "Left shoulder bearing / output pivot envelope",
+        "imported_object": "Part__Feature032",
+        "imported_label": "Left shoulder bearing / output pivot envelope",
+        "source_volume_mm3": 91952.32257547085,
+        "imported_volume_mm3": 91952.32257547083,
+        "relative_volume_delta": 3.165100091174578e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -28.000000000000004,
+            28.000000000000004
+          ],
+          "y_mm": [
+            217.0,
+            273.0
+          ],
+          "z_mm": [
+            992.0,
+            1048.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -28.0,
+            28.0
+          ],
+          "y_mm": [
+            217.0,
+            273.0
+          ],
+          "z_mm": [
+            992.0,
+            1048.0
+          ]
+        },
+        "max_bbox_delta_mm": 3.552713678800501e-15
+      },
+      {
+        "source_object": "RightShoulderActuator",
+        "source_label": "Right shoulder actuator clearance envelope",
+        "imported_object": "Part__Feature033",
+        "imported_label": "Right shoulder actuator clearance envelope",
+        "source_volume_mm3": 612610.5674500095,
+        "imported_volume_mm3": 612610.5674500095,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -50.0,
+            50.0
+          ],
+          "y_mm": [
+            -284.0,
+            -206.0
+          ],
+          "z_mm": [
+            970.0,
+            1070.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -50.0,
+            50.0
+          ],
+          "y_mm": [
+            -284.0,
+            -206.0
+          ],
+          "z_mm": [
+            970.0,
+            1070.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightShoulderBearing",
+        "source_label": "Right shoulder bearing / output pivot envelope",
+        "imported_object": "Part__Feature034",
+        "imported_label": "Right shoulder bearing / output pivot envelope",
+        "source_volume_mm3": 91952.32257547087,
+        "imported_volume_mm3": 91952.32257547083,
+        "relative_volume_delta": 4.747650136761867e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -28.000000000000004,
+            28.000000000000004
+          ],
+          "y_mm": [
+            -273.0,
+            -217.0
+          ],
+          "z_mm": [
+            992.0,
+            1048.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -28.0,
+            28.0
+          ],
+          "y_mm": [
+            -273.0,
+            -217.0
+          ],
+          "z_mm": [
+            992.0,
+            1048.0
+          ]
+        },
+        "max_bbox_delta_mm": 3.552713678800501e-15
+      },
+      {
+        "source_object": "LeftElbowActuator",
+        "source_label": "Left elbow actuator clearance envelope",
+        "imported_object": "Part__Feature035",
+        "imported_label": "Left elbow actuator clearance envelope",
+        "source_volume_mm3": 272187.5875070197,
+        "imported_volume_mm3": 272187.5875070197,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -18.0,
+            58.0
+          ],
+          "y_mm": [
+            260.0,
+            320.0
+          ],
+          "z_mm": [
+            792.0,
+            868.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -18.0,
+            58.0
+          ],
+          "y_mm": [
+            260.0,
+            320.0
+          ],
+          "z_mm": [
+            792.0,
+            868.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftElbowBearing",
+        "source_label": "Left elbow bearing / output pivot envelope",
+        "imported_object": "Part__Feature036",
+        "imported_label": "Left elbow bearing / output pivot envelope",
+        "source_volume_mm3": 40364.862754889924,
+        "imported_volume_mm3": 40364.86275488991,
+        "relative_volume_delta": 3.6050946876077235e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -1.2800000000000011,
+            41.28
+          ],
+          "y_mm": [
+            268.72,
+            311.28
+          ],
+          "z_mm": [
+            808.72,
+            851.28
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -1.2800000000000011,
+            41.28
+          ],
+          "y_mm": [
+            268.72,
+            311.28
+          ],
+          "z_mm": [
+            808.72,
+            851.28
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightElbowActuator",
+        "source_label": "Right elbow actuator clearance envelope",
+        "imported_object": "Part__Feature037",
+        "imported_label": "Right elbow actuator clearance envelope",
+        "source_volume_mm3": 272187.5875070197,
+        "imported_volume_mm3": 272187.5875070197,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -18.0,
+            58.0
+          ],
+          "y_mm": [
+            -320.0,
+            -260.0
+          ],
+          "z_mm": [
+            792.0,
+            868.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -18.0,
+            58.0
+          ],
+          "y_mm": [
+            -320.0,
+            -260.0
+          ],
+          "z_mm": [
+            792.0,
+            868.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightElbowBearing",
+        "source_label": "Right elbow bearing / output pivot envelope",
+        "imported_object": "Part__Feature038",
+        "imported_label": "Right elbow bearing / output pivot envelope",
+        "source_volume_mm3": 40364.862754889924,
+        "imported_volume_mm3": 40364.86275488991,
+        "relative_volume_delta": 3.6050946876077235e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -1.2800000000000011,
+            41.28
+          ],
+          "y_mm": [
+            -311.28,
+            -268.72
+          ],
+          "z_mm": [
+            808.72,
+            851.28
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -1.2800000000000011,
+            41.28
+          ],
+          "y_mm": [
+            -311.28,
+            -268.72
+          ],
+          "z_mm": [
+            808.72,
+            851.28
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftWristActuator",
+        "source_label": "Left wrist actuator clearance envelope",
+        "imported_object": "Part__Feature039",
+        "imported_label": "Left wrist actuator clearance envelope",
+        "source_volume_mm3": 147026.53618800233,
+        "imported_volume_mm3": 147026.53618800233,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            5.0,
+            65.0
+          ],
+          "y_mm": [
+            289.0,
+            341.0
+          ],
+          "z_mm": [
+            600.0,
+            660.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            5.0,
+            65.0
+          ],
+          "y_mm": [
+            289.0,
+            341.0
+          ],
+          "z_mm": [
+            600.0,
+            660.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftWristBearing",
+        "source_label": "Left wrist bearing / output pivot envelope",
+        "imported_object": "Part__Feature040",
+        "imported_label": "Left wrist bearing / output pivot envelope",
+        "source_volume_mm3": 19861.70167630171,
+        "imported_volume_mm3": 19861.701676301705,
+        "relative_volume_delta": 1.8316551453556583e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            18.2,
+            51.8
+          ],
+          "y_mm": [
+            298.2,
+            331.8
+          ],
+          "z_mm": [
+            613.2,
+            646.8
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            18.2,
+            51.8
+          ],
+          "y_mm": [
+            298.2,
+            331.8
+          ],
+          "z_mm": [
+            613.2,
+            646.8
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightWristActuator",
+        "source_label": "Right wrist actuator clearance envelope",
+        "imported_object": "Part__Feature041",
+        "imported_label": "Right wrist actuator clearance envelope",
+        "source_volume_mm3": 147026.53618800233,
+        "imported_volume_mm3": 147026.53618800233,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            5.0,
+            65.0
+          ],
+          "y_mm": [
+            -341.0,
+            -289.0
+          ],
+          "z_mm": [
+            600.0,
+            660.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            5.0,
+            65.0
+          ],
+          "y_mm": [
+            -341.0,
+            -289.0
+          ],
+          "z_mm": [
+            600.0,
+            660.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightWristBearing",
+        "source_label": "Right wrist bearing / output pivot envelope",
+        "imported_object": "Part__Feature042",
+        "imported_label": "Right wrist bearing / output pivot envelope",
+        "source_volume_mm3": 19861.70167630171,
+        "imported_volume_mm3": 19861.701676301705,
+        "relative_volume_delta": 1.8316551453556583e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            18.2,
+            51.8
+          ],
+          "y_mm": [
+            -331.8,
+            -298.2
+          ],
+          "z_mm": [
+            613.2,
+            646.8
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            18.2,
+            51.8
+          ],
+          "y_mm": [
+            -331.8,
+            -298.2
+          ],
+          "z_mm": [
+            613.2,
+            646.8
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "WaistActuator",
+        "source_label": "Waist drive placeholder",
+        "imported_object": "Part__Feature043",
+        "imported_label": "Waist drive placeholder",
+        "source_volume_mm3": 817285.3288313847,
+        "imported_volume_mm3": 817285.3288313847,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -55.0,
+            55.0
+          ],
+          "y_mm": [
+            -55.0,
+            55.0
+          ],
+          "z_mm": [
+            832.0,
+            918.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -55.0,
+            55.0
+          ],
+          "y_mm": [
+            -55.0,
+            55.0
+          ],
+          "z_mm": [
+            832.0,
+            918.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "NeckActuator",
+        "source_label": "Neck drive placeholder",
+        "imported_object": "Part__Feature044",
+        "imported_label": "Neck drive placeholder",
+        "source_volume_mm3": 236147.23658503755,
+        "imported_volume_mm3": 236147.23658503755,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -36.0,
+            36.0
+          ],
+          "y_mm": [
+            -36.0,
+            36.0
+          ],
+          "z_mm": [
+            1101.0,
+            1159.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -36.0,
+            36.0
+          ],
+          "y_mm": [
+            -36.0,
+            36.0
+          ],
+          "z_mm": [
+            1101.0,
+            1159.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Head_Camera",
+        "source_label": "Head Camera envelope",
+        "imported_object": "Part__Feature045",
+        "imported_label": "Head Camera envelope",
+        "source_volume_mm3": 87552.0,
+        "imported_volume_mm3": 87552.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            141.0,
+            189.0
+          ],
+          "y_mm": [
+            -24.0,
+            24.0
+          ],
+          "z_mm": [
+            1231.0,
+            1269.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            141.0,
+            189.0
+          ],
+          "y_mm": [
+            -24.0,
+            24.0
+          ],
+          "z_mm": [
+            1231.0,
+            1269.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Head_Camera_Lens",
+        "source_label": "Head Camera Lens envelope",
+        "imported_object": "Part__Feature046",
+        "imported_label": "Head Camera Lens envelope",
+        "source_volume_mm3": 3078.7608005179923,
+        "imported_volume_mm3": 3078.7608005179923,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            198.0,
+            218.0
+          ],
+          "y_mm": [
+            -7.0,
+            7.0
+          ],
+          "z_mm": [
+            1243.0,
+            1257.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            198.0,
+            218.0
+          ],
+          "y_mm": [
+            -7.0,
+            7.0
+          ],
+          "z_mm": [
+            1243.0,
+            1257.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Head_Compute",
+        "source_label": "Head Compute envelope",
+        "imported_object": "Part__Feature047",
+        "imported_label": "Head Compute envelope",
+        "source_volume_mm3": 301760.0,
+        "imported_volume_mm3": 301760.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -71.0,
+            11.0
+          ],
+          "y_mm": [
+            -57.5,
+            57.5
+          ],
+          "z_mm": [
+            1214.0,
+            1246.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -71.0,
+            11.0
+          ],
+          "y_mm": [
+            -57.5,
+            57.5
+          ],
+          "z_mm": [
+            1214.0,
+            1246.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Torso_Imu",
+        "source_label": "Torso Imu envelope",
+        "imported_object": "Part__Feature048",
+        "imported_label": "Torso Imu envelope",
+        "source_volume_mm3": 31768.0,
+        "imported_volume_mm3": 31768.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -19.0,
+            19.0
+          ],
+          "y_mm": [
+            -19.0,
+            19.0
+          ],
+          "z_mm": [
+            949.0,
+            971.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -19.0,
+            19.0
+          ],
+          "y_mm": [
+            -19.0,
+            19.0
+          ],
+          "z_mm": [
+            949.0,
+            971.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Battery",
+        "source_label": "Battery envelope",
+        "imported_object": "Part__Feature049",
+        "imported_label": "Battery envelope",
+        "source_volume_mm3": 6688000.0,
+        "imported_volume_mm3": 6688000.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -130.0,
+            60.0
+          ],
+          "y_mm": [
+            -80.0,
+            80.0
+          ],
+          "z_mm": [
+            740.0,
+            960.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -130.0,
+            60.0
+          ],
+          "y_mm": [
+            -80.0,
+            80.0
+          ],
+          "z_mm": [
+            740.0,
+            960.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Body_Compute",
+        "source_label": "Body Compute envelope",
+        "imported_object": "Part__Feature050",
+        "imported_label": "Body Compute envelope",
+        "source_volume_mm3": 1155000.0,
+        "imported_volume_mm3": 1155000.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -105.0,
+            35.0
+          ],
+          "y_mm": [
+            -75.0,
+            75.0
+          ],
+          "z_mm": [
+            982.5,
+            1037.5
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -105.0,
+            35.0
+          ],
+          "y_mm": [
+            -75.0,
+            75.0
+          ],
+          "z_mm": [
+            982.5,
+            1037.5
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Eye_Camera_Left",
+        "source_label": "Eye Camera Left envelope",
+        "imported_object": "Part__Feature051",
+        "imported_label": "Eye Camera Left envelope",
+        "source_volume_mm3": 15680.0,
+        "imported_volume_mm3": 15680.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            181.0,
+            209.0
+          ],
+          "y_mm": [
+            18.0,
+            46.0
+          ],
+          "z_mm": [
+            1230.0,
+            1250.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            181.0,
+            209.0
+          ],
+          "y_mm": [
+            18.0,
+            46.0
+          ],
+          "z_mm": [
+            1230.0,
+            1250.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Eye_Camera_Right",
+        "source_label": "Eye Camera Right envelope",
+        "imported_object": "Part__Feature052",
+        "imported_label": "Eye Camera Right envelope",
+        "source_volume_mm3": 15680.0,
+        "imported_volume_mm3": 15680.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            181.0,
+            209.0
+          ],
+          "y_mm": [
+            -46.0,
+            -18.0
+          ],
+          "z_mm": [
+            1230.0,
+            1250.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            181.0,
+            209.0
+          ],
+          "y_mm": [
+            -46.0,
+            -18.0
+          ],
+          "z_mm": [
+            1230.0,
+            1250.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Side_Camera_Left",
+        "source_label": "Side Camera Left envelope",
+        "imported_object": "Part__Feature053",
+        "imported_label": "Side Camera Left envelope",
+        "source_volume_mm3": 15680.0,
+        "imported_volume_mm3": 15680.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            6.0,
+            34.0
+          ],
+          "y_mm": [
+            121.0,
+            149.0
+          ],
+          "z_mm": [
+            1150.0,
+            1170.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            6.0,
+            34.0
+          ],
+          "y_mm": [
+            121.0,
+            149.0
+          ],
+          "z_mm": [
+            1150.0,
+            1170.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Side_Camera_Right",
+        "source_label": "Side Camera Right envelope",
+        "imported_object": "Part__Feature054",
+        "imported_label": "Side Camera Right envelope",
+        "source_volume_mm3": 15680.0,
+        "imported_volume_mm3": 15680.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            6.0,
+            34.0
+          ],
+          "y_mm": [
+            -149.0,
+            -121.0
+          ],
+          "z_mm": [
+            1150.0,
+            1170.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            6.0,
+            34.0
+          ],
+          "y_mm": [
+            -149.0,
+            -121.0
+          ],
+          "z_mm": [
+            1150.0,
+            1170.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Rear_Camera",
+        "source_label": "Rear Camera envelope",
+        "imported_object": "Part__Feature055",
+        "imported_label": "Rear Camera envelope",
+        "source_volume_mm3": 15680.0,
+        "imported_volume_mm3": 15680.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -159.0,
+            -131.0
+          ],
+          "y_mm": [
+            -14.0,
+            14.0
+          ],
+          "z_mm": [
+            1150.0,
+            1170.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -159.0,
+            -131.0
+          ],
+          "y_mm": [
+            -14.0,
+            14.0
+          ],
+          "z_mm": [
+            1150.0,
+            1170.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Down_Camera",
+        "source_label": "Down Camera envelope",
+        "imported_object": "Part__Feature056",
+        "imported_label": "Down Camera envelope",
+        "source_volume_mm3": 15680.0,
+        "imported_volume_mm3": 15680.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -14.0,
+            14.0
+          ],
+          "y_mm": [
+            -14.0,
+            14.0
+          ],
+          "z_mm": [
+            750.0,
+            770.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -14.0,
+            14.0
+          ],
+          "y_mm": [
+            -14.0,
+            14.0
+          ],
+          "z_mm": [
+            750.0,
+            770.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Up_Camera",
+        "source_label": "Up Camera envelope",
+        "imported_object": "Part__Feature057",
+        "imported_label": "Up Camera envelope",
+        "source_volume_mm3": 15680.0,
+        "imported_volume_mm3": 15680.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -14.0,
+            14.0
+          ],
+          "y_mm": [
+            -14.0,
+            14.0
+          ],
+          "z_mm": [
+            1315.0,
+            1335.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -14.0,
+            14.0
+          ],
+          "y_mm": [
+            -14.0,
+            14.0
+          ],
+          "z_mm": [
+            1315.0,
+            1335.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Microphone_Front_Left",
+        "source_label": "Microphone Front Left envelope",
+        "imported_object": "Part__Feature058",
+        "imported_label": "Microphone Front Left envelope",
+        "source_volume_mm3": 499.9999999999999,
+        "imported_volume_mm3": 499.9999999999999,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            45.0,
+            55.0
+          ],
+          "y_mm": [
+            50.0,
+            60.0
+          ],
+          "z_mm": [
+            1297.5,
+            1302.5
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            45.0,
+            55.0
+          ],
+          "y_mm": [
+            50.0,
+            60.0
+          ],
+          "z_mm": [
+            1297.5,
+            1302.5
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Microphone_Front_Right",
+        "source_label": "Microphone Front Right envelope",
+        "imported_object": "Part__Feature059",
+        "imported_label": "Microphone Front Right envelope",
+        "source_volume_mm3": 499.9999999999999,
+        "imported_volume_mm3": 499.9999999999999,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            45.0,
+            55.0
+          ],
+          "y_mm": [
+            -60.0,
+            -50.0
+          ],
+          "z_mm": [
+            1297.5,
+            1302.5
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            45.0,
+            55.0
+          ],
+          "y_mm": [
+            -60.0,
+            -50.0
+          ],
+          "z_mm": [
+            1297.5,
+            1302.5
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Microphone_Rear_Left",
+        "source_label": "Microphone Rear Left envelope",
+        "imported_object": "Part__Feature060",
+        "imported_label": "Microphone Rear Left envelope",
+        "source_volume_mm3": 499.9999999999999,
+        "imported_volume_mm3": 499.9999999999999,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -80.0,
+            -70.0
+          ],
+          "y_mm": [
+            50.0,
+            60.0
+          ],
+          "z_mm": [
+            1287.5,
+            1292.5
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -80.0,
+            -70.0
+          ],
+          "y_mm": [
+            50.0,
+            60.0
+          ],
+          "z_mm": [
+            1287.5,
+            1292.5
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Microphone_Rear_Right",
+        "source_label": "Microphone Rear Right envelope",
+        "imported_object": "Part__Feature061",
+        "imported_label": "Microphone Rear Right envelope",
+        "source_volume_mm3": 499.9999999999999,
+        "imported_volume_mm3": 499.9999999999999,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            -80.0,
+            -70.0
+          ],
+          "y_mm": [
+            -60.0,
+            -50.0
+          ],
+          "z_mm": [
+            1287.5,
+            1292.5
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -80.0,
+            -70.0
+          ],
+          "y_mm": [
+            -60.0,
+            -50.0
+          ],
+          "z_mm": [
+            1287.5,
+            1292.5
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "Speaker",
+        "source_label": "Speaker envelope",
+        "imported_object": "Part__Feature062",
+        "imported_label": "Speaker envelope",
+        "source_volume_mm3": 107800.0,
+        "imported_volume_mm3": 107800.0,
+        "relative_volume_delta": 0.0,
+        "source_bounds_mm": {
+          "x_mm": [
+            122.5,
+            177.5
+          ],
+          "y_mm": [
+            -35.0,
+            35.0
+          ],
+          "z_mm": [
+            1106.0,
+            1134.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            122.5,
+            177.5
+          ],
+          "y_mm": [
+            -35.0,
+            35.0
+          ],
+          "z_mm": [
+            1106.0,
+            1134.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "HeadCowlFront",
+        "source_label": "Head cowl hollow prototype \u00b7 front panel",
+        "imported_object": "Part__Feature063",
+        "imported_label": "Head cowl hollow prototype \u00b7 front panel",
+        "source_volume_mm3": 543801.199469876,
+        "imported_volume_mm3": 543723.152884284,
+        "relative_volume_delta": 0.00014352043663761542,
+        "source_bounds_mm": {
+          "x_mm": [
+            35.0,
+            219.99732526594872
+          ],
+          "y_mm": [
+            -204.99320637879103,
+            204.99320637683792
+          ],
+          "z_mm": [
+            1090.0,
+            1350.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -57.5,
+            220.0
+          ],
+          "y_mm": [
+            -355.0704155516,
+            355.07041555162
+          ],
+          "z_mm": [
+            1090.0,
+            1350.0
+          ]
+        },
+        "max_bbox_delta_mm": 150.07720917478207
+      },
+      {
+        "source_object": "HeadCowlRear",
+        "source_label": "Head cowl hollow prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature064",
+        "imported_label": "Head cowl hollow prototype \u00b7 rear panel",
+        "source_volume_mm3": 547064.196346797,
+        "imported_volume_mm3": 546724.6395762991,
+        "relative_volume_delta": 0.0006206890759172985,
+        "source_bounds_mm": {
+          "x_mm": [
+            -149.99999999999997,
+            39.1652826121563
+          ],
+          "y_mm": [
+            -204.99320637879103,
+            204.99320637683792
+          ],
+          "z_mm": [
+            1090.0,
+            1350.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -335.0,
+            220.0
+          ],
+          "y_mm": [
+            -355.0704155516,
+            355.07041555162
+          ],
+          "z_mm": [
+            1090.0,
+            1350.0
+          ]
+        },
+        "max_bbox_delta_mm": 185.00000000000003
+      },
+      {
+        "source_object": "TorsoFairingFront",
+        "source_label": "Torso fairing hollow prototype \u00b7 front panel",
+        "imported_object": "Part__Feature065",
+        "imported_label": "Torso fairing hollow prototype \u00b7 front panel",
+        "source_volume_mm3": 713734.2176898532,
+        "imported_volume_mm3": 713631.4645234458,
+        "relative_volume_delta": 0.0001439655881147584,
+        "source_bounds_mm": {
+          "x_mm": [
+            -1.1327982892113017e-14,
+            184.99999999999997
+          ],
+          "y_mm": [
+            -254.9997918815825,
+            254.9996334308036
+          ],
+          "z_mm": [
+            775.0,
+            1085.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -185.0,
+            370.0
+          ],
+          "y_mm": [
+            -441.67295593,
+            441.67295593006
+          ],
+          "z_mm": [
+            775.0,
+            1085.0
+          ]
+        },
+        "max_bbox_delta_mm": 186.67332249925641
+      },
+      {
+        "source_object": "TorsoFairingRear",
+        "source_label": "Torso fairing hollow prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature066",
+        "imported_label": "Torso fairing hollow prototype \u00b7 rear panel",
+        "source_volume_mm3": 713734.2176898532,
+        "imported_volume_mm3": 713631.4645234458,
+        "relative_volume_delta": 0.0001439655881147584,
+        "source_bounds_mm": {
+          "x_mm": [
+            -184.99999999999997,
+            3.850971195048558
+          ],
+          "y_mm": [
+            -254.9997918815825,
+            254.9996334308036
+          ],
+          "z_mm": [
+            775.0,
+            1085.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -370.0,
+            185.0
+          ],
+          "y_mm": [
+            -441.67295593,
+            441.67295593006
+          ],
+          "z_mm": [
+            775.0,
+            1085.0
+          ]
+        },
+        "max_bbox_delta_mm": 186.67332249925641
+      },
+      {
+        "source_object": "PelvicGuardFront",
+        "source_label": "Pelvic guard hollow prototype \u00b7 front panel",
+        "imported_object": "Part__Feature067",
+        "imported_label": "Pelvic guard hollow prototype \u00b7 front panel",
+        "source_volume_mm3": 374953.1490581073,
+        "imported_volume_mm3": 374890.1378174294,
+        "relative_volume_delta": 0.00016805097073112747,
+        "source_bounds_mm": {
+          "x_mm": [
+            -9.491012693391987e-15,
+            154.99999999999997
+          ],
+          "y_mm": [
+            -184.9998434590175,
+            184.99985208130025
+          ],
+          "z_mm": [
+            675.0,
+            865.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -155.0,
+            310.0
+          ],
+          "y_mm": [
+            -320.4293994002,
+            320.42939940024
+          ],
+          "z_mm": [
+            675.0,
+            865.0
+          ]
+        },
+        "max_bbox_delta_mm": 155.00000000000003
+      },
+      {
+        "source_object": "PelvicGuardRear",
+        "source_label": "Pelvic guard hollow prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature068",
+        "imported_label": "Pelvic guard hollow prototype \u00b7 rear panel",
+        "source_volume_mm3": 374953.1490581073,
+        "imported_volume_mm3": 374890.1378174294,
+        "relative_volume_delta": 0.00016805097073112747,
+        "source_bounds_mm": {
+          "x_mm": [
+            -154.99999999999997,
+            4.105656481631188
+          ],
+          "y_mm": [
+            -184.9998434590175,
+            184.99985208130025
+          ],
+          "z_mm": [
+            675.0,
+            865.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -310.0,
+            155.0
+          ],
+          "y_mm": [
+            -320.4293994002,
+            320.42939940024
+          ],
+          "z_mm": [
+            675.0,
+            865.0
+          ]
+        },
+        "max_bbox_delta_mm": 155.00000000000003
+      },
+      {
+        "source_object": "LeftThighShellFront",
+        "source_label": "Left thigh shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature069",
+        "imported_label": "Left thigh shell prototype \u00b7 front panel",
+        "source_volume_mm3": 220751.1556559652,
+        "imported_volume_mm3": 220751.15565596218,
+        "relative_volume_delta": 1.3711359102543e-14,
+        "source_bounds_mm": {
+          "x_mm": [
+            -2.1553783664993418e-14,
+            87.92863183909813
+          ],
+          "y_mm": [
+            62.11994517176933,
+            242.89368496138627
+          ],
+          "z_mm": [
+            480.92890148285437,
+            776.593034224472
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -2.1553783665821778e-14,
+            88.0
+          ],
+          "y_mm": [
+            62.11994517176271,
+            242.89368496138633
+          ],
+          "z_mm": [
+            480.92890148284476,
+            776.5930342244745
+          ]
+        },
+        "max_bbox_delta_mm": 0.07136816090186926
+      },
+      {
+        "source_object": "LeftThighShellRear",
+        "source_label": "Left thigh shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature070",
+        "imported_label": "Left thigh shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 220751.1556559652,
+        "imported_volume_mm3": 220751.1556559517,
+        "relative_volume_delta": 6.117375599596108e-14,
+        "source_bounds_mm": {
+          "x_mm": [
+            -87.92863183909813,
+            2.1553783664993418e-14
+          ],
+          "y_mm": [
+            62.11994517176933,
+            242.89368496138627
+          ],
+          "z_mm": [
+            480.92890148285437,
+            776.593034224472
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -88.0,
+            2.1553783665821778e-14
+          ],
+          "y_mm": [
+            62.11994517176271,
+            242.89368496138633
+          ],
+          "z_mm": [
+            480.92890148284476,
+            776.5930342244745
+          ]
+        },
+        "max_bbox_delta_mm": 0.07136816090186926
+      },
+      {
+        "source_object": "LeftShankShellFront",
+        "source_label": "Left shank shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature071",
+        "imported_label": "Left shank shell prototype \u00b7 front panel",
+        "source_volume_mm3": 162443.22553652234,
+        "imported_volume_mm3": 162443.22553655773,
+        "relative_volume_delta": 2.1786231908717757e-13,
+        "source_bounds_mm": {
+          "x_mm": [
+            -1.6410267108574535e-14,
+            67.0
+          ],
+          "y_mm": [
+            98.03794572367258,
+            231.96205427632742
+          ],
+          "z_mm": [
+            168.25014984553545,
+            469.2546146220986
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -1.64102671099572e-14,
+            67.0
+          ],
+          "y_mm": [
+            98.03794572365696,
+            231.96205427632896
+          ],
+          "z_mm": [
+            168.2501498455294,
+            469.2546146220991
+          ]
+        },
+        "max_bbox_delta_mm": 1.5617729332007002e-11
+      },
+      {
+        "source_object": "LeftShankShellRear",
+        "source_label": "Left shank shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature072",
+        "imported_label": "Left shank shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 162443.22553652234,
+        "imported_volume_mm3": 162443.22553648672,
+        "relative_volume_delta": 2.1929562381801427e-13,
+        "source_bounds_mm": {
+          "x_mm": [
+            -67.0,
+            1.6410267108574535e-14
+          ],
+          "y_mm": [
+            98.03794572367258,
+            231.96205427632742
+          ],
+          "z_mm": [
+            168.25014984553545,
+            469.2546146220986
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -67.0,
+            1.64102671099572e-14
+          ],
+          "y_mm": [
+            98.03794572365696,
+            231.96205427632896
+          ],
+          "z_mm": [
+            168.2501498455294,
+            469.2546146220991
+          ]
+        },
+        "max_bbox_delta_mm": 1.5617729332007002e-11
+      },
+      {
+        "source_object": "LeftUpperArmShellFront",
+        "source_label": "Left upper arm shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature073",
+        "imported_label": "Left upper arm shell prototype \u00b7 front panel",
+        "source_volume_mm3": 96247.02271532547,
+        "imported_volume_mm3": 96247.0227111383,
+        "relative_volume_delta": 4.3504390781986785e-11,
+        "source_bounds_mm": {
+          "x_mm": [
+            -1.337140340565659e-14,
+            63.59476829552995
+          ],
+          "y_mm": [
+            182.7228616006394,
+            341.33178332189124
+          ],
+          "z_mm": [
+            815.9608502831242,
+            1034.7498485682697
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -20.00000000010531,
+            63.66688127742082
+          ],
+          "y_mm": [
+            182.72286160050896,
+            344.5083625087672
+          ],
+          "z_mm": [
+            815.9501212994569,
+            1034.7498485685373
+          ]
+        },
+        "max_bbox_delta_mm": 20.000000000105295
+      },
+      {
+        "source_object": "LeftUpperArmShellRear",
+        "source_label": "Left upper arm shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature074",
+        "imported_label": "Left upper arm shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 96247.02271532558,
+        "imported_volume_mm3": 96247.02271526586,
+        "relative_volume_delta": 6.204977402143378e-13,
+        "source_bounds_mm": {
+          "x_mm": [
+            -63.59476829552995,
+            1.337140340565659e-14
+          ],
+          "y_mm": [
+            182.7228616006394,
+            341.33178332189124
+          ],
+          "z_mm": [
+            815.9608502831242,
+            1034.7498485682697
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -63.66688127742082,
+            20.000000000105295
+          ],
+          "y_mm": [
+            182.72286160050896,
+            344.5083625087672
+          ],
+          "z_mm": [
+            815.9501212994569,
+            1034.7498485685373
+          ]
+        },
+        "max_bbox_delta_mm": 20.00000000010528
+      },
+      {
+        "source_object": "LeftForearmShellFront",
+        "source_label": "Left forearm shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature075",
+        "imported_label": "Left forearm shell prototype \u00b7 front panel",
+        "source_volume_mm3": 98719.6603376526,
+        "imported_volume_mm3": 98719.66033840191,
+        "relative_volume_delta": 7.590253211733074e-12,
+        "source_bounds_mm": {
+          "x_mm": [
+            34.99999999999999,
+            103.84542613665909
+          ],
+          "y_mm": [
+            236.45389995392395,
+            357.6679486986877
+          ],
+          "z_mm": [
+            623.8038408184924,
+            837.5404855114543
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            23.05555555552681,
+            103.85107984515828
+          ],
+          "y_mm": [
+            236.4146889817904,
+            357.66978469966534
+          ],
+          "z_mm": [
+            623.7972841262313,
+            837.5404855114604
+          ]
+        },
+        "max_bbox_delta_mm": 11.944444444473184
+      },
+      {
+        "source_object": "LeftForearmShellRear",
+        "source_label": "Left forearm shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature076",
+        "imported_label": "Left forearm shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 98719.6603376526,
+        "imported_volume_mm3": 98719.66033829196,
+        "relative_volume_delta": 6.476450033222721e-12,
+        "source_bounds_mm": {
+          "x_mm": [
+            -33.84542613665909,
+            35.00000000000001
+          ],
+          "y_mm": [
+            236.45389995392395,
+            357.6679486986877
+          ],
+          "z_mm": [
+            623.8038408184924,
+            837.5404855114543
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -33.85107984515828,
+            46.94444444447321
+          ],
+          "y_mm": [
+            236.4146889817904,
+            357.66978469966534
+          ],
+          "z_mm": [
+            623.7972841262313,
+            837.5404855114604
+          ]
+        },
+        "max_bbox_delta_mm": 11.944444444473206
+      },
+      {
+        "source_object": "LeftHandShellFront",
+        "source_label": "Left hand shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature077",
+        "imported_label": "Left hand shell prototype \u00b7 front panel",
+        "source_volume_mm3": 27264.64220403244,
+        "imported_volume_mm3": 27263.55669185186,
+        "relative_volume_delta": 3.981391622367518e-05,
+        "source_bounds_mm": {
+          "x_mm": [
+            65.0,
+            119.99999999999999
+          ],
+          "y_mm": [
+            277.01324125811954,
+            352.98675874187825
+          ],
+          "z_mm": [
+            542.0,
+            598.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            10.0,
+            175.0
+          ],
+          "y_mm": [
+            249.18206931238,
+            380.81793068761
+          ],
+          "z_mm": [
+            542.0,
+            598.0
+          ]
+        },
+        "max_bbox_delta_mm": 55.000000000000014
+      },
+      {
+        "source_object": "LeftHandShellRear",
+        "source_label": "Left hand shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature078",
+        "imported_label": "Left hand shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 27264.642204032454,
+        "imported_volume_mm3": 27263.556691849153,
+        "relative_volume_delta": 3.981391632348238e-05,
+        "source_bounds_mm": {
+          "x_mm": [
+            10.000000000000014,
+            67.65469033118467
+          ],
+          "y_mm": [
+            277.01324125811954,
+            352.98675874187825
+          ],
+          "z_mm": [
+            542.0,
+            598.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -45.0,
+            120.0
+          ],
+          "y_mm": [
+            249.18206931238,
+            380.81793068761
+          ],
+          "z_mm": [
+            542.0,
+            598.0
+          ]
+        },
+        "max_bbox_delta_mm": 55.000000000000014
+      },
+      {
+        "source_object": "LeftFootUpperShellFront",
+        "source_label": "Left foot upper shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature079",
+        "imported_label": "Left foot upper shell prototype \u00b7 front panel",
+        "source_volume_mm3": 182446.96609724336,
+        "imported_volume_mm3": 182423.4298426886,
+        "relative_volume_delta": 0.00012900326630923208,
+        "source_bounds_mm": {
+          "x_mm": [
+            71.99999999999999,
+            266.9999999999999
+          ],
+          "y_mm": [
+            70.03635203206636,
+            239.96364797327087
+          ],
+          "z_mm": [
+            24.0,
+            120.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -123.0,
+            462.0
+          ],
+          "y_mm": [
+            7.775681356645,
+            302.22431864335
+          ],
+          "z_mm": [
+            24.0,
+            120.0
+          ]
+        },
+        "max_bbox_delta_mm": 195.0000000000001
+      },
+      {
+        "source_object": "LeftFootUpperShellRear",
+        "source_label": "Left foot upper shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature080",
+        "imported_label": "Left foot upper shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 182446.96609724336,
+        "imported_volume_mm3": 182423.42984268605,
+        "relative_volume_delta": 0.0001290032663232698,
+        "source_bounds_mm": {
+          "x_mm": [
+            -122.99999999999989,
+            79.58326821400962
+          ],
+          "y_mm": [
+            70.03635203206636,
+            239.96364797327087
+          ],
+          "z_mm": [
+            24.0,
+            120.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -318.0,
+            267.0
+          ],
+          "y_mm": [
+            7.775681356645,
+            302.22431864335
+          ],
+          "z_mm": [
+            24.0,
+            120.0
+          ]
+        },
+        "max_bbox_delta_mm": 195.0000000000001
+      },
+      {
+        "source_object": "LeftShankBand1",
+        "source_label": "Left shank cover break 1",
+        "imported_object": "Part__Feature081",
+        "imported_label": "Left shank cover break 1",
+        "source_volume_mm3": 66350.43684381642,
+        "imported_volume_mm3": 66350.4368438164,
+        "relative_volume_delta": 4.3863811364560827e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            91.0,
+            219.0
+          ],
+          "z_mm": [
+            229.0,
+            251.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            91.0,
+            219.0
+          ],
+          "z_mm": [
+            229.0,
+            251.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftShankBand2",
+        "source_label": "Left shank cover break 2",
+        "imported_object": "Part__Feature082",
+        "imported_label": "Left shank cover break 2",
+        "source_volume_mm3": 66350.43684381642,
+        "imported_volume_mm3": 66350.4368438164,
+        "relative_volume_delta": 4.3863811364560827e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            91.0,
+            219.0
+          ],
+          "z_mm": [
+            311.0,
+            333.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            91.0,
+            219.0
+          ],
+          "z_mm": [
+            311.0,
+            333.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "LeftShankBand3",
+        "source_label": "Left shank cover break 3",
+        "imported_object": "Part__Feature083",
+        "imported_label": "Left shank cover break 3",
+        "source_volume_mm3": 66350.43684381642,
+        "imported_volume_mm3": 66350.4368438164,
+        "relative_volume_delta": 4.3863811364560827e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            91.0,
+            219.0
+          ],
+          "z_mm": [
+            393.0,
+            415.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            91.0,
+            219.0
+          ],
+          "z_mm": [
+            393.0,
+            415.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightThighShellFront",
+        "source_label": "Right thigh shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature084",
+        "imported_label": "Right thigh shell prototype \u00b7 front panel",
+        "source_volume_mm3": 220751.15565595822,
+        "imported_volume_mm3": 220751.15565596242,
+        "relative_volume_delta": 1.8984958757367832e-14,
+        "source_bounds_mm": {
+          "x_mm": [
+            -2.1553783664993418e-14,
+            87.92863183909813
+          ],
+          "y_mm": [
+            -242.89368496138627,
+            -62.11994517176933
+          ],
+          "z_mm": [
+            480.92890148285437,
+            776.593034224472
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -2.1553783665821778e-14,
+            88.0
+          ],
+          "y_mm": [
+            -242.89368496138627,
+            -62.11994517175998
+          ],
+          "z_mm": [
+            480.92890148284636,
+            776.5930342244743
+          ]
+        },
+        "max_bbox_delta_mm": 0.07136816090186926
+      },
+      {
+        "source_object": "RightThighShellRear",
+        "source_label": "Right thigh shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature085",
+        "imported_label": "Right thigh shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 220751.15565595822,
+        "imported_volume_mm3": 220751.1556559503,
+        "relative_volume_delta": 3.58604776528059e-14,
+        "source_bounds_mm": {
+          "x_mm": [
+            -87.92863183909813,
+            2.1553783664993418e-14
+          ],
+          "y_mm": [
+            -242.89368496138627,
+            -62.11994517176933
+          ],
+          "z_mm": [
+            480.92890148285437,
+            776.593034224472
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -88.0,
+            2.1553783665821778e-14
+          ],
+          "y_mm": [
+            -242.89368496138627,
+            -62.11994517175998
+          ],
+          "z_mm": [
+            480.92890148284636,
+            776.5930342244743
+          ]
+        },
+        "max_bbox_delta_mm": 0.07136816090186926
+      },
+      {
+        "source_object": "RightShankShellFront",
+        "source_label": "Right shank shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature086",
+        "imported_label": "Right shank shell prototype \u00b7 front panel",
+        "source_volume_mm3": 162443.22553652292,
+        "imported_volume_mm3": 162443.22553648613,
+        "relative_volume_delta": 2.2646214747219694e-13,
+        "source_bounds_mm": {
+          "x_mm": [
+            -1.6410267108574532e-14,
+            67.0
+          ],
+          "y_mm": [
+            -231.96205427632742,
+            -98.03794572367258
+          ],
+          "z_mm": [
+            168.25014984553545,
+            469.2546146220986
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -1.64102671099572e-14,
+            67.0
+          ],
+          "y_mm": [
+            -231.96205427632896,
+            -98.03794572366726
+          ],
+          "z_mm": [
+            168.25014984552215,
+            469.2546146220991
+          ]
+        },
+        "max_bbox_delta_mm": 1.3301360013429075e-11
+      },
+      {
+        "source_object": "RightShankShellRear",
+        "source_label": "Right shank shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature087",
+        "imported_label": "Right shank shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 162443.2255365227,
+        "imported_volume_mm3": 162443.22553658846,
+        "relative_volume_delta": 4.0490858646136537e-13,
+        "source_bounds_mm": {
+          "x_mm": [
+            -67.0,
+            1.6410267108574532e-14
+          ],
+          "y_mm": [
+            -231.96205427632742,
+            -98.03794572367258
+          ],
+          "z_mm": [
+            168.25014984553545,
+            469.2546146220986
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -67.0,
+            1.64102671099572e-14
+          ],
+          "y_mm": [
+            -231.96205427632896,
+            -98.03794572366726
+          ],
+          "z_mm": [
+            168.25014984552215,
+            469.2546146220991
+          ]
+        },
+        "max_bbox_delta_mm": 1.3301360013429075e-11
+      },
+      {
+        "source_object": "RightUpperArmShellFront",
+        "source_label": "Right upper arm shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature088",
+        "imported_label": "Right upper arm shell prototype \u00b7 front panel",
+        "source_volume_mm3": 96247.0227153207,
+        "imported_volume_mm3": 96247.02271518769,
+        "relative_volume_delta": 1.3819077352727425e-12,
+        "source_bounds_mm": {
+          "x_mm": [
+            -1.337140340565659e-14,
+            63.59476829552995
+          ],
+          "y_mm": [
+            -341.33178332189124,
+            -182.72286160063942
+          ],
+          "z_mm": [
+            815.9608502831242,
+            1034.7498485682697
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -20.0000000001109,
+            63.666881277421936
+          ],
+          "y_mm": [
+            -344.5083625087655,
+            -182.72286160050965
+          ],
+          "z_mm": [
+            815.9501212994654,
+            1034.7498485685517
+          ]
+        },
+        "max_bbox_delta_mm": 20.000000000110887
+      },
+      {
+        "source_object": "RightUpperArmShellRear",
+        "source_label": "Right upper arm shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature089",
+        "imported_label": "Right upper arm shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 96247.0227153207,
+        "imported_volume_mm3": 96247.02271120826,
+        "relative_volume_delta": 4.272786144628207e-11,
+        "source_bounds_mm": {
+          "x_mm": [
+            -63.59476829552995,
+            1.337140340565659e-14
+          ],
+          "y_mm": [
+            -341.33178332189124,
+            -182.72286160063942
+          ],
+          "z_mm": [
+            815.9608502831242,
+            1034.7498485682697
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -63.666881277421936,
+            20.000000000110887
+          ],
+          "y_mm": [
+            -344.5083625087655,
+            -182.72286160050965
+          ],
+          "z_mm": [
+            815.9501212994654,
+            1034.7498485685517
+          ]
+        },
+        "max_bbox_delta_mm": 20.000000000110873
+      },
+      {
+        "source_object": "RightForearmShellFront",
+        "source_label": "Right forearm shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature090",
+        "imported_label": "Right forearm shell prototype \u00b7 front panel",
+        "source_volume_mm3": 98719.66033765255,
+        "imported_volume_mm3": 98719.66033838753,
+        "relative_volume_delta": 7.445205259423101e-12,
+        "source_bounds_mm": {
+          "x_mm": [
+            34.999999999999964,
+            103.84542613665909
+          ],
+          "y_mm": [
+            -357.6679486986877,
+            -236.41699465746197
+          ],
+          "z_mm": [
+            623.8038408184924,
+            837.5404855114543
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            23.055555555512093,
+            103.85107984515828
+          ],
+          "y_mm": [
+            -357.669784699665,
+            -236.41468898178917
+          ],
+          "z_mm": [
+            623.7972841262365,
+            837.5404855114733
+          ]
+        },
+        "max_bbox_delta_mm": 11.944444444487871
+      },
+      {
+        "source_object": "RightForearmShellRear",
+        "source_label": "Right forearm shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature091",
+        "imported_label": "Right forearm shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 98719.66033765243,
+        "imported_volume_mm3": 98719.66033826518,
+        "relative_volume_delta": 6.206991032386718e-12,
+        "source_bounds_mm": {
+          "x_mm": [
+            -33.84542613665909,
+            35.000000000000036
+          ],
+          "y_mm": [
+            -357.6679486986877,
+            -236.41699465746197
+          ],
+          "z_mm": [
+            623.8038408184924,
+            837.5404855114543
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -33.85107984515828,
+            46.94444444448788
+          ],
+          "y_mm": [
+            -357.669784699665,
+            -236.41468898178917
+          ],
+          "z_mm": [
+            623.7972841262365,
+            837.5404855114732
+          ]
+        },
+        "max_bbox_delta_mm": 11.944444444487843
+      },
+      {
+        "source_object": "RightHandShellFront",
+        "source_label": "Right hand shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature092",
+        "imported_label": "Right hand shell prototype \u00b7 front panel",
+        "source_volume_mm3": 27264.642204026604,
+        "imported_volume_mm3": 27263.556692010898,
+        "relative_volume_delta": 3.9813910176540364e-05,
+        "source_bounds_mm": {
+          "x_mm": [
+            65.0,
+            119.99999999999999
+          ],
+          "y_mm": [
+            -352.9867587418811,
+            -277.0132412581207
+          ],
+          "z_mm": [
+            542.0,
+            598.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            10.0,
+            175.0
+          ],
+          "y_mm": [
+            -380.8179306876,
+            -249.1820693123
+          ],
+          "z_mm": [
+            542.0,
+            598.0
+          ]
+        },
+        "max_bbox_delta_mm": 55.000000000000014
+      },
+      {
+        "source_object": "RightHandShellRear",
+        "source_label": "Right hand shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature093",
+        "imported_label": "Right hand shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 27264.642204026604,
+        "imported_volume_mm3": 27263.556692012236,
+        "relative_volume_delta": 3.981391012743734e-05,
+        "source_bounds_mm": {
+          "x_mm": [
+            10.000000000000014,
+            67.65469033118465
+          ],
+          "y_mm": [
+            -352.9867587418811,
+            -277.0132412581207
+          ],
+          "z_mm": [
+            542.0,
+            598.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -45.0,
+            120.0
+          ],
+          "y_mm": [
+            -380.8179306876,
+            -249.1820693123
+          ],
+          "z_mm": [
+            542.0,
+            598.0
+          ]
+        },
+        "max_bbox_delta_mm": 55.000000000000014
+      },
+      {
+        "source_object": "RightFootUpperShellFront",
+        "source_label": "Right foot upper shell prototype \u00b7 front panel",
+        "imported_object": "Part__Feature094",
+        "imported_label": "Right foot upper shell prototype \u00b7 front panel",
+        "source_volume_mm3": 182446.96609733673,
+        "imported_volume_mm3": 182423.42984209862,
+        "relative_volume_delta": 0.00012900327005468156,
+        "source_bounds_mm": {
+          "x_mm": [
+            71.99999999999999,
+            266.9999999999999
+          ],
+          "y_mm": [
+            -239.96364796793523,
+            -70.03635202670087
+          ],
+          "z_mm": [
+            24.0,
+            120.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -123.0,
+            462.0
+          ],
+          "y_mm": [
+            -302.2243186433,
+            -7.775681356645
+          ],
+          "z_mm": [
+            24.0,
+            120.0
+          ]
+        },
+        "max_bbox_delta_mm": 195.0000000000001
+      },
+      {
+        "source_object": "RightFootUpperShellRear",
+        "source_label": "Right foot upper shell prototype \u00b7 rear panel",
+        "imported_object": "Part__Feature095",
+        "imported_label": "Right foot upper shell prototype \u00b7 rear panel",
+        "source_volume_mm3": 182446.96609733673,
+        "imported_volume_mm3": 182423.42984209233,
+        "relative_volume_delta": 0.00012900327008913775,
+        "source_bounds_mm": {
+          "x_mm": [
+            -122.99999999999989,
+            79.5832682139853
+          ],
+          "y_mm": [
+            -239.96364796793523,
+            -70.03635202670087
+          ],
+          "z_mm": [
+            24.0,
+            120.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -318.0,
+            267.0
+          ],
+          "y_mm": [
+            -302.2243186433,
+            -7.775681356645
+          ],
+          "z_mm": [
+            24.0,
+            120.0
+          ]
+        },
+        "max_bbox_delta_mm": 195.0000000000001
+      },
+      {
+        "source_object": "RightShankBand1",
+        "source_label": "Right shank cover break 1",
+        "imported_object": "Part__Feature096",
+        "imported_label": "Right shank cover break 1",
+        "source_volume_mm3": 66350.43684381642,
+        "imported_volume_mm3": 66350.4368438164,
+        "relative_volume_delta": 4.3863811364560827e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            -219.0,
+            -91.0
+          ],
+          "z_mm": [
+            229.0,
+            251.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            -219.0,
+            -91.0
+          ],
+          "z_mm": [
+            229.0,
+            251.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightShankBand2",
+        "source_label": "Right shank cover break 2",
+        "imported_object": "Part__Feature097",
+        "imported_label": "Right shank cover break 2",
+        "source_volume_mm3": 66350.43684381642,
+        "imported_volume_mm3": 66350.4368438164,
+        "relative_volume_delta": 4.3863811364560827e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            -219.0,
+            -91.0
+          ],
+          "z_mm": [
+            311.0,
+            333.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            -219.0,
+            -91.0
+          ],
+          "z_mm": [
+            311.0,
+            333.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      },
+      {
+        "source_object": "RightShankBand3",
+        "source_label": "Right shank cover break 3",
+        "imported_object": "Part__Feature098",
+        "imported_label": "Right shank cover break 3",
+        "source_volume_mm3": 66350.43684381642,
+        "imported_volume_mm3": 66350.4368438164,
+        "relative_volume_delta": 4.3863811364560827e-16,
+        "source_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            -219.0,
+            -91.0
+          ],
+          "z_mm": [
+            393.0,
+            415.0
+          ]
+        },
+        "imported_bounds_mm": {
+          "x_mm": [
+            -64.0,
+            64.0
+          ],
+          "y_mm": [
+            -219.0,
+            -91.0
+          ],
+          "z_mm": [
+            393.0,
+            415.0
+          ]
+        },
+        "max_bbox_delta_mm": 0.0
+      }
+    ],
+    "verified": false,
+    "acceptance_scope": "All imported BRep solids valid; feature count preserved; total absolute solid volume differs by at most 1e-4 relative; overall assembly bounds differ by at most 0.05 mm. Per-part BRep bounds are diagnostic only because trimmed supporting surfaces can report wider source boxes than the imported exact trims."
+  },
+  "all_concept_solids_valid": true,
+  "all_solid_bounds_within_global_mesh_bounds": true,
+  "previews": [],
+  "preview_status": "Not rendered in headless FreeCADCmd; native CAD and STEP exports are still generated."
+}

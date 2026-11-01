@@ -1,0 +1,941 @@
+{
+  "controller": "balance-v4-policy.zip",
+  "robot_config": "balance-v4-robot-config.json",
+  "robot_config_sha256": "2503a801376327034d75d1b54f5798d677df72668e323cf370a5ea629ff63286",
+  "mass_status": "PLACEHOLDER_DESIGN_ALLOCATION_NOT_AS_BUILT_OR_VENDOR_SOURCED",
+  "mass_cases_are_synthetic": true,
+  "mass_scales_tested": [
+    0.8,
+    1.0,
+    1.2
+  ],
+  "episodes": [
+    {
+      "controller_type": "neutral_hold",
+      "surface": "nominal",
+      "episode": 0,
+      "seed": 2000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000007,
+      "mass_distribution_cv": 1.7476275280629499,
+      "steps": 400,
+      "return": 1992.2063454198933,
+      "fell": false,
+      "min_upright": 0.9966782915448165,
+      "surface_parameters": {
+        "friction": 0.9,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "nominal",
+      "episode": 0,
+      "seed": 2000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000007,
+      "mass_distribution_cv": 1.7476275280629499,
+      "steps": 184,
+      "return": 782.0263693107511,
+      "fell": true,
+      "min_upright": 0.4117807482835696,
+      "surface_parameters": {
+        "friction": 0.9,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "nominal",
+      "episode": 0,
+      "seed": 3000,
+      "mass_scale": 1.0,
+      "mass_kg": 24.999999999999996,
+      "mass_distribution_cv": 1.7719470975696816,
+      "steps": 205,
+      "return": 926.1056367954309,
+      "fell": true,
+      "min_upright": 0.3342582627369516,
+      "surface_parameters": {
+        "friction": 0.9,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "nominal",
+      "episode": 0,
+      "seed": 3000,
+      "mass_scale": 1.0,
+      "mass_kg": 24.999999999999996,
+      "mass_distribution_cv": 1.7719470975696816,
+      "steps": 115,
+      "return": 483.4802187814274,
+      "fell": true,
+      "min_upright": 0.34962837548319886,
+      "surface_parameters": {
+        "friction": 0.9,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "nominal",
+      "episode": 0,
+      "seed": 4000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000004,
+      "mass_distribution_cv": 1.82115020529195,
+      "steps": 155,
+      "return": 698.7448283131595,
+      "fell": true,
+      "min_upright": 0.344409280652095,
+      "surface_parameters": {
+        "friction": 0.9,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "nominal",
+      "episode": 0,
+      "seed": 4000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000004,
+      "mass_distribution_cv": 1.82115020529195,
+      "steps": 101,
+      "return": 426.1694176107978,
+      "fell": true,
+      "min_upright": 0.3333872387169937,
+      "surface_parameters": {
+        "friction": 0.9,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "low_friction",
+      "episode": 0,
+      "seed": 12000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000004,
+      "mass_distribution_cv": 1.7205383611752156,
+      "steps": 400,
+      "return": 1991.046580015269,
+      "fell": false,
+      "min_upright": 0.9961278292726711,
+      "surface_parameters": {
+        "friction": 0.3,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "low_friction",
+      "episode": 0,
+      "seed": 12000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000004,
+      "mass_distribution_cv": 1.7205383611752156,
+      "steps": 196,
+      "return": 828.6573783898394,
+      "fell": true,
+      "min_upright": 0.31550005488208055,
+      "surface_parameters": {
+        "friction": 0.3,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "low_friction",
+      "episode": 0,
+      "seed": 13000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.000000000000004,
+      "mass_distribution_cv": 1.7677014665231559,
+      "steps": 219,
+      "return": 998.573995723179,
+      "fell": true,
+      "min_upright": 0.346645246314966,
+      "surface_parameters": {
+        "friction": 0.3,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "low_friction",
+      "episode": 0,
+      "seed": 13000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.000000000000004,
+      "mass_distribution_cv": 1.7677014665231559,
+      "steps": 115,
+      "return": 485.52738022444106,
+      "fell": true,
+      "min_upright": 0.34452519319650776,
+      "surface_parameters": {
+        "friction": 0.3,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "low_friction",
+      "episode": 0,
+      "seed": 14000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000004,
+      "mass_distribution_cv": 1.7422320363078352,
+      "steps": 154,
+      "return": 694.2327200884021,
+      "fell": true,
+      "min_upright": 0.3428952195940562,
+      "surface_parameters": {
+        "friction": 0.3,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "low_friction",
+      "episode": 0,
+      "seed": 14000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000004,
+      "mass_distribution_cv": 1.7422320363078352,
+      "steps": 102,
+      "return": 430.70046564160333,
+      "fell": true,
+      "min_upright": 0.333583858062976,
+      "surface_parameters": {
+        "friction": 0.3,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "medium_friction",
+      "episode": 0,
+      "seed": 22000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000004,
+      "mass_distribution_cv": 1.7909840555795316,
+      "steps": 400,
+      "return": 1985.3022064711301,
+      "fell": false,
+      "min_upright": 0.9930206459897148,
+      "surface_parameters": {
+        "friction": 0.55,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "medium_friction",
+      "episode": 0,
+      "seed": 22000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000004,
+      "mass_distribution_cv": 1.7909840555795316,
+      "steps": 152,
+      "return": 641.4808036107315,
+      "fell": true,
+      "min_upright": 0.343956168628743,
+      "surface_parameters": {
+        "friction": 0.55,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "medium_friction",
+      "episode": 0,
+      "seed": 23000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.000000000000004,
+      "mass_distribution_cv": 1.7340461725558245,
+      "steps": 209,
+      "return": 944.4215300289828,
+      "fell": true,
+      "min_upright": 0.3134046950112384,
+      "surface_parameters": {
+        "friction": 0.55,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "medium_friction",
+      "episode": 0,
+      "seed": 23000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.000000000000004,
+      "mass_distribution_cv": 1.7340461725558245,
+      "steps": 116,
+      "return": 487.39830131331587,
+      "fell": true,
+      "min_upright": 0.3213527536860151,
+      "surface_parameters": {
+        "friction": 0.55,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "medium_friction",
+      "episode": 0,
+      "seed": 24000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000004,
+      "mass_distribution_cv": 1.7888702732523851,
+      "steps": 154,
+      "return": 692.6805437023733,
+      "fell": true,
+      "min_upright": 0.33959981698937675,
+      "surface_parameters": {
+        "friction": 0.55,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "medium_friction",
+      "episode": 0,
+      "seed": 24000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000004,
+      "mass_distribution_cv": 1.7888702732523851,
+      "steps": 102,
+      "return": 429.29556045756283,
+      "fell": true,
+      "min_upright": 0.3306997214981761,
+      "surface_parameters": {
+        "friction": 0.55,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "forward_slope",
+      "episode": 0,
+      "seed": 32000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000004,
+      "mass_distribution_cv": 1.6981025400107816,
+      "steps": 92,
+      "return": 392.30590913493694,
+      "fell": true,
+      "min_upright": 0.37173003122011555,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 5,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "forward_slope",
+      "episode": 0,
+      "seed": 32000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000004,
+      "mass_distribution_cv": 1.6981025400107816,
+      "steps": 79,
+      "return": 324.12900486719235,
+      "fell": true,
+      "min_upright": 0.31371619132283074,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 5,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "forward_slope",
+      "episode": 0,
+      "seed": 33000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.000000000000004,
+      "mass_distribution_cv": 1.799215694141952,
+      "steps": 76,
+      "return": 319.11979688615617,
+      "fell": true,
+      "min_upright": 0.3494715277663714,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 5,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "forward_slope",
+      "episode": 0,
+      "seed": 33000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.000000000000004,
+      "mass_distribution_cv": 1.799215694141952,
+      "steps": 70,
+      "return": 284.25309196235173,
+      "fell": true,
+      "min_upright": 0.30909202224216453,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 5,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "forward_slope",
+      "episode": 0,
+      "seed": 34000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000007,
+      "mass_distribution_cv": 1.819678876735851,
+      "steps": 68,
+      "return": 282.5275728305517,
+      "fell": true,
+      "min_upright": 0.31833921601198784,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 5,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "forward_slope",
+      "episode": 0,
+      "seed": 34000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000007,
+      "mass_distribution_cv": 1.819678876735851,
+      "steps": 64,
+      "return": 258.8469651693066,
+      "fell": true,
+      "min_upright": 0.31807848356417334,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 5,
+        "slope_y_deg": 0,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "lateral_slope",
+      "episode": 0,
+      "seed": 42000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000007,
+      "mass_distribution_cv": 1.7762751592376758,
+      "steps": 400,
+      "return": 1990.1788569637467,
+      "fell": false,
+      "min_upright": 0.9964046977882022,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 0,
+        "slope_y_deg": 5,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "lateral_slope",
+      "episode": 0,
+      "seed": 42000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.000000000000007,
+      "mass_distribution_cv": 1.7762751592376758,
+      "steps": 167,
+      "return": 711.2242155555982,
+      "fell": true,
+      "min_upright": 0.3272966084111246,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 0,
+        "slope_y_deg": 5,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "lateral_slope",
+      "episode": 0,
+      "seed": 43000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.0,
+      "mass_distribution_cv": 1.7294208539166647,
+      "steps": 196,
+      "return": 881.4812331344119,
+      "fell": true,
+      "min_upright": 0.32072796886741967,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 0,
+        "slope_y_deg": 5,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "lateral_slope",
+      "episode": 0,
+      "seed": 43000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.0,
+      "mass_distribution_cv": 1.7294208539166647,
+      "steps": 110,
+      "return": 461.3929051465233,
+      "fell": true,
+      "min_upright": 0.34912218534953987,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 0,
+        "slope_y_deg": 5,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "lateral_slope",
+      "episode": 0,
+      "seed": 44000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000007,
+      "mass_distribution_cv": 1.688975269462778,
+      "steps": 166,
+      "return": 748.5568076082101,
+      "fell": true,
+      "min_upright": 0.3202266508309746,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 0,
+        "slope_y_deg": 5,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "lateral_slope",
+      "episode": 0,
+      "seed": 44000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.000000000000007,
+      "mass_distribution_cv": 1.688975269462778,
+      "steps": 106,
+      "return": 442.4254872842342,
+      "fell": true,
+      "min_upright": 0.3208773432832773,
+      "surface_parameters": {
+        "friction": 0.8,
+        "slope_x_deg": 0,
+        "slope_y_deg": 5,
+        "compliance_m": 0.004
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "compliant_pad",
+      "episode": 0,
+      "seed": 52000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.0,
+      "mass_distribution_cv": 1.7846625913237892,
+      "steps": 400,
+      "return": 1985.0473196935989,
+      "fell": false,
+      "min_upright": 0.9932157241254954,
+      "surface_parameters": {
+        "friction": 0.7,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.04
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "compliant_pad",
+      "episode": 0,
+      "seed": 52000,
+      "mass_scale": 0.8,
+      "mass_kg": 20.0,
+      "mass_distribution_cv": 1.7846625913237892,
+      "steps": 139,
+      "return": 589.2908826800933,
+      "fell": true,
+      "min_upright": 0.42956797533836155,
+      "surface_parameters": {
+        "friction": 0.7,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.04
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "compliant_pad",
+      "episode": 0,
+      "seed": 53000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.000000000000007,
+      "mass_distribution_cv": 1.7712309385666027,
+      "steps": 205,
+      "return": 925.3305636301271,
+      "fell": true,
+      "min_upright": 0.31204306214424354,
+      "surface_parameters": {
+        "friction": 0.7,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.04
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "compliant_pad",
+      "episode": 0,
+      "seed": 53000,
+      "mass_scale": 1.0,
+      "mass_kg": 25.000000000000007,
+      "mass_distribution_cv": 1.7712309385666027,
+      "steps": 114,
+      "return": 478.8366912927328,
+      "fell": true,
+      "min_upright": 0.34135565027454134,
+      "surface_parameters": {
+        "friction": 0.7,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.04
+      }
+    },
+    {
+      "controller_type": "neutral_hold",
+      "surface": "compliant_pad",
+      "episode": 0,
+      "seed": 54000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.0,
+      "mass_distribution_cv": 1.7972559349084356,
+      "steps": 164,
+      "return": 745.4558798744304,
+      "fell": true,
+      "min_upright": 0.34431106336663114,
+      "surface_parameters": {
+        "friction": 0.7,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.04
+      }
+    },
+    {
+      "controller_type": "ppo",
+      "surface": "compliant_pad",
+      "episode": 0,
+      "seed": 54000,
+      "mass_scale": 1.2,
+      "mass_kg": 30.0,
+      "mass_distribution_cv": 1.7972559349084356,
+      "steps": 103,
+      "return": 436.4247292821362,
+      "fell": true,
+      "min_upright": 0.3183227661683045,
+      "surface_parameters": {
+        "friction": 0.7,
+        "slope_x_deg": 0,
+        "slope_y_deg": 0,
+        "compliance_m": 0.04
+      }
+    }
+  ],
+  "per_surface": {
+    "nominal": {
+      "0.8": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 1.0,
+          "mean_survival_seconds": 8.0
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.68
+        }
+      },
+      "1.0": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 4.1
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.3000000000000003
+        }
+      },
+      "1.2": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.1
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.02
+        }
+      }
+    },
+    "low_friction": {
+      "0.8": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 1.0,
+          "mean_survival_seconds": 8.0
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.92
+        }
+      },
+      "1.0": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 4.38
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.3000000000000003
+        }
+      },
+      "1.2": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.08
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.04
+        }
+      }
+    },
+    "medium_friction": {
+      "0.8": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 1.0,
+          "mean_survival_seconds": 8.0
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.04
+        }
+      },
+      "1.0": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 4.18
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.32
+        }
+      },
+      "1.2": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.08
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.04
+        }
+      }
+    },
+    "forward_slope": {
+      "0.8": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 1.84
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 1.58
+        }
+      },
+      "1.0": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 1.52
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 1.4000000000000001
+        }
+      },
+      "1.2": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 1.36
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 1.28
+        }
+      }
+    },
+    "lateral_slope": {
+      "0.8": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 1.0,
+          "mean_survival_seconds": 8.0
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.34
+        }
+      },
+      "1.0": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.92
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.2
+        }
+      },
+      "1.2": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.3200000000000003
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.12
+        }
+      }
+    },
+    "compliant_pad": {
+      "0.8": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 1.0,
+          "mean_survival_seconds": 8.0
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.7800000000000002
+        }
+      },
+      "1.0": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 4.1
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.2800000000000002
+        }
+      },
+      "1.2": {
+        "neutral_hold": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 3.2800000000000002
+        },
+        "ppo": {
+          "episodes": 1,
+          "no_fall_fraction": 0.0,
+          "mean_survival_seconds": 2.06
+        }
+      }
+    }
+  },
+  "controller_summary": {
+    "neutral_hold": {
+      "episodes": 18,
+      "no_fall_fraction": 0.2777777777777778,
+      "mean_survival_seconds": 4.514444444444445
+    },
+    "ppo": {
+      "episodes": 18,
+      "no_fall_fraction": 0.0,
+      "mean_survival_seconds": 2.3722222222222222
+    }
+  },
+  "video": null
+}

@@ -1,0 +1,855 @@
+"""Build the JSON-driven FreeCAD body envelope assembly for HITMONLEE-BODY-LAYOUT-02.
+
+Rerun after editing design/cad/body-layout-v2.json. The v2 arms hang beside the torso in neutral pose; v1 is preserved as a reference. All solids are explicitly
+labelled provisional envelopes. The sourced mesh is a visual reference, not a
+manufacturing shell.
+"""
+import hashlib
+import json
+import math
+import os
+import traceback
+
+import FreeCAD as App
+import FreeCADGui as Gui
+import Import
+import Mesh
+import MeshPart
+import Part
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+CONFIG_PATH = os.path.join(ROOT, "design", "cad", "body-layout-v2.json")
+REFERENCE_OBJ = os.path.join(ROOT, "assets", "reference_models", "pokemon-3d-api", "hitmonlee_1350mm_robot_frame.obj")
+OUTPUT_DIR = os.path.join(ROOT, "design", "cad", "body-v2")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+ERROR_PATH = os.path.join(OUTPUT_DIR, "build_error.txt")
+if os.path.isfile(ERROR_PATH):
+    os.remove(ERROR_PATH)
+
+COLORS = {
+    "structure": (0.18, 0.31, 0.39),
+    "actuator": (0.82, 0.30, 0.14),
+    "bearing": (0.55, 0.59, 0.62),
+    "electronics": (0.10, 0.49, 0.58),
+    "shell": (0.88, 0.70, 0.48),
+    "shell_light": (0.94, 0.81, 0.63),
+    "shell_dark": (0.32, 0.07, 0.10),
+    "sole": (0.13, 0.13, 0.15),
+    "reference": (0.84, 0.69, 0.52),
+    "eyes": (0.10, 0.07, 0.06),
+}
+CURRENT_CONFIG = None
+GUI_AVAILABLE = False
+
+
+def v(x, y, z):
+    return App.Vector(float(x), float(y), float(z))
+
+
+def box(center, size):
+    c, s = v(*center), v(*size)
+    return Part.makeBox(s.x, s.y, s.z, v(c.x - s.x / 2, c.y - s.y / 2, c.z - s.z / 2))
+
+
+def ellipsoid(center, radii):
+    matrix = App.Matrix()
+    matrix.A11, matrix.A22, matrix.A33 = float(radii[0]), float(radii[1]), float(radii[2])
+    shape = Part.makeSphere(1.0).transformGeometry(matrix)
+    shape.translate(v(*center))
+    return shape
+
+
+def capsule(start, end, radius_start, radius_end=None):
+    p0, p1 = v(*start), v(*end)
+    delta = p1.sub(p0)
+    length = delta.Length
+    if length <= 1e-6:
+        return Part.makeSphere(float(radius_start), p0)
+    r0 = float(radius_start)
+    r1 = float(radius_end if radius_end is not None else radius_start)
+    # Keep tapered OCC primitives in a canonical axis direction. Mirrored
+    # negative-Y cones looked valid in memory but failed the STEP round-trip.
+    components = (delta.x, delta.y, delta.z)
+    dominant = max(range(3), key=lambda index: abs(components[index]))
+    if components[dominant] < 0:
+        p0, p1 = p1, p0
+        r0, r1 = r1, r0
+        delta = p1.sub(p0)
+    direction = v(delta.x / length, delta.y / length, delta.z / length)
+    middle = (Part.makeCylinder(r0, length, p0, direction) if abs(r0 - r1) < 1e-6
+              else Part.makeCone(r0, r1, length, p0, direction))
+    return middle.fuse(Part.makeSphere(r0, p0)).fuse(Part.makeSphere(r1, p1)).removeSplitter()
+
+
+def tapered_link(start, end, radius_start, radius_end):
+    """Flat-ended frustum envelope used where a fused cap is STEP-fragile."""
+    p0, p1 = v(*start), v(*end)
+    delta = p1.sub(p0)
+    length = delta.Length
+    if length <= 1e-6:
+        return Part.makeSphere(float(max(radius_start, radius_end)), p0)
+    components = (delta.x, delta.y, delta.z)
+    dominant = max(range(3), key=lambda index: abs(components[index]))
+    r0, r1 = float(radius_start), float(radius_end)
+    if components[dominant] < 0:
+        p0, p1 = p1, p0
+        r0, r1 = r1, r0
+        delta = p1.sub(p0)
+    direction = v(delta.x / length, delta.y / length, delta.z / length)
+    if abs(r0 - r1) < 1e-6:
+        return Part.makeCylinder(r0, length, p0, direction)
+    return Part.makeCone(r0, r1, length, p0, direction)
+
+
+def hollow_ellipsoid(center, radii, wall_inset):
+    """Ellipsoid shell with an axis-radius inset; split into panels separately."""
+    inset = float(wall_inset)
+    inner_radii = [float(radius) - inset for radius in radii]
+    if min(inner_radii) <= 0:
+        raise ValueError("Shell wall inset must be smaller than every ellipsoid radius")
+    shell = ellipsoid(center, radii).cut(ellipsoid(center, inner_radii)).removeSplitter()
+    if shell.isNull() or not shell.isValid():
+        raise ValueError("Invalid hollow ellipsoid shell at %r" % (center,))
+    return shell
+
+
+def hollow_capsule(start, end, radius_start, radius_end, wall_inset):
+    """Hollow tapered guard sleeve with a nominal constant radial wall inset."""
+    inset = float(wall_inset)
+    r0, r1 = float(radius_start), float(radius_end)
+    if min(r0, r1) <= inset:
+        raise ValueError("Shell wall inset must be smaller than capsule radii")
+    outer = tapered_link(start, end, r0, r1)
+    inner = tapered_link(start, end, r0 - inset, r1 - inset)
+    if outer.isNull() or inner.isNull() or not outer.isValid() or not inner.isValid():
+        raise ValueError("Invalid outer/inner tapered shell sleeve from %r to %r" % (start, end))
+    shell = outer.cut(inner).removeSplitter()
+    if shell.isNull() or not shell.isValid():
+        raise ValueError("Invalid hollow capsule shell from %r to %r" % (start, end))
+    return shell
+
+
+def split_shape_x(shape, split_x, mirror_front=False):
+    """Divide a shell on a robot sagittal plane into front and rear panels."""
+    bb = shape.BoundBox
+    pad = max(bb.XLength, bb.YLength, bb.ZLength, 10.0) + 5.0
+    y0, z0 = bb.YMin - pad, bb.ZMin - pad
+    ysize, zsize = bb.YLength + 2 * pad, bb.ZLength + 2 * pad
+    rear_cutter = Part.makeBox(max(0.1, split_x - bb.XMin + pad), ysize, zsize,
+                               v(bb.XMin - pad, y0, z0))
+    front_cutter = Part.makeBox(max(0.1, bb.XMax - split_x + pad), ysize, zsize,
+                                v(split_x, y0, z0))
+    # Complementary cuts avoid STEP round-trip failures that OCC produced for
+    # the positive-side common() result at a zero-centered ellipsoid seam.
+    rear_panel = shape.cut(front_cutter).removeSplitter()
+    if mirror_front:
+        front_panel = rear_panel.mirror(v(split_x, 0, 0), v(1, 0, 0)).removeSplitter()
+        if front_panel.Volume < 0:
+            front_panel.reverse()
+        panels = [front_panel, rear_panel]
+    else:
+        panels = [shape.cut(rear_cutter).removeSplitter(), rear_panel]
+    if any(panel.isNull() or not panel.isValid() for panel in panels):
+        raise ValueError("Invalid front/rear split shell at x=%s" % split_x)
+    return panels
+
+
+def add_split_shell(doc, group, parts, base_name, label, shape, split_x, color,
+                    note, source_parameter, mirror_front=False):
+    panels = split_shape_x(shape, split_x, mirror_front)
+    for suffix, panel in zip(("Front", "Rear"), panels):
+        obj = add_shape(doc, group, base_name + suffix, label + " · " + suffix.lower() + " panel",
+                        panel, color, "HOLLOW_SPLIT_SHELL_PROTOTYPE", note, 42, source_parameter)
+        parts.append(obj)
+
+
+def cylinder_axis(center, diameter, length, axis):
+    c = v(*center)
+    a = v(*axis)
+    norm = a.Length
+    if norm <= 1e-9:
+        raise ValueError("Cylinder axis must be non-zero")
+    direction = v(a.x / norm, a.y / norm, a.z / norm)
+    start = c.sub(direction.multiply(float(length) / 2))
+    return Part.makeCylinder(float(diameter) / 2, float(length), start, direction)
+
+
+def annular_z(center, outer_diameter, inner_diameter, width):
+    c = v(*center)
+    z0 = c.z - float(width) / 2
+    outer = Part.makeCylinder(float(outer_diameter) / 2, float(width), v(c.x, c.y, z0), v(0, 0, 1))
+    inner = Part.makeCylinder(float(inner_diameter) / 2, float(width) + 2, v(c.x, c.y, z0 - 1), v(0, 0, 1))
+    return outer.cut(inner)
+
+
+def make_group(doc, parent, name, label):
+    group = doc.addObject("App::DocumentObjectGroup", name)
+    group.Label = label
+    if parent is not None:
+        parent.addObject(group)
+    return group
+
+
+def resolve_config_path(config, dotted_path):
+    """Resolve and serialize a configuration value for native CAD provenance."""
+    current = config
+    for token in dotted_path.split("."):
+        if not isinstance(current, dict) or token not in current:
+            raise KeyError("Unresolvable source parameter path: " + dotted_path)
+        current = current[token]
+    return current
+
+
+def add_shape(doc, parent, name, label, shape, color, role, note, transparency=0, source_parameter=""):
+    obj = doc.addObject("Part::Feature", name)
+    obj.Label = label
+    obj.Shape = shape
+    parent.addObject(obj)
+    obj.addProperty("App::PropertyString", "DesignRole", "Evidence", "Functional category in the concept assembly")
+    obj.DesignRole = role
+    obj.addProperty("App::PropertyString", "Fidelity", "Evidence", "Evidence class for this geometry")
+    obj.Fidelity = "PROVISIONAL_PACKAGING_ENVELOPE"
+    obj.addProperty("App::PropertyString", "DesignNote", "Evidence", "What this geometry does and does not establish")
+    obj.DesignNote = note
+    obj.addProperty("App::PropertyString", "SourceParameter", "Evidence", "Input configuration key or derivation")
+    obj.SourceParameter = source_parameter
+    if source_parameter:
+        source_paths = [path.strip() for path in source_parameter.split(";")]
+        source_values = {path: resolve_config_path(CURRENT_CONFIG, path) for path in source_paths}
+        source_value = (source_values[source_paths[0]] if len(source_paths) == 1 else source_values)
+        obj.addProperty("App::PropertyString", "SourceConfigurationValue", "Evidence", "JSON value resolved from the parameter file")
+        obj.SourceConfigurationValue = json.dumps(source_value, sort_keys=True, separators=(",", ":"))
+    view = getattr(obj, "ViewObject", None)
+    if view is not None:
+        view.ShapeColor = color
+        view.LineColor = (0.12, 0.13, 0.14)
+        view.DisplayMode = "Flat Lines"
+        view.Transparency = int(transparency)
+    return obj
+
+
+def add_link(doc, group, name, label, start, end, r0, r1, role="STRUCTURE_ENVELOPE", note="Concept frame envelope; section shape, material and attachment are not designed.", source_parameter=""):
+    return add_shape(doc, group, name, label, capsule(start, end, r0, r1), COLORS["structure"], role, note, source_parameter=source_parameter)
+
+
+def add_motor(doc, group, name, label, center, spec, color=None, axis=(0, 1, 0), note=None):
+    component_key = name.replace("Left", "").replace("Right", "").replace("Actuator", "").lower()
+    obj = add_shape(doc, group, name, label,
+                    cylinder_axis(center, spec["diameter_mm"], spec["axial_length_mm"], axis),
+                    color or COLORS["actuator"], "ACTUATOR_CLEARANCE_PLACEHOLDER",
+                    note or "Envelope only; no motor, gearbox, brake, bearings, mounting, wiring, torque, speed or thermal data selected.",
+                    source_parameter="actuator_envelopes." + component_key)
+    obj.addProperty("App::PropertyVector", "NominalAxis", "Envelope", "Provisional unit axis for packaging visualization")
+    obj.NominalAxis = v(*axis)
+    obj.addProperty("App::PropertyVector", "NominalCenter", "Envelope", "Provisional joint center in robot frame")
+    obj.NominalCenter = v(*center)
+    return obj
+
+
+def bbox_dict(box_):
+    return {"x_mm": [float(box_.XMin), float(box_.XMax)],
+            "y_mm": [float(box_.YMin), float(box_.YMax)],
+            "z_mm": [float(box_.ZMin), float(box_.ZMax)]}
+
+
+def sha256(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def set_group_visibility(group, visible):
+    view = getattr(group, "ViewObject", None)
+    if view is not None:
+        view.Visibility = visible
+    for child in group.Group:
+        child_view = getattr(child, "ViewObject", None)
+        if child_view is not None:
+            child_view.Visibility = visible
+
+
+def main():
+    global CURRENT_CONFIG, GUI_AVAILABLE
+    with open(CONFIG_PATH, "r", encoding="utf-8") as stream:
+        cfg = json.load(stream)
+    CURRENT_CONFIG = cfg
+    if cfg.get("design_id") != "HITMONLEE-BODY-LAYOUT-02":
+        raise ValueError("Unexpected design_id in v2 configuration")
+    if not os.path.isfile(REFERENCE_OBJ):
+        raise FileNotFoundError("Create the transformed appearance OBJ first: " + REFERENCE_OBJ)
+
+    f = cfg["frames_mm"]
+    structure_cfg, motors, electronics_cfg, shell_cfg = (
+        cfg["structure"], cfg["actuator_envelopes"], cfg["electronics"], cfg["shells"])
+    arm_anchors = cfg["arm_anchors_robot_mm"]
+    def mirror_arm(point, sign):
+        return (float(point[0]), float(point[1]) * sign, float(point[2]))
+    arm_points = {name: {"left": mirror_arm(point, 1), "right": mirror_arm(point, -1)}
+                  for name, point in arm_anchors.items() if name != "coordinate_note"}
+    mass_budget = cfg["mass_budget"]
+    budget_components = mass_budget["components"]
+    budget_total = sum(float(item["mass_kg"]) for item in budget_components)
+    if abs(budget_total - float(mass_budget["nominal_total_kg"])) > 1e-6:
+        raise ValueError("Mass budget entries do not sum to the declared nominal total")
+    budget_com = [sum(float(item["mass_kg"]) * float(item["center_of_mass_robot_mm"][axis])
+                      for item in budget_components) / budget_total for axis in range(3)]
+    if max(abs(budget_com[i] - float(mass_budget["nominal_com_robot_mm"][i])) for i in range(3)) > 0.2:
+        raise ValueError("Declared nominal center of mass does not match the component ledger")
+    doc = App.newDocument("HitmonleeBodyLayout02")
+    try:
+        GUI_AVAILABLE = Gui.activeDocument() is not None
+    except Exception:
+        GUI_AVAILABLE = False
+    doc.Label = "Hitmonlee body layout 02 · 3D mechanics and sensor fit study"
+    root = make_group(doc, None, "HitmonleeBodyAssembly", "HITMONLEE · BODY ASSEMBLY · LAYOUT 02")
+    reference_group = make_group(doc, root, "AppearanceReference", "00 · Sourced appearance mesh · normalized fit reference")
+    structure_group = make_group(doc, root, "StructuralEnvelopes", "01 · Structural frame and feet · provisional")
+    actuator_group = make_group(doc, root, "JointActuatorEnvelopes", "02 · Joint and actuator clearance volumes · placeholders")
+    sensor_group = make_group(doc, root, "SensorPowerEnvelopes", "03 · Sensor, compute and battery envelopes · placeholders")
+    shell_group = make_group(doc, root, "ExteriorShellEnvelopes", "04 · Removable shell proxies · visual envelopes")
+    kinematic_group = make_group(doc, root, "KinematicReferenceFrames", "05 · Provisional 28-joint study chain · limits unvalidated")
+    parts = []
+
+    # Import the source appearance mesh after transforming its documented face/up axes.
+    old_objects = set(obj.Name for obj in doc.Objects)
+    Mesh.insert(REFERENCE_OBJ, doc.Name)
+    mesh_objects = [obj for obj in doc.Objects if obj.Name not in old_objects and hasattr(obj, "Mesh")]
+    if len(mesh_objects) != 2:
+        raise RuntimeError("Expected two imported source meshes (body and eyes); got %d" % len(mesh_objects))
+    for index, obj in enumerate(mesh_objects):
+        obj.Label = "Source Hitmonlee body surface · reference only" if index == 0 else "Source Hitmonlee eye surface · reference only"
+        reference_group.addObject(obj)
+        obj.addProperty("App::PropertyString", "SourceAsset", "Provenance", "Original model asset")
+        obj.SourceAsset = cfg["appearance_reference"]["source_asset"]
+        obj.addProperty("App::PropertyString", "SourceCommit", "Provenance", "Pinned upstream commit")
+        obj.SourceCommit = cfg["appearance_reference"]["source_commit"]
+        obj.addProperty("App::PropertyString", "UseLimit", "Provenance", "Allowed interpretation in this engineering study")
+        obj.UseLimit = "Silhouette and appearance reference; source scale is unknown and mesh is not manufacturing geometry."
+        view = getattr(obj, "ViewObject", None)
+        if view is not None:
+            view.ShapeColor = COLORS["reference"] if index == 0 else COLORS["eyes"]
+            view.LineColor = (0.25, 0.19, 0.13)
+            view.DisplayMode = "Shaded"
+            view.Transparency = 68 if index == 0 else 5
+
+    h = cfg["appearance_reference"]["normalized_height_mm"]
+    hip_z, knee_z, ankle_z = f["hip_z"], f["knee_z"], f["ankle_z"]
+    pelvis_z, shoulder_z = f["pelvis_center_z"], f["shoulder_z"]
+    elbow_z, wrist_z = f["elbow_z"], f["wrist_z"]
+    hip_y, knee_y, ankle_y = f["hip_y"], f["knee_y"], f["ankle_y"]
+    shoulder_y, elbow_y, wrist_y, palm_y = f["shoulder_y"], f["elbow_y"], f["wrist_y"], f["palm_y"]
+    structure_note = "Concept member envelope informed by the normalized source silhouette. No section, material, fastener or load rating is established."
+
+    # Central frame, crossmembers and side plates.
+    parts.append(add_link(doc, structure_group, "SpinalFrame", "Spinal frame / cable corridor", (0, 0, pelvis_z), (0, 0, shoulder_z), structure_cfg["spine"]["radius_bottom_mm"], structure_cfg["spine"]["radius_top_mm"], note=structure_note, source_parameter="structure.spine"))
+    parts.append(add_shape(doc, structure_group, "PelvisCrossbar", "Pelvis cross-member envelope",
+                           cylinder_axis((0, 0, pelvis_z), structure_cfg["pelvis_crossbar"]["radius_mm"] * 2, structure_cfg["pelvis_crossbar"]["y_span_mm"], (0, 1, 0)), COLORS["structure"], "STRUCTURE_ENVELOPE", structure_note, source_parameter="structure.pelvis_crossbar"))
+    parts.append(add_shape(doc, structure_group, "ShoulderCrossbar", "Shoulder cross-member envelope",
+                           cylinder_axis((0, 0, shoulder_z), structure_cfg["shoulder_crossbar"]["radius_mm"] * 2, structure_cfg["shoulder_crossbar"]["y_span_mm"], (0, 1, 0)), COLORS["structure"], "STRUCTURE_ENVELOPE", structure_note, source_parameter="structure.shoulder_crossbar"))
+    for side, sign in (("Left", 1), ("Right", -1)):
+        parts.append(add_shape(doc, structure_group, side + "HipMount", side + " hip mounting plate envelope",
+                               box((structure_cfg["hip_mount_center_x_mm"], sign * hip_y, hip_z), structure_cfg["hip_mount_size_mm"]), COLORS["structure"], "STRUCTURE_ENVELOPE", structure_note, source_parameter="structure.hip_mount_size_mm"))
+        arm_side = "left" if sign > 0 else "right"
+        shoulder_point = arm_points["shoulder"][arm_side]
+        elbow_point = arm_points["elbow"][arm_side]
+        wrist_point = arm_points["wrist"][arm_side]
+        palm_point = arm_points["palm"][arm_side]
+        parts.append(add_shape(doc, structure_group, side + "ShoulderMount", side + " shoulder mounting plate envelope",
+                               box(shoulder_point, structure_cfg["shoulder_mount_size_mm"]), COLORS["structure"], "STRUCTURE_ENVELOPE", structure_note, source_parameter="structure.shoulder_mount_size_mm"))
+        parts.append(add_link(doc, structure_group, side + "FemurRail", side + " femur link envelope",
+                              (0, sign * hip_y, hip_z), (0, sign * knee_y, knee_z),
+                              structure_cfg["femur_rail"]["radius_hip_mm"], structure_cfg["femur_rail"]["radius_knee_mm"], note=structure_note, source_parameter="structure.femur_rail"))
+        parts.append(add_link(doc, structure_group, side + "TibiaRail", side + " tibia link envelope",
+                              (0, sign * knee_y, knee_z), (0, sign * ankle_y, ankle_z),
+                              structure_cfg["tibia_rail"]["radius_knee_mm"], structure_cfg["tibia_rail"]["radius_ankle_mm"], note=structure_note, source_parameter="structure.tibia_rail"))
+        foot = structure_cfg["foot_plate_mm"]
+        parts.append(add_shape(doc, structure_group, side + "FootPlate", side + " load-bearing foot plate envelope",
+                               box((foot["center_x"], sign * ankle_y, foot["center_z"]), (foot["length_x"], foot["width_y"], foot["thickness_z"])),
+                               COLORS["structure"], "FOOT_STRUCTURE_ENVELOPE",
+                               "Sole plate volume only; contact polygon, compliance, friction, impact loads and ankle attachment are unverified.", source_parameter="structure.foot_plate_mm"))
+        parts.append(add_link(doc, structure_group, side + "UpperArmRail", side + " upper arm rail envelope",
+                              shoulder_point, elbow_point,
+                              structure_cfg["upper_arm_rail"]["radius_shoulder_mm"], structure_cfg["upper_arm_rail"]["radius_elbow_mm"], note=structure_note, source_parameter="structure.upper_arm_rail"))
+        parts.append(add_link(doc, structure_group, side + "ForearmRail", side + " forearm rail envelope",
+                              elbow_point, wrist_point,
+                              structure_cfg["forearm_rail"]["radius_elbow_mm"], structure_cfg["forearm_rail"]["radius_wrist_mm"], note=structure_note, source_parameter="structure.forearm_rail"))
+        parts.append(add_link(doc, structure_group, side + "HandFrame", side + " distal hand support envelope",
+                              wrist_point, palm_point, structure_cfg["hand_frame"]["radius_wrist_mm"], structure_cfg["hand_frame"]["radius_palm_mm"], note=structure_note, source_parameter="structure.hand_frame"))
+
+    # Joint actuator mockups: axis and volume are exposed as editable parameters, not kinematics.
+    joint_centers = {
+        "hip": [(0, hip_y, hip_z), (0, -hip_y, hip_z)],
+        "knee": [(0, knee_y, knee_z), (0, -knee_y, knee_z)],
+        "ankle": [(0, ankle_y, ankle_z), (0, -ankle_y, ankle_z)],
+        "shoulder": [arm_points["shoulder"]["left"], arm_points["shoulder"]["right"]],
+        "elbow": [arm_points["elbow"]["left"], arm_points["elbow"]["right"]],
+        "wrist": [arm_points["wrist"]["left"], arm_points["wrist"]["right"]],
+    }
+    for joint, centers in joint_centers.items():
+        for side, center in zip(("Left", "Right"), centers):
+            parts.append(add_motor(doc, actuator_group, side + joint.title() + "Actuator", side + " " + joint + " actuator clearance envelope", center, motors[joint]))
+            spec = motors[joint]
+            pivot = Part.makeSphere(spec["diameter_mm"] * 0.28, v(*center))
+            parts.append(add_shape(doc, actuator_group, side + joint.title() + "Bearing", side + " " + joint + " bearing / output pivot envelope", pivot, COLORS["bearing"], "JOINT_CLEARANCE_PLACEHOLDER", "Bearing and output flange are not selected; sphere marks the nominal pivot only.", source_parameter="actuator_envelopes." + joint))
+    parts.append(add_motor(doc, actuator_group, "WaistActuator", "Waist drive placeholder", (0, 0, f["waist_z"]), motors["waist"], axis=(0, 0, 1), note="Single envelope only; waist axis count, transmission and travel are unspecified."))
+    parts.append(add_motor(doc, actuator_group, "NeckActuator", "Neck drive placeholder", (0, 0, f["head_center_z"] - 90), motors["neck"], axis=(0, 0, 1), note="Single envelope only; neck axis count, transmission and travel are unspecified."))
+
+    # Explicit provisional kinematic axes expose the current study chain in CAD.
+    # They do not claim supplier limits or a selected actuator stack design.
+    axis_specs = cfg["kinematic_reference"]
+    joint_reference_records = []
+    for joint in axis_specs["joints"]:
+        axis = v(*joint["axis_robot"])
+        if abs(axis.Length - 1.0) > 1e-6:
+            raise ValueError("Joint axis must be unit length: " + joint["name"])
+        lower, upper = joint["range_deg"]
+        if lower >= upper:
+            raise ValueError("Joint range must have lower < upper: " + joint["name"])
+        center = joint["origin_mm"]
+        center_vec = v(*center)
+        half_length = float(motors[joint["module"]]["axial_length_mm"]) / 2.0 + 18.0
+        offset = v(axis.x * half_length, axis.y * half_length, axis.z * half_length)
+        mark = Part.makeCompound([Part.makeLine(center_vec.sub(offset), center_vec.add(offset)), Part.makeSphere(7.0, center_vec)])
+        ref = doc.addObject("Part::Feature", "Axis_" + joint["name"])
+        ref.Label = joint["name"].replace("_", " ") + " · provisional axis"
+        ref.Shape = mark
+        kinematic_group.addObject(ref)
+        ref.addProperty("App::PropertyString", "JointName", "Kinematics", "Named joint module candidate")
+        ref.JointName = joint["name"]
+        ref.addProperty("App::PropertyString", "ParentLink", "Kinematics", "Parent rigid-body link name")
+        ref.ParentLink = joint["parent_link"]
+        ref.addProperty("App::PropertyString", "ChildLink", "Kinematics", "Child rigid-body link name")
+        ref.ChildLink = joint["child_link"]
+        ref.addProperty("App::PropertyString", "JointType", "Kinematics", "Joint type in provisional chain")
+        ref.JointType = "revolute"
+        ref.addProperty("App::PropertyVector", "NominalCenter", "Kinematics", "Candidate joint origin in robot coordinates")
+        ref.NominalCenter = center_vec
+        ref.addProperty("App::PropertyVector", "NominalAxis", "Kinematics", "Candidate principal axis in robot coordinates")
+        ref.NominalAxis = axis
+        ref.addProperty("App::PropertyString", "RangeDegrees", "Kinematics", "Motion range, if specified")
+        ref.RangeDegrees = json.dumps(joint["range_deg"])
+        ref.addProperty("App::PropertyString", "EvidenceState", "Kinematics", "Authority of this frame")
+        ref.EvidenceState = axis_specs["status"]
+        view = getattr(ref, "ViewObject", None)
+        if view is not None:
+            view.LineColor = (0.96, 0.83, 0.12)
+            view.ShapeColor = (0.96, 0.83, 0.12)
+            view.PointColor = (0.96, 0.83, 0.12)
+            view.LineWidth = 3.0
+        joint_reference_records.append({
+            "joint": ref.JointName, "parent_link": ref.ParentLink, "child_link": ref.ChildLink,
+            "center_mm": list(center), "axis_robot": list(axis), "range_deg": list(joint["range_deg"]),
+            "module": joint["module"], "evidence": axis_specs["status"]})
+
+    # Sensors, compute and power volumes. Each is named and traceable to JSON input.
+    for key, spec in electronics_cfg.items():
+        role = "SENSOR_PLACEHOLDER" if "camera" in key or "imu" in key else "POWER_COMPUTE_PLACEHOLDER"
+        note = spec["role"] + ". Shape is a rectangular clearance volume, not a selected board or enclosure."
+        if key == "head_camera_lens":
+            sensor_shape = cylinder_axis(spec["center_mm"], spec["diameter_mm"], spec["length_mm"], spec["axis"])
+        else:
+            sensor_shape = box(spec["center_mm"], spec["size_mm"])
+        parts.append(add_shape(doc, sensor_group, key.title().replace("_", " "), key.replace("_", " ").title() + " envelope",
+                               sensor_shape, COLORS["electronics"], role, note, 25, "electronics." + key))
+
+    # Hollow, split shell bodies are still fit-study prototypes. The shell wall
+    # and split make printing/assembly discussions concrete without pretending
+    # that interfaces, minimum wall, tolerance or fasteners are released.
+    wall = float(shell_cfg["wall_inset_mm"])
+    shell_note = ("Hollow split-panel prototype with nominal axis-radius wall inset of %.1f mm. "
+                  "No minimum-wall analysis, attachment bosses, fastener interfaces, material, fit, "
+                  "print orientation or supplier tolerance has been verified." % wall)
+    head_center = (shell_cfg["head_center_x_mm"], 0, f["head_center_z"])
+    head_shape = hollow_ellipsoid(head_center, shell_cfg["head_radii_mm"], wall)
+    camera_cfg = electronics_cfg["head_camera"]
+    lens_aperture = cylinder_axis((head_center[0] + shell_cfg["head_radii_mm"][0] - 5.0,
+                                   camera_cfg["center_mm"][1], camera_cfg["center_mm"][2]),
+                                  shell_cfg["head_lens_aperture_diameter_mm"], 100.0, (1, 0, 0))
+    head_shape = head_shape.cut(lens_aperture).removeSplitter()
+    if head_shape.isNull() or not head_shape.isValid():
+        raise ValueError("Head shell with camera aperture is invalid")
+    add_split_shell(doc, shell_group, parts, "HeadCowl", "Head cowl hollow prototype", head_shape,
+                    head_center[0], COLORS["shell"], shell_note + " Forward camera port is a clearance cut.",
+                    "shells.head_radii_mm; shells.wall_inset_mm; shells.head_lens_aperture_diameter_mm")
+    torso_center = (0, 0, 930)
+    add_split_shell(doc, shell_group, parts, "TorsoFairing", "Torso fairing hollow prototype",
+                    hollow_ellipsoid(torso_center, shell_cfg["torso_radii_mm"], wall), torso_center[0],
+                    COLORS["shell"], shell_note,
+                    "shells.torso_radii_mm; shells.wall_inset_mm", mirror_front=True)
+    pelvis_center = (0, 0, pelvis_z)
+    add_split_shell(doc, shell_group, parts, "PelvicGuard", "Pelvic guard hollow prototype",
+                    hollow_ellipsoid(pelvis_center, shell_cfg["pelvis_radii_mm"], wall), pelvis_center[0],
+                    COLORS["shell_dark"], shell_note,
+                    "shells.pelvis_radii_mm; shells.wall_inset_mm", mirror_front=True)
+    for side, sign in (("Left", 1), ("Right", -1)):
+        add_split_shell(doc, shell_group, parts, side + "ThighShell", side + " thigh shell prototype",
+                        hollow_capsule((0, sign * hip_y, hip_z + 12), (0, sign * knee_y, knee_z + 10),
+                                       *shell_cfg["thigh_radii_mm"], wall), 0,
+                        COLORS["shell"], shell_note, "shells.thigh_radii_mm; shells.wall_inset_mm", mirror_front=True)
+        add_split_shell(doc, shell_group, parts, side + "ShankShell", side + " shank shell prototype",
+                        hollow_capsule((0, sign * knee_y, knee_z - 8), (0, sign * ankle_y, ankle_z + 25),
+                                       *shell_cfg["shank_radii_mm"], wall), 0,
+                        COLORS["shell_light"], shell_note, "shells.shank_radii_mm; shells.wall_inset_mm", mirror_front=True)
+        arm_side = "left" if sign > 0 else "right"
+        shoulder_point = arm_points["shoulder"][arm_side]
+        elbow_point = arm_points["elbow"][arm_side]
+        wrist_point = arm_points["wrist"][arm_side]
+        hand_center = arm_points["palm"][arm_side]
+        add_split_shell(doc, shell_group, parts, side + "UpperArmShell", side + " upper arm shell prototype",
+                        hollow_capsule(shoulder_point, elbow_point,
+                                       *shell_cfg["upper_arm_radii_mm"], wall), shoulder_point[0],
+                        COLORS["shell"], shell_note, "shells.upper_arm_radii_mm; shells.wall_inset_mm", mirror_front=True)
+        add_split_shell(doc, shell_group, parts, side + "ForearmShell", side + " forearm shell prototype",
+                        hollow_capsule(elbow_point, wrist_point,
+                                       *shell_cfg["forearm_radii_mm"], wall), wrist_point[0],
+                        COLORS["shell_light"], shell_note, "shells.forearm_radii_mm; shells.wall_inset_mm", mirror_front=True)
+        add_split_shell(doc, shell_group, parts, side + "HandShell", side + " hand shell prototype",
+                        hollow_ellipsoid(hand_center, shell_cfg["hand_radii_mm"], wall), hand_center[0],
+                        COLORS["shell"], shell_note, "shells.hand_radii_mm; shells.wall_inset_mm", mirror_front=True)
+        foot = structure_cfg["foot_plate_mm"]
+        foot_center = (foot["center_x"], sign * ankle_y, 72)
+        add_split_shell(doc, shell_group, parts, side + "FootUpperShell", side + " foot upper shell prototype",
+                        hollow_ellipsoid(foot_center, shell_cfg["foot_radii_mm"], wall), foot_center[0],
+                        COLORS["shell_light"], shell_note, "shells.foot_radii_mm; shells.wall_inset_mm", mirror_front=True)
+        for index in range(shell_cfg["shank_band_count"]):
+            z = ankle_z + 95 + index * 82
+            ring = annular_z((0, sign * ankle_y, z), 128, 112, shell_cfg["shank_band_width_mm"])
+            parts.append(add_shape(doc, shell_group, side + "ShankBand" + str(index + 1), side + " shank cover break " + str(index + 1),
+                                   ring, COLORS["shell_dark"], "FLEXIBLE_COVER_VISUAL_PLACEHOLDER", "Visual band only; no gaiter flex, telescoping action or shell interface is designed.", 28, "shells.shank_band_width_mm"))
+
+    # Parameter manifest embedded in the native file for reviewers who open CAD without the repo.
+    sheet = doc.addObject("Spreadsheet::Sheet", "DesignInputs")
+    sheet.Label = "Design inputs and evidence status · see JSON for full schema"
+    rows = [
+        ("Design ID", cfg["design_id"]),
+        ("Status", cfg["status"]),
+        ("Units / axes", "mm; +X forward, +Y left, +Z up"),
+        ("Source model", cfg["appearance_reference"]["source_asset"]),
+        ("Source units", cfg["appearance_reference"]["source_unit_status"]),
+        ("Normalized study height (mm)", h),
+        ("Scale authority", cfg["appearance_reference"]["normalization_authority"]),
+        ("Mesh usage", cfg["appearance_reference"]["mesh_use"]),
+        ("Working hip / knee / ankle z (mm)", "%d / %d / %d" % (hip_z, knee_z, ankle_z)),
+        ("Actuator authority", motors["evidence"]),
+        ("Selected actuators", str(cfg["target_context"]["selected_actuators"])),
+        ("Validated DOF", str(cfg["target_context"]["validated_degrees_of_freedom"])),
+        ("Joint axis references", str(len(joint_reference_records)) + " provisional axes; study ranges only"),
+        ("Mass budget", "%.2f kg nominal PLACEHOLDER; not as-built or measured" % budget_total),
+        ("Nominal mass centroid (mm)", ", ".join("%.1f" % value for value in budget_com)),
+        ("Sensor architecture", "7 camera frames, 4-channel mic array and speaker mounts; all hardware unselected"),
+        ("Parameter source", os.path.relpath(CONFIG_PATH, ROOT).replace("\\", "/")),
+        ("Generator", os.path.relpath(__file__, ROOT).replace("\\", "/")),
+        ("STEP scope", "Concept solids only; sourced appearance mesh omitted"),
+    ]
+    sheet.setColumnWidth("A", 260)
+    sheet.setColumnWidth("B", 650)
+    for row, (label, value) in enumerate(rows, start=1):
+        sheet.set("A%d" % row, str(label))
+        sheet.set("B%d" % row, str(value))
+    sheet_view = getattr(sheet, "ViewObject", None)
+    if sheet_view is not None:
+        sheet_view.Visibility = False
+
+    # Evidence properties live in the assembly tree and survive native saves.
+    root.addProperty("App::PropertyString", "DesignID", "Design")
+    root.DesignID = cfg["design_id"]
+    root.addProperty("App::PropertyString", "ReleaseStatus", "Design")
+    root.ReleaseStatus = cfg["status"]
+    root.addProperty("App::PropertyString", "ParameterFile", "Design")
+    root.ParameterFile = os.path.relpath(CONFIG_PATH, ROOT).replace("\\", "/")
+    root.addProperty("App::PropertyLength", "NormalizedStudyHeight", "Design")
+    root.NormalizedStudyHeight = h
+    root.addProperty("App::PropertyString", "Provenance", "Design")
+    root.Provenance = cfg["appearance_reference"]["source_asset"] + " @ " + cfg["appearance_reference"]["source_commit"]
+
+    doc.recompute()
+    native_path = os.path.join(OUTPUT_DIR, "hitmonlee_body_layout_02.FCStd")
+    step_path = os.path.join(OUTPUT_DIR, "hitmonlee_body_layout_02_concept_envelopes.step")
+    report_path = os.path.join(OUTPUT_DIR, "body_layout_02_validation.json")
+    doc.saveAs(native_path)
+
+    # STEP carries only explicit solid envelope proxies; it is not a fabrication release.
+    step_features = [obj for obj in parts if hasattr(obj, "Shape") and not obj.Shape.isNull()]
+    Import.export(step_features, step_path)
+    shell_features = [obj for obj in parts
+                      if getattr(obj, "DesignRole", "") == "HOLLOW_SPLIT_SHELL_PROTOTYPE"]
+    shell_step_path = os.path.join(OUTPUT_DIR, "hitmonlee_shell_panels_02_prototype.step")
+    shell_stl_path = os.path.join(OUTPUT_DIR, "hitmonlee_shell_panels_02_prototype.stl")
+    Import.export(shell_features, shell_step_path)
+    shell_meshes = []
+    for obj in shell_features:
+        mesh = MeshPart.meshFromShape(Shape=obj.Shape, LinearDeflection=0.15,
+                                      AngularDeflection=0.35, Relative=False)
+        shell_meshes.append(mesh)
+    combined_shell_mesh = Mesh.Mesh()
+    for mesh in shell_meshes:
+        combined_shell_mesh.addMesh(mesh)
+    combined_shell_mesh.write(shell_stl_path)
+
+    source_bounds = mesh_objects[0].Mesh.BoundBox
+    all_bounds = Part.makeCompound([obj.Shape for obj in step_features]).BoundBox
+    invalid = [obj.Name for obj in step_features if not obj.Shape.isValid()]
+    containment_failures = []
+    tol = 1.0
+    for obj in step_features:
+        bb = obj.Shape.BoundBox
+        if (bb.XMin < source_bounds.XMin - tol or bb.XMax > source_bounds.XMax + tol
+                or bb.YMin < source_bounds.YMin - tol or bb.YMax > source_bounds.YMax + tol
+                or bb.ZMin < source_bounds.ZMin - tol or bb.ZMax > source_bounds.ZMax + tol):
+            containment_failures.append(obj.Name)
+    report = {
+        "design_id": cfg["design_id"],
+        "status": cfg["status"],
+        "freecad_version": App.Version(),
+        "native_document": os.path.relpath(native_path, ROOT).replace("\\", "/"),
+        "step_export": os.path.relpath(step_path, ROOT).replace("\\", "/"),
+        "shell_exports": {
+            "status": "PROTOTYPE_ONLY_NOT_FOR_MANUFACTURE",
+            "step": os.path.relpath(shell_step_path, ROOT).replace("\\", "/"),
+            "stl": os.path.relpath(shell_stl_path, ROOT).replace("\\", "/"),
+            "panel_count": len(shell_features),
+            "nominal_radial_wall_inset_mm": wall,
+        "mesh_facet_count": combined_shell_mesh.CountFacets,
+        "mesh_point_count": combined_shell_mesh.CountPoints,
+        },
+        "parameter_source": os.path.relpath(CONFIG_PATH, ROOT).replace("\\", "/"),
+        "generator": os.path.relpath(__file__, ROOT).replace("\\", "/"),
+        "config_sha256": sha256(CONFIG_PATH),
+        "generator_sha256": sha256(__file__),
+        "source_model": cfg["appearance_reference"]["source_asset"],
+        "source_model_sha256": cfg["appearance_reference"]["source_sha256"],
+        "transformed_reference_mesh": os.path.relpath(REFERENCE_OBJ, ROOT).replace("\\", "/"),
+        "transformed_reference_sha256": sha256(REFERENCE_OBJ),
+        "source_mesh_count": len(mesh_objects),
+        "source_mesh_vertices": sum(obj.Mesh.CountPoints for obj in mesh_objects),
+        "source_mesh_triangles": sum(obj.Mesh.CountFacets for obj in mesh_objects),
+        "normalized_study_height_mm": h,
+        "source_mesh_bounds_mm": bbox_dict(source_bounds),
+        "concept_solids_count": len(step_features),
+        "part_manifest": [{
+            "object_name": obj.Name,
+            "label": obj.Label,
+            "design_role": getattr(obj, "DesignRole", ""),
+            "source_parameter": getattr(obj, "SourceParameter", ""),
+            "source_configuration_value": getattr(obj, "SourceConfigurationValue", ""),
+            "volume_mm3": float(obj.Shape.Volume),
+            "bounds_mm": bbox_dict(obj.Shape.BoundBox),
+            "valid": bool(obj.Shape.isValid()),
+            "neutral_export": "STEP concept envelope only; not released for manufacture",
+        } for obj in step_features],
+        "parts_missing_source_parameter": [obj.Name for obj in step_features
+                                           if not getattr(obj, "SourceParameter", "")],
+        "invalid_concept_solids": invalid,
+        "bounds_outside_source_global_bbox": containment_failures,
+        "concept_solids_bounds_mm": bbox_dict(all_bounds),
+        "ground_interface": {
+            "ground_z_mm": float(f["ground_z"]),
+            "foot_plate_min_z_mm": [float(obj.Shape.BoundBox.ZMin) for obj in step_features if "load-bearing foot plate" in obj.Label],
+            "foot_plates_touch_ground": all(abs(obj.Shape.BoundBox.ZMin - float(f["ground_z"])) <= 1e-6
+                                             for obj in step_features if "load-bearing foot plate" in obj.Label),
+            "evidence_limit": "Geometric contact of concept plate proxy with datum plane only; no sole/contact material, deflection, stability or load is validated.",
+        },
+        "group_counts": {
+            "structure_and_feet": len(structure_group.Group),
+            "joint_actuator_and_bearing_envelopes": len(actuator_group.Group),
+            "sensor_compute_and_power_envelopes": len(sensor_group.Group),
+            "shell_proxy_components": len(shell_group.Group),
+            "kinematic_axis_references": len(kinematic_group.Group),
+        },
+        "kinematic_reference": {
+            "status": axis_specs["status"],
+            "range_authority": axis_specs["range_authority"],
+            "joint_count": len(joint_reference_records),
+            "frames": joint_reference_records,
+        },
+        "mass_budget": {
+            "status": mass_budget["status"],
+            "authority": mass_budget["authority"],
+            "nominal_total_kg": budget_total,
+            "computed_center_of_mass_robot_mm": budget_com,
+            "component_uncertainty_relative": mass_budget["component_uncertainty_relative"],
+            "components": budget_components,
+            "evidence_limit": "PLACEHOLDER allocations for a nominal simulation case; not material-derived or measured inertial properties.",
+        },
+        "sensor_architecture": cfg["sensor_architecture"],
+        "validation_scope": "OCC solid validity, source mesh bbox, and STEP round-trip are checked. Bbox containment is not surface fit, collision clearance, kinematics or physical validation.",
+        "not_verified": cfg["validation_gates"],
+    }
+
+    # Round-trip the neutral export and verify valid geometry and matching overall dimensions.
+    roundtrip = App.newDocument("HitmonleeLayout02StepRoundTrip")
+    Import.insert(step_path, roundtrip.Name)
+    # STEP import creates an assembly container, datum axes and planes in
+    # addition to geometry. Validate only imported Part features, not datums.
+    roundtrip_features = [obj for obj in roundtrip.Objects
+                          if obj.TypeId == "Part::Feature" and not obj.Shape.isNull()]
+    roundtrip_shapes = [obj.Shape for obj in roundtrip_features]
+    if not roundtrip_shapes:
+        raise RuntimeError("STEP round-trip created no geometry")
+    roundtrip_compound = Part.makeCompound(roundtrip_shapes)
+    source_by_label = {obj.Label: obj for obj in step_features}
+    roundtrip_part_manifest = []
+    for imported in roundtrip_features:
+        source = source_by_label.get(imported.Label)
+        source_bounds = source.Shape.BoundBox if source is not None else None
+        imported_bounds = imported.Shape.BoundBox
+        part_bbox_delta = (max(abs(a - b) for a, b in zip(
+            [source_bounds.XMin, source_bounds.XMax, source_bounds.YMin, source_bounds.YMax, source_bounds.ZMin, source_bounds.ZMax],
+            [imported_bounds.XMin, imported_bounds.XMax, imported_bounds.YMin, imported_bounds.YMax, imported_bounds.ZMin, imported_bounds.ZMax]))
+            if source_bounds is not None else None)
+        source_volume = float(source.Shape.Volume) if source is not None else None
+        imported_volume = float(imported.Shape.Volume)
+        roundtrip_part_manifest.append({
+            "source_object": source.Name if source is not None else None,
+            "source_label": source.Label if source is not None else None,
+            "imported_object": imported.Name,
+            "imported_label": imported.Label,
+            "source_volume_mm3": source_volume,
+            "imported_volume_mm3": imported_volume,
+            "relative_volume_delta": (abs(abs(imported_volume) - abs(source_volume)) / max(abs(source_volume), 1e-9)
+                                      if source_volume is not None else None),
+            "source_bounds_mm": bbox_dict(source_bounds) if source_bounds is not None else None,
+            "imported_bounds_mm": bbox_dict(imported_bounds),
+            "max_bbox_delta_mm": part_bbox_delta,
+        })
+    total_source_volume = sum(abs(float(obj.Shape.Volume)) for obj in step_features)
+    total_imported_volume = sum(abs(float(obj.Shape.Volume)) for obj in roundtrip_features)
+    relative_total_volume_delta = abs(total_imported_volume - sum(abs(float(obj.Shape.Volume)) for obj in step_features)) / max(abs(total_source_volume), 1e-9)
+    report["step_roundtrip"] = {
+        "imported_part_feature_count": len(roundtrip_features),
+        "invalid_imported_shapes": [obj.Name for obj in roundtrip_features if not obj.Shape.isValid()],
+        "source_total_volume_mm3": total_source_volume,
+        "imported_total_volume_mm3": total_imported_volume,
+        "relative_total_volume_delta": relative_total_volume_delta,
+        "bounds_mm": bbox_dict(roundtrip_compound.BoundBox),
+        "overall_bbox_delta_mm": max(abs(a - b) for a, b in zip(
+            [all_bounds.XMin, all_bounds.XMax, all_bounds.YMin, all_bounds.YMax, all_bounds.ZMin, all_bounds.ZMax],
+            [roundtrip_compound.BoundBox.XMin, roundtrip_compound.BoundBox.XMax, roundtrip_compound.BoundBox.YMin, roundtrip_compound.BoundBox.YMax, roundtrip_compound.BoundBox.ZMin, roundtrip_compound.BoundBox.ZMax])),
+    }
+    report["step_roundtrip"]["part_manifest"] = roundtrip_part_manifest
+    App.closeDocument(roundtrip.Name)
+    report["step_roundtrip"]["verified"] = (
+        not report["step_roundtrip"]["invalid_imported_shapes"]
+        and report["step_roundtrip"]["imported_part_feature_count"] == len(step_features)
+        and report["step_roundtrip"]["relative_total_volume_delta"] <= 1e-4
+        and report["step_roundtrip"]["overall_bbox_delta_mm"] <= 0.05
+    )
+    report["step_roundtrip"]["acceptance_scope"] = (
+        "All imported BRep solids valid; feature count preserved; total absolute solid volume differs by at most 1e-4 relative; overall assembly bounds differ by at most 0.05 mm. "
+        "Per-part BRep bounds are diagnostic only because trimmed supporting surfaces can report wider source boxes than the imported exact trims."
+    )
+    shell_roundtrip = App.newDocument("HitmonleeShellPanelsStepRoundTrip")
+    Import.insert(shell_step_path, shell_roundtrip.Name)
+    shell_roundtrip_features = [obj for obj in shell_roundtrip.Objects
+                                if obj.TypeId == "Part::Feature" and not obj.Shape.isNull()]
+    shell_roundtrip_shapes = [obj.Shape for obj in shell_roundtrip_features]
+    if not shell_roundtrip_shapes:
+        raise RuntimeError("Shell STEP round-trip created no geometry")
+    shell_source_shapes = [obj.Shape for obj in shell_features]
+    shell_source_compound = Part.makeCompound(shell_source_shapes)
+    shell_import_compound = Part.makeCompound(shell_roundtrip_shapes)
+    shell_source_volume = sum(abs(float(shape.Volume)) for shape in shell_source_shapes)
+    shell_import_volume = sum(abs(float(shape.Volume)) for shape in shell_roundtrip_shapes)
+    shell_relative_volume_delta = abs(shell_import_volume - shell_source_volume) / max(shell_source_volume, 1e-9)
+    shell_bbox_delta = max(abs(a - b) for a, b in zip(
+        [shell_source_compound.BoundBox.XMin, shell_source_compound.BoundBox.XMax,
+         shell_source_compound.BoundBox.YMin, shell_source_compound.BoundBox.YMax,
+         shell_source_compound.BoundBox.ZMin, shell_source_compound.BoundBox.ZMax],
+        [shell_import_compound.BoundBox.XMin, shell_import_compound.BoundBox.XMax,
+         shell_import_compound.BoundBox.YMin, shell_import_compound.BoundBox.YMax,
+         shell_import_compound.BoundBox.ZMin, shell_import_compound.BoundBox.ZMax]))
+    shell_invalid = [obj.Name for obj in shell_roundtrip_features if not obj.Shape.isValid()]
+    App.closeDocument(shell_roundtrip.Name)
+    report["shell_exports"]["step_roundtrip"] = {
+        "imported_feature_count": len(shell_roundtrip_features),
+        "invalid_imported_shapes": shell_invalid,
+        "relative_total_volume_delta": shell_relative_volume_delta,
+        "overall_bbox_delta_mm": shell_bbox_delta,
+        "verified": (not shell_invalid
+                     and len(shell_roundtrip_features) == len(shell_features)
+                     and shell_relative_volume_delta <= 1e-4
+                     and shell_bbox_delta <= 0.05),
+    }
+    report["all_concept_solids_valid"] = not invalid
+    report["all_solid_bounds_within_global_mesh_bounds"] = not containment_failures
+    with open(report_path, "w", encoding="utf-8") as stream:
+        json.dump(report, stream, indent=2)
+
+    # Save the native design in GUI and command-line modes. Rendering is optional.
+    doc.recompute()
+    doc.save()
+    report["previews"] = []
+    if GUI_AVAILABLE:
+        appearance_path = os.path.join(OUTPUT_DIR, "body_layout_02_source_silhouette.png")
+        assembly_path = os.path.join(OUTPUT_DIR, "body_layout_02_engineering_overlay.png")
+        shells_path = os.path.join(OUTPUT_DIR, "body_layout_02_shell_proxies.png")
+        set_group_visibility(structure_group, False)
+        set_group_visibility(actuator_group, False)
+        set_group_visibility(sensor_group, False)
+        set_group_visibility(shell_group, False)
+        set_group_visibility(kinematic_group, False)
+        for obj in mesh_objects:
+            view = getattr(obj, "ViewObject", None)
+            if view is not None:
+                view.Visibility = True
+                view.Transparency = 0 if obj is mesh_objects[0] else 5
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.activeDocument().activeView().fitAll()
+        Gui.activeDocument().activeView().saveImage(appearance_path, 1500, 1300, "Current")
+
+        set_group_visibility(structure_group, True)
+        set_group_visibility(actuator_group, True)
+        set_group_visibility(sensor_group, True)
+        set_group_visibility(shell_group, False)
+        set_group_visibility(kinematic_group, True)
+        for obj in mesh_objects:
+            view = getattr(obj, "ViewObject", None)
+            if view is not None:
+                view.Transparency = 82 if obj is mesh_objects[0] else 8
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.activeDocument().activeView().fitAll()
+        Gui.activeDocument().activeView().saveImage(assembly_path, 1500, 1300, "Current")
+
+        set_group_visibility(shell_group, True)
+        set_group_visibility(kinematic_group, False)
+        for obj in mesh_objects:
+            view = getattr(obj, "ViewObject", None)
+            if view is not None:
+                view.Visibility = False
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.activeDocument().activeView().fitAll()
+        Gui.activeDocument().activeView().saveImage(shells_path, 1500, 1300, "Current")
+
+        set_group_visibility(structure_group, True)
+        set_group_visibility(actuator_group, True)
+        set_group_visibility(sensor_group, True)
+        set_group_visibility(shell_group, True)
+        set_group_visibility(kinematic_group, True)
+        for obj in mesh_objects:
+            view = getattr(obj, "ViewObject", None)
+            if view is not None:
+                view.Visibility = True
+                view.Transparency = 87 if obj is mesh_objects[0] else 8
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.activeDocument().activeView().fitAll()
+        doc.recompute()
+        doc.save()
+        report["previews"] = [os.path.relpath(p, ROOT).replace("\\", "/")
+                              for p in (appearance_path, assembly_path, shells_path)]
+    else:
+        report["preview_status"] = "Not rendered in headless FreeCADCmd; native CAD and STEP exports are still generated."
+    with open(report_path, "w", encoding="utf-8") as stream:
+        json.dump(report, stream, indent=2)
+    App.Console.PrintMessage("Layout 02 saved; validation report: %s\n" % report_path)
+
+
+try:
+    main()
+except Exception:
+    error_path = os.path.join(OUTPUT_DIR, "build_error.txt")
+    with open(error_path, "w", encoding="utf-8") as stream:
+        stream.write(traceback.format_exc())
+    App.Console.PrintError("Layout 02 build failed; details: %s\n" % error_path)
+    raise

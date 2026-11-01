@@ -2,9 +2,36 @@
 
 Simulation-first engineering workspace for a custom Hitmonlee-inspired humanoid robot.
 
-## Current executable slice
+## Current executable slices
 
-This repository begins with a **planar 2D biped** in MuJoCo. It is a deliberately small, physically simulated test embodiment for validating the code and training loop before the full robot has measured actuators or frozen geometry. The first policy learns to keep the robot upright using only joint and body proprioception. It does not claim to be a calibrated Hitmonlee twin or to solve walking.
+The repository contains two MuJoCo paths:
+
+- `robot_twin` is the new generic **3D 28-DoF humanoid** foundation. It has a free pelvis, explicit per-link mass/inertia allocations, 28 finite-gain torque-limited position actuators, collision proxies, named sensor frames, CAD-reference validation, PPO standing training, a local live monitor, and replayable surface evaluation.
+- `hitmonlee_sim` retains the earlier **planar biped** example and its command/voice experiments. It remains useful as a small, reproducible baseline; it is not the 3D body model.
+
+The 3D model is a provisional simulation embodiment, not a calibrated digital twin or manufacturing release. Its 25 kg mass case, link mass/inertias, actuator limits, contact compliance and 1.35 m working height are design assumptions until components are selected and physical measurements are made. Only proprioceptive standing is implemented; walking and whole-body action skills remain untrained.
+
+See [the phase 1–4 engineering report](docs/design/phase1-4-progress.html), [robot-twin architecture](docs/design/robot-twin-architecture.md), and [runbook](docs/design/robot-twin-runbook.md).
+
+### Train the 3D embodiment
+
+~~~powershell
+$env:PYTHONPATH = "src"
+.\.venv\Scripts\python.exe -m robot_twin.train --steps 100000 --run-dir runs\my-balance --device cpu
+.\.venv\Scripts\python.exe -m robot_twin.monitor --run-dir runs\my-balance
+~~~
+
+Open `http://127.0.0.1:8770` to watch the local snapshot/telemetry dashboard. After training, record a deterministic run on all configured surface profiles:
+
+~~~powershell
+.\.venv\Scripts\python.exe -m robot_twin.evaluate --model runs\my-balance\policy.zip --output runs\my-balance\surfaces.mp4
+~~~
+
+The evaluation writes a JSON report next to the MP4. `runs/` is ignored by Git so checkpoints and videos stay local unless deliberately archived. The evaluator currently covers nominal, low/medium friction, forward/lateral slope, and compliant-contact cases. A “compliance” profile is an effective MuJoCo contact-softness setting, not a measured foam model.
+
+## Earlier planar example
+
+`hitmonlee_sim` is the original 2D balance/voice/command path. Its plan-view simplification cannot demonstrate lateral balance, 3D walking, or whole-body skills.
 
 The current host is a Windows 11 laptop with an Intel Core Ultra 5 125H (14 cores / 18 threads), Intel Arc graphics, and 16 GiB RAM. The installed PyTorch build is CPU-only; this machine exposes no CUDA device. The baseline therefore uses native MuJoCo CPU and Stable-Baselines3 PPO. MJWarp, mjlab and Isaac Lab's Newton GPU path are NVIDIA-Warp/CUDA candidates for a later workstation or remote GPU, not acceleration options for this Intel Arc laptop. Genesis World currently documents CPU physics on Intel GPUs, with the Intel GPU used for viewing/rendering; it is a possible cross-stack CPU comparison if a concrete need arises. Isaac Sim is deferred until camera/synthetic-data work and suitable NVIDIA hardware justify the added runtime.
 
@@ -122,14 +149,16 @@ The learned policy is one skill. It does not access hardware or issue bus comman
 - `src/hitmonlee_sim/summarize.py` — validates comparable run manifests and aggregates held-out multi-seed results.
 - `src/hitmonlee_sim/inspect_model.py` — audits MJCF structure, actuator limits and reset floor contacts.
 - `src/hitmonlee_sim/static/` — dependency-free live monitor page served by the local dashboard.
+- `src/robot_twin/` — generic 3D humanoid embodiment, joint/CAD validation, surface-randomized balance environment, PPO training/evaluation, run snapshotting, and camera-render monitor.
+- `design/cad/body-v2/` — editable FreeCAD document, concept STEP, prototype shell exports, and validation report.
 - `runs/` — generated checkpoints, CSV/JSON logs, and videos; ignored by Git by default.
 
 ## Stages and limits
 
 1. **Toolchain:** native MuJoCo is the runnable reference; compare Newton/Isaac Lab when GPU/platform constraints and model asset are known.
-2. **Robot model:** this first 2D biped has explicit kinematics, inertias, contact feet, joint limits, and position-actuator approximations. Mass and actuator values are provisional. Replace them with a 3D parameterized skeleton and measured modules before claiming a physical digital twin.
-3. **Motion learning:** train and evaluate a PPO standing-balance skill. Then add weight shifts, single-step recovery, and walking as separate gated tasks.
-4. **Senses/commands:** the MVP renders a head-camera frame, extracts a deliberately simple red-target cue, and maps transcript text into allowlisted typed intents. Optional Vosk integration transcribes a short spoken command locally from the microphone or a WAV file. There is no learned vision model, walking skill, or command-to-actuator path.
+2. **Robot model:** the new 3D model has validated neutral joint frames, link inertias, contact feet, joint limits, finite-gain/torque-saturated position actuators, and reserved sensor mounts. Mass and actuator values remain provisional until components and measurements are available.
+3. **Motion learning:** a proprioceptive PPO standing task and paired seeded surface evaluations are implemented. The latest 100,096-step policy failed every case and underperformed neutral hold; this is a functional training example, not a successful balance skill. Weight shifts, recovery, multi-direction walking, sitting/get-up, prone/supine recovery, jump, kick, and punch remain separate gated tasks.
+4. **Senses/commands:** the older planar MVP renders a head-camera frame, extracts a deliberately simple red-target cue, and maps transcript text into allowlisted typed intents. The 3D model reserves eight camera frames and four microphone sites plus one speaker site; the camera/audio policies and perception calibration are not implemented.
 
 Try the transcript-to-skill gate without an ASR dependency:
 

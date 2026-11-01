@@ -6,6 +6,7 @@ __pycache__/
 runs/*
 !runs/.gitkeep
 *.mp4
+!docs/design/assets/*.mp4
 *.gif
 *.egg-info/
 dist/

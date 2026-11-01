@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pokebot · Phase 1–4 Engineering Progress</title>
+  <style>
+    :root{color-scheme:dark;--bg:#111719;--panel:#1b2528;--line:#304044;--text:#e6eeec;--muted:#a5b7b2;--accent:#74d7b9;--warn:#ffd17c;--bad:#ff958c}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.58 Segoe UI,system-ui,sans-serif}
+    header{padding:44px max(22px,calc((100vw - 1180px)/2));background:linear-gradient(130deg,#18272a,#293b3d 62%,#4a3529);border-bottom:1px solid var(--line)}
+    h1{font-size:clamp(30px,5vw,52px);line-height:1.08;margin:0 0 10px}h2{font-size:25px;margin:0 0 14px}h3{font-size:18px;margin:0 0 7px}p{margin:8px 0 14px}.sub{max-width:820px;color:#c3d3cf;font-size:18px}
+    main{max-width:1180px;margin:auto;padding:24px 20px 70px}section{margin:24px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.two{grid-template-columns:repeat(2,1fr)}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+    .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.12em}.value{font-size:27px;font-weight:650;margin:4px 0 0}.muted{color:var(--muted)}.good{color:var(--accent)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+    a{color:#8de3cb;text-decoration-thickness:1px;text-underline-offset:3px}a:hover{color:#d3fff2}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.node{border:1px solid var(--line);border-radius:10px;padding:15px;background:#151d20}.node b{display:block;color:var(--accent);margin-bottom:5px}.node small{color:var(--muted)}
+    code{font:13px/1.5 ui-monospace,Consolas,monospace;background:#101719;border:1px solid var(--line);padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}.command{display:block;padding:12px;overflow:auto}
+    ul{padding-left:21px}li{margin:6px 0}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}.table th{color:#b8ccc6;font-weight:600}
+    video{display:block;width:min(100%,960px);background:#080b0c;border:1px solid var(--line);border-radius:10px;margin:14px auto}.status{border-left:4px solid var(--warn);padding:8px 14px;background:#28251d}.foot{border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:13px}
+    @media(max-width:850px){.grid,.two{grid-template-columns:1fr 1fr}.flow{grid-template-columns:1fr 1fr}}@media(max-width:560px){.grid,.two,.flow{grid-template-columns:1fr}.table{font-size:13px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="label">Engineering notebook · 1 November 2026</div>
+  <h1>Robot twin · Phase 1–4</h1>
+  <p class="sub">A runnable 3D simulation foundation, traceable joint/mass assumptions, real PPO training, and local visualization. The system is still a provisional design study; no physical prototype measurements exist yet.</p>
+</header>
+<main>
+  <section class="grid">
+    <article class="card"><div class="label">Robot model</div><div class="value">28 DoF · 25 kg</div><p class="muted">MuJoCo model compiles to 35 generalized coordinates, 34 velocities, and 28 actuators. 25 kg is an explicit design allocation, not a measured robot mass.</p></article>
+    <article class="card"><div class="label">CAD agreement</div><div class="value good">28 / 28 frames</div><p class="muted">The neutral MJCF joint anchors, axes, limits, and 25 kg mass case are checked against the simulation configuration copied from the CAD reference.</p></article>
+    <article class="card"><div class="label">Learned skills</div><div class="value warn">Balance · unverified</div><p class="muted">Standing is the only implemented task, and the latest PPO checkpoint failed the matched baseline comparison. Walking and whole-body actions remain future tasks.</p></article>
+  </section>
+
+  <section class="card">
+    <h2>Architecture</h2>
+    <div class="flow">
+      <div class="node"><b>01 · CAD source</b><code>design/cad/body-layout-v2.json</code><small>Packaging, frames, placeholder mass ledger, sensor reservations</small></div>
+      <div class="node"><b>02 · Robot config</b><code>src/robot_twin/robot_config.json</code><small>Joint groups, frame contract, simulation and randomization settings</small></div>
+      <div class="node"><b>03 · Physics model</b><code>src/robot_twin/models/humanoid_28dof.xml</code><small>Collision shapes, link inertias, finite-gain actuators, cameras/sites</small></div>
+      <div class="node"><b>04 · Experiment</b><code>env.py → train.py → evaluate.py</code><small>Gymnasium task, PPO run, fixed-condition matrix, matched baseline, and replay artifact</small></div>
+    </div>
+    <p>CAD and MJCF remain separate authoring files today, with a validator detecting drift. A later step should generate both from one parametric robot description. Appearance geometry, collision proxies, and mass/inertia are deliberately separate concepts; the current shell panels and collision primitives are not supplier-ready parts.</p>
+    <figure style="margin:18px auto;max-width:760px">
+      <img src="assets/humanoid-28dof-preview.png" alt="Rendered articulated 3D robot proxy in MuJoCo" style="display:block;width:100%;border-radius:10px;border:1px solid var(--line)">
+      <figcaption class="muted">Current articulated visual/physics proxy in MuJoCo. CAD details and collision/inertial assumptions are separate layers.</figcaption>
+    </figure>
+    <p>Editable/inspectable CAD artifacts:</p>
+    <ul>
+      <li><a href="../../design/cad/body-v2/hitmonlee_body_layout_02.FCStd">FreeCAD native assembly</a></li>
+      <li><a href="../../design/cad/body-v2/hitmonlee_body_layout_02_concept_envelopes.step">STEP concept envelopes</a></li>
+      <li><a href="../../design/cad/body-v2/hitmonlee_shell_panels_02_prototype.step">Shell panel STEP prototype</a> · <a href="../../design/cad/body-v2/hitmonlee_shell_panels_02_prototype.stl">STL prototype mesh</a></li>
+      <li><a href="../../design/cad/body-v2/body_layout_02_validation.json">CAD validation report</a></li>
+    </ul>
+  </section>
+
+  <section class="grid two">
+    <article class="card">
+      <h2>Physical case and evidence</h2>
+      <ul>
+        <li>Compiled model mass is exactly 25.0 kg. Its neutral computed center of mass is <b>0.7081 m</b>; the CAD placeholder ledger says <b>0.7126 m</b>, a 4.6 mm difference.</li>
+        <li>Hip/knee/ankle and shoulder/elbow/wrist frame origins are checked against CAD with a 2 mm tolerance; joint axes and ranges are checked too.</li>
+        <li>Nominal body height is a 1.35 m fit target. Cameras and microphones have frames/sites, but no sensor component selection, calibration, acoustic simulation, or policy input.</li>
+        <li>Model mass/inertia still come from placeholder link allocations. Actuator gains and torque caps are tunable estimates, not supplier ratings.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>Training and observability</h2>
+      <p>The task gives the policy gravity direction, base motion, joint positions/velocities, and prior action. PPO outputs normalized joint-position targets; MuJoCo applies finite-gain actuators with torque saturation. Episode resets vary total mass, link mass redistribution, ground friction, equivalent slope gravity, and contact softness.</p>
+      <p>The local dashboard shows a real MuJoCo frame, training step/reward, robot state, domain parameters, and joint angles. Completed evaluation writes the same run’s MP4 and per-surface JSON.</p>
+      <a href="http://127.0.0.1:8771">Open live run monitor (while the local trainer/server is active)</a>
+    </article>
+  </section>
+
+  <section class="card">
+    <h2>Latest 3D run · PPO did not learn balance</h2>
+    <p><b>100,096 PPO steps</b> ran on CPU in 7m41s with a nominal-to-randomized curriculum and 50 Hz control. The full evaluation paired PPO with neutral hold on identical starts across six surfaces and three synthetic total-mass scales, with per-link mass redistribution. PPO fell in all 18 cases and averaged <b>2.37 s</b> survival. Neutral hold completed 5 of 6 cases at 0.8× mass, but none at 1.0× or 1.2×; its overall mean was <b>4.51 s</b>. The learned controller regressed against its baseline.</p>
+    <table class="table"><thead><tr><th>Mass scale</th><th>Neutral hold</th><th>PPO</th></tr></thead><tbody>
+      <tr><td>0.8× · 20 kg placeholder case</td><td>5/6 completed · 6.97 s mean</td><td>0/6 completed · 3.06 s mean</td></tr>
+      <tr><td>1.0× · 25 kg placeholder case</td><td>0/6 completed · 3.70 s mean</td><td>0/6 completed · 2.13 s mean</td></tr>
+      <tr><td>1.2× · 30 kg placeholder case</td><td>0/6 completed · 2.87 s mean</td><td>0/6 completed · 1.93 s mean</td></tr>
+    </tbody></table>
+    <p class="muted">The replay shows a separate nominal-mass PPO pass; the full paired metrics, run manifest, exact config snapshot, MJCF, and <a href="results/balance-v4-policy.zip">policy checkpoint</a> are archived under <code>docs/design/results/</code>. One seed per condition is diagnostic only, not a robustness claim. Total/link masses and actuator properties remain placeholders, not calibrated robot values.</p>
+    <video controls preload="metadata" src="assets/balance-v4-surface-matrix.mp4">Latest nominal-mass surface matrix replay.</video>
+  </section>
+
+  <section class="card">
+    <h2>Earlier corrected-model run · preserved failure</h2>
+    <p><b>100,096 PPO steps</b> at 100 Hz were followed by 18 rollouts across six contact profiles and three seeded starts per profile. It fell in every rollout after 1.66–1.86 seconds. This earlier run is retained separately because it used the initial randomization schedule and a different control rate.</p>
+    <video controls preload="metadata" src="assets/balance-v3-surfaces.mp4">Earlier corrected-model surface evaluation replay.</video>
+  </section>
+
+  <section class="card">
+    <h2>Run and watch it</h2>
+    <p>Open PowerShell at the repository root:</p>
+    <code class="command">$env:PYTHONPATH = "src"<br>.\.venv\Scripts\python.exe -m robot_twin.train --steps 100000 --run-dir runs\my-run --device cpu</code>
+    <p>In a second terminal, serve the live dashboard:</p>
+    <code class="command">.\.venv\Scripts\python.exe -m robot_twin.monitor --run-dir runs\my-run</code>
+    <p>When the checkpoint is saved, record the surface suite:</p>
+    <code class="command">.\.venv\Scripts\python.exe -m robot_twin.evaluate --model runs\my-run\policy.zip --output runs\my-run\surfaces.mp4</code>
+    <video controls preload="metadata" src="assets/balance-v3-surfaces.mp4">
+      The corrected-model surface evaluation MP4 will appear here when training and evaluation finish.
+    </video>
+  </section>
+
+  <section class="card">
+    <h2>How to understand the control loop</h2>
+    <ol>
+      <li>Start in <a href="../../src/robot_twin/robot_config.json">robot_config.json</a>: this is the policy/joint/frame contract. Lengths are SI here; the CAD source keeps millimeters.</li>
+      <li>Inspect one link in <a href="../../src/robot_twin/models/humanoid_28dof.xml">the MJCF</a>: <code>inertial</code> sets its mass/COM/inertia, <code>geom</code> sets collision or appearance, <code>joint</code> sets an axis/limit, and <code>position</code> sets a finite-gain actuator.</li>
+      <li>Read <a href="../../src/robot_twin/model_validation.py">model_validation.py</a> to see which claims are checked mechanically against the CAD joint frames. Read <a href="../../src/robot_twin/env.py">env.py</a> for the sensor-like proprioceptive observation, reset randomization, reward and fall test.</li>
+      <li>Read <a href="../../src/robot_twin/train.py">train.py</a>: PPO changes normalized desired joint targets from reward feedback. Then inspect <a href="../../src/robot_twin/evaluate.py">evaluate.py</a> to see matched seeded comparisons across fixed conditions.</li>
+    </ol>
+    <p>This order makes it easier to separate geometry, Newtonian dynamics, control, and the learning objective before tuning any reward or network setting.</p>
+  </section>
+
+  <section class="card">
+    <h2>Research patterns reflected in this foundation</h2>
+    <table class="table">
+      <thead><tr><th>Open source work</th><th>What we borrow or defer</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/google-deepmind/mujoco">MuJoCo</a> / <a href="https://github.com/google-deepmind/mujoco_playground">MuJoCo Playground</a></td><td>Inspectable MJCF as model source, explicit tasks, replayable evaluation; GPU MJX/MuJoCo Warp is a later throughput option.</td></tr>
+        <tr><td><a href="https://github.com/isaac-sim/IsaacLab">Isaac Lab</a> / <a href="https://github.com/newton-physics/newton">Newton</a></td><td>Backend seams for batched GPU training, high-quality camera/contact simulation, and ROS 2 once the local model and hardware data justify the larger stack.</td></tr>
+        <tr><td><a href="https://github.com/leggedrobotics/legged_gym">Legged Gym</a></td><td>Actuator modeling and randomization of mass, friction, observations, and pushes; our domains stay modest placeholders until component identification exists.</td></tr>
+        <tr><td><a href="https://arxiv.org/abs/2502.01143">ASAP (humanoid sim-to-real alignment)</a></td><td>Randomization does not make a digital twin: measure actuator response, COM/inertias, contact, and hardware tracking error before transfer claims.</td></tr>
+        <tr><td><a href="https://github.com/huggingface/lerobot">LeRobot</a></td><td>Future synchronized state/action/video datasets and demonstrations for motion imitation or sensor-policy training.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="status">
+    <b>Current boundary:</b> this work demonstrates a simulation/training pipeline, not hardware readiness. Balance must pass held-out rollouts across seeds and surfaces; falls and weak checkpoints are retained as evidence. Walking, sitting/get-up, prone/supine recovery, jump, kick, and punch remain unimplemented/untrained.
+  </section>
+  <p class="foot">For detailed assumptions and evidence, see <a href="robot-twin-architecture.md">the architecture note</a>, <a href="robot-twin-runbook.md">the runbook</a>, and <a href="../planning/phase-1-to-4-execution-plan.md">the phase plan</a>.</p>
+</main>
+</body>
+</html>

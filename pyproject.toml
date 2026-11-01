@@ -31,6 +31,9 @@ hitmonlee-command = "hitmonlee_sim.command_cli:main"
 hitmonlee-voice = "hitmonlee_sim.voice:main"
 hitmonlee-summarize = "hitmonlee_sim.summarize:main"
 hitmonlee-inspect-model = "hitmonlee_sim.inspect_model:main"
+robot-twin-train = "robot_twin.train:main"
+robot-twin-evaluate = "robot_twin.evaluate:main"
+robot-twin-monitor = "robot_twin.monitor:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -40,6 +43,7 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 hitmonlee_sim = ["static/*.html", "models/*.xml"]
+robot_twin = ["robot_config.json", "models/*.xml", "static/*.html"]
 
 [tool.ruff]
 line-length = 100
