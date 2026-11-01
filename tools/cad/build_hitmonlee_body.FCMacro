@@ -1,0 +1,347 @@
+"""Build the concept-stage Hitmonlee body envelope in FreeCAD.
+
+Edit design/cad/body-layout-v0.json and rerun this macro to regenerate the
+native document, neutral STEP, preview and validation report. Geometry is
+deliberately labelled as envelope/provisional until motor and structural data
+are supplied.
+"""
+
+import json
+import os
+import re
+import sys
+import traceback
+
+import FreeCAD as App
+import Part
+
+
+def project_root():
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+
+ROOT = project_root()
+CONFIG_PATH = os.path.join(ROOT, "design", "cad", "body-layout-v0.json")
+OUTPUT_DIR = os.path.join(ROOT, "design", "cad", "body-v0")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+
+def vec(x, y, z):
+    return App.Vector(float(x), float(y), float(z))
+
+
+def vfrom(values):
+    return vec(values[0], values[1], values[2])
+
+
+def ellipsoid(center, radii):
+    """Create a true OCC ellipsoid by non-uniformly transforming a unit sphere."""
+    transform = App.Matrix()
+    transform.A11 = float(radii[0])
+    transform.A22 = float(radii[1])
+    transform.A33 = float(radii[2])
+    shape = Part.makeSphere(1.0)
+    shape = shape.transformGeometry(transform)
+    shape.translate(vfrom(center))
+    return shape
+
+
+def capsule(start, end, radius_start, radius_end=None):
+    """Rounded tapered link envelope, with explicit end caps."""
+    p0, p1 = vfrom(start), vfrom(end)
+    delta = p1.sub(p0)
+    length = delta.Length
+    if length <= 1e-6:
+        return Part.makeSphere(float(radius_start), p0)
+    direction = vec(delta.x / length, delta.y / length, delta.z / length)
+    r1 = float(radius_start)
+    r2 = float(radius_end if radius_end is not None else radius_start)
+    middle = (
+        Part.makeCylinder(r1, length, p0, direction)
+        if abs(r1 - r2) < 1e-6
+        else Part.makeCone(r1, r2, length, p0, direction)
+    )
+    return middle.fuse(Part.makeSphere(r1, p0)).fuse(Part.makeSphere(r2, p1)).removeSplitter()
+
+
+def box(center, size):
+    center_v, size_v = vfrom(center), vfrom(size)
+    return Part.makeBox(
+        size_v.x,
+        size_v.y,
+        size_v.z,
+        vec(center_v.x - size_v.x / 2, center_v.y - size_v.y / 2, center_v.z - size_v.z / 2),
+    )
+
+
+def cylinder_y(center, diameter, length):
+    c = vfrom(center)
+    return Part.makeCylinder(
+        float(diameter) / 2,
+        float(length),
+        vec(c.x, c.y - float(length) / 2, c.z),
+        vec(0, 1, 0),
+    )
+
+
+def cylinder_z(center, diameter, length):
+    c = vfrom(center)
+    return Part.makeCylinder(
+        float(diameter) / 2,
+        float(length),
+        vec(c.x, c.y, c.z - float(length) / 2),
+        vec(0, 0, 1),
+    )
+
+
+def group(doc, name, label):
+    obj = doc.addObject("App::DocumentObjectGroup", name)
+    obj.Label = label
+    return obj
+
+
+def feature(doc, parent, name, label, shape, color, role, transparency=0, note=""):
+    object_name = re.sub(r"[^A-Za-z0-9_]", "", name)
+    if not object_name or object_name[0].isdigit():
+        object_name = "Part_" + object_name
+    obj = doc.addObject("Part::Feature", object_name)
+    obj.Label = label
+    obj.Shape = shape
+    obj.addProperty("App::PropertyString", "DesignRole", "Design", "Structural, envelope, or appearance role")
+    obj.DesignRole = role
+    obj.addProperty("App::PropertyString", "Fidelity", "Design", "Evidence class for this part")
+    obj.Fidelity = "VISUAL_ENVELOPE_ONLY"
+    obj.addProperty("App::PropertyString", "DesignNote", "Design", "What must be checked before release")
+    obj.DesignNote = note or "Provisional solid envelope; replace with measured or vendor geometry."
+    parent.addObject(obj)
+    obj.ViewObject.ShapeColor = color
+    obj.ViewObject.LineColor = (0.13, 0.15, 0.14)
+    obj.ViewObject.DisplayMode = "Flat Lines"
+    obj.ViewObject.Transparency = int(transparency)
+    return obj
+
+
+def main():
+    with open(CONFIG_PATH, "r", encoding="utf-8") as stream:
+        cfg = json.load(stream)
+
+    doc = App.newDocument("HitmonleeBodyLayout00", "Hitmonlee Body Layout 00")
+    doc.Label = "Hitmonlee body layout 00 - envelope study"
+    root = group(doc, "HitmonleeAssembly", "HITMONLEE · BODY ASSEMBLY · ENVELOPE STUDY")
+    structure = group(doc, "Structure", "01 · Structural frame envelopes")
+    actuators = group(doc, "ActuatorEnvelopes", "02 · Joint / actuator clearance envelopes")
+    electronics = group(doc, "SensorAndPower", "03 · Sensor / power / compute volumes")
+    shells = group(doc, "ExteriorShells", "04 · Character exterior / guards")
+    root.addObject(structure)
+    root.addObject(actuators)
+    root.addObject(electronics)
+    root.addObject(shells)
+
+    # Neutral industrial-design palette: warm character shell, burgundy hip,
+    # and a dark mechanical layer. Colors imply no material properties.
+    c_struct = (0.45, 0.50, 0.48)
+    c_act = (0.23, 0.27, 0.27)
+    c_elec = (0.25, 0.56, 0.56)
+    c_shell = (0.74, 0.59, 0.39)
+    c_light = (0.86, 0.77, 0.61)
+    c_shorts = (0.38, 0.16, 0.19)
+    c_joint = (0.16, 0.19, 0.19)
+
+    f = cfg["frames"]
+    w = cfg["widths"]
+    e = cfg["segment_envelopes"]
+    a = cfg["actuator_envelopes"]
+    h = cfg["overall_height_mm"]
+    stance = w["stance_width_mm"]
+    lateral = stance / 2.0
+    objects = []
+
+    def add(parent, name, label, shape, color, role, transparency=0, note=""):
+        obj = feature(doc, parent, name, label, shape, color, role, transparency, note)
+        objects.append(obj)
+        return obj
+
+    # Load-bearing visual skeleton: no material, strength or torque claim.
+    add(structure, "SpineEnvelope", "Central spine / cable-service envelope", capsule((0, 0, f["pelvis_origin_z_mm"]), (0, 0, f["shoulder_center_z_mm"]), 28, 38), c_struct, "STRUCTURE_ENVELOPE")
+    add(structure, "PelvicCrossMember", "Pelvic cross-member envelope", cylinder_y((0, 0, f["pelvis_origin_z_mm"]), 52, w["pelvis_mm"] - 28), c_struct, "STRUCTURE_ENVELOPE")
+    add(structure, "ShoulderCrossMember", "Shoulder cross-member envelope", cylinder_y((0, 0, f["shoulder_center_z_mm"]), 42, w["shoulder_mm"] - 34), c_struct, "STRUCTURE_ENVELOPE")
+    for side, sign in (("L", 1), ("R", -1)):
+        yhip = sign * lateral
+        add(structure, side + "FemurRail", side + " femur rail envelope", capsule((0, yhip, f["hip_center_z_mm"]), (0, sign * (lateral + 4), f["knee_center_z_mm"]), 22, 18), c_struct, "STRUCTURE_ENVELOPE")
+        add(structure, side + "TibiaRail", side + " tibia rail envelope", capsule((0, sign * (lateral + 4), f["knee_center_z_mm"]), (0, yhip, f["ankle_center_z_mm"]), 18, 16), c_struct, "STRUCTURE_ENVELOPE")
+        add(structure, side + "FootPlate", side + " sole plate envelope", box((62, yhip, 42), (e["foot_length_mm"] - 35, e["foot_sole_width_mm"] - 20, 18)), c_struct, "STRUCTURE_ENVELOPE")
+        shoulder_y = sign * (w["shoulder_mm"] / 2 - 12)
+        elbow_y = sign * 238
+        wrist_y = sign * 278
+        add(structure, side + "UpperArmRail", side + " upper-arm rail envelope", capsule((0, shoulder_y, f["shoulder_center_z_mm"]), (0, elbow_y, 965), 17, 14), c_struct, "STRUCTURE_ENVELOPE")
+        add(structure, side + "ForearmRail", side + " forearm rail envelope", capsule((0, elbow_y, 965), (8, wrist_y, 840), 14, 11), c_struct, "STRUCTURE_ENVELOPE")
+
+    # Replaceable mechanism placeholders around pivot locations. Dimensions
+    # deliberately come from the JSON and are marked as non-vendor envelopes.
+    for joint, center_z, ybase, pair in (
+        ("hip", f["hip_center_z_mm"], lateral, True),
+        ("knee", f["knee_center_z_mm"], lateral + 4, True),
+        ("ankle", f["ankle_center_z_mm"], lateral, True),
+        ("shoulder", f["shoulder_center_z_mm"], w["shoulder_mm"] / 2 - 12, True),
+        ("elbow", 965, 238, True),
+        ("wrist", 840, 278, True),
+    ):
+        dims = a[joint]
+        signs = (1, -1) if pair else (1,)
+        for sign in signs:
+            y = sign * ybase
+            side = "L" if sign > 0 else "R"
+            add(actuators, side + joint.title() + "Actuator", side + " " + joint + " drive envelope", cylinder_y((0, y, center_z), dims["diameter_mm"], dims["axial_length_mm"]), c_act, "ACTUATOR_PLACEHOLDER", 0, "Clearance placeholder only: replace using selected motor, gearbox, bearings, output flange, wiring, and thermal data.")
+            add(actuators, side + joint.title() + "Joint", side + " " + joint + " pivot / bearing envelope", Part.makeSphere(float(dims["diameter_mm"]) * 0.34, vec(0, y, center_z)), c_joint, "JOINT_PLACEHOLDER", 0, "Axis and travel are not kinematically validated.")
+    for joint, center_z in (("waist", 830), ("neck", 1190)):
+        dims = a[joint]
+        add(actuators, joint.title() + "Actuator", joint + " drive envelope", cylinder_z((0, 0, center_z), dims["diameter_mm"], dims["axial_length_mm"]), c_act, "ACTUATOR_PLACEHOLDER", 0, "Placeholder envelope; joint range / axis and exact number of DOF remain to be designed.")
+
+    # Electronics boxes answer packaging questions; there is no selected BOM.
+    for key, spec in cfg["sensor_and_compute_envelopes"].items():
+        dims = (spec["length_mm"], spec["width_mm"], spec["height_mm"])
+        center = spec["position_mm"]
+        add(electronics, key.title().replace("_", " "), key.replace("_", " ").title() + " volume", box(center, dims), c_elec, "ELECTRONICS_PLACEHOLDER", 22, "Bounding volume only; camera, battery, IMU, and compute parts are unselected.")
+
+    # Character-specific exterior volumes; shell groups can be hidden to inspect
+    # the internal fit without changing the simulator's training MJCF.
+    add(shells, "HeadCowl", "Removable tapered head / sensor cowl", ellipsoid((0, 0, f["head_center_z_mm"]), e["head_shell_radii_mm"]), c_shell, "APPEARANCE_SHELL", 3, "Optical openings and service split require sensor and manufacturing design.")
+    # A shallow dark sensor window on the +X front face.
+    add(shells, "OpticalWindow", "Front optical window / visor", ellipsoid((73, 0, 1278), (12, 35, 21)), (0.09, 0.11, 0.11), "SENSOR_APPEARANCE", 0, "Optics shown as a location only; no FOV or occlusion test yet.")
+    add(shells, "UpperBodyShell", "Torso fairing volume", ellipsoid((0, 0, 1045), e["torso_shell_radii_mm"]), c_shell, "APPEARANCE_SHELL", 8, "Non-structural fairing. Check shell splits, harness routing, and joint clearance.")
+    add(shells, "PelvicGuard", "Burgundy pelvic / short fairing", ellipsoid((0, 0, f["pelvis_origin_z_mm"]), e["pelvic_shell_radii_mm"]), c_shorts, "APPEARANCE_SHELL", 3, "Split/removable fairing concept around both hip actuator volumes.")
+
+    # Opposed limb capsules remain separate solids to keep the intended leg and
+    # arm covers inspectable in the tree; all are still conceptual envelopes.
+    for side, sign in (("L", 1), ("R", -1)):
+        yhip = sign * lateral
+        knee_y = sign * (lateral + 4)
+        shoulder_y = sign * (w["shoulder_mm"] / 2 - 12)
+        elbow_y, wrist_y = sign * 238, sign * 278
+        add(shells, side + "ThighShell", side + " thigh exterior shell", capsule((0, yhip, f["hip_center_z_mm"] - 22), (0, knee_y, f["knee_center_z_mm"] + 28), e["thigh_radii_mm"][0], e["thigh_radii_mm"][1]), c_shell, "APPEARANCE_SHELL", 2, "Check kick clearance and shell impact loads.")
+        add(shells, side + "ShankShell", side + " tapered shin / spring cover", capsule((0, knee_y, f["knee_center_z_mm"] - 22), (0, yhip, f["ankle_center_z_mm"] + 22), e["shank_radii_mm"][0], e["shank_radii_mm"][1]), c_light, "APPEARANCE_SHELL", 2, "Spring-inspired protective cover only; not a telescoping mechanism.")
+        for idx in range(cfg["leg_bandings"]["count_per_shank"]):
+            band_z = f["ankle_center_z_mm"] + 74 + idx * 83
+            band_radius = e["shank_radii_mm"][0] + 1
+            add(shells, side + "ShinBand" + str(idx + 1), side + " flexible shank band " + str(idx + 1), cylinder_z((0, yhip, band_z), band_radius * 2, cfg["leg_bandings"]["band_width_mm"]), c_shell, "FLEXIBLE_COVER_PLACEHOLDER", 0, "Banding is aesthetic only; no elastic/telescoping function has been designed.")
+        add(shells, side + "UpperArmShell", side + " upper arm shell", capsule((0, shoulder_y, f["shoulder_center_z_mm"] - 22), (0, elbow_y, 965 + 15), e["upper_arm_radius_mm"], e["upper_arm_radius_mm"] * 0.76), c_shell, "APPEARANCE_SHELL", 2)
+        add(shells, side + "ForearmShell", side + " forearm shell", capsule((0, elbow_y, 965 - 15), (8, wrist_y, 840 + 10), e["forearm_radius_mm"], e["forearm_radius_mm"] * 0.72), c_light, "APPEARANCE_SHELL", 2)
+        add(shells, side + "PalmShell", side + " palm / three-finger gripper envelope", ellipsoid((8, sign * 282, 804), (43, 38, 54)), c_shell, "APPEARANCE_SHELL", 0, "Three-finger serviceable gripper placeholder; not a manipulation design.")
+        for finger in range(3):
+            finger_y = sign * (258 + finger * 23)
+            add(shells, side + "Finger" + str(finger + 1), side + " finger " + str(finger + 1) + " envelope", capsule((10, finger_y, 785), (20, finger_y, 751), 9, 7), c_light, "APPEARANCE_SHELL", 0, "Finger geometry is visual placeholder only.")
+        # Compact toe caps over a broad sole envelope.
+        foot_y = sign * lateral
+        for toe in range(3):
+            toe_y = foot_y + sign * (toe - 1) * 31
+            add(shells, side + "Toe" + str(toe + 1), side + " toe cap " + str(toe + 1), ellipsoid((160, toe_y, 43), (60, 20, 32)), c_light, "FOOT_APPEARANCE", 0, "Three toe covers; contact and sole compliance must be designed and validated separately.")
+        add(shells, side + "FootUpper", side + " foot upper shell", box((72, foot_y, 54), (e["foot_length_mm"] - 5, 104, 55)), c_shell, "APPEARANCE_SHELL", 0, "Foot and sole geometry is a packaging envelope, not a validated support polygon.")
+
+    # Parameter table is carried in the native file so reviewers can see the
+    # authority and uncertain dimensions without opening the generator.
+    sheet = doc.addObject("Spreadsheet::Sheet", "BodyLayoutParameters")
+    sheet.Label = "Body layout inputs · millimetres unless noted"
+    rows = [
+        ("Design status", cfg["status"]),
+        ("Working height (mm)", cfg["overall_height_mm"]),
+        ("Project height range (mm)", "%s–%s" % tuple(cfg["target_context"]["project_height_range_mm"])),
+        ("Planning mass (kg; not a requirement)", cfg["target_context"]["project_mass_kg"]),
+        ("Working DOF count (not kinematic model)", cfg["target_context"]["working_dof_count"]),
+        ("Shoulder width (mm)", w["shoulder_mm"]),
+        ("Pelvis width (mm)", w["pelvis_mm"]),
+        ("Hip center height (mm)", f["hip_center_z_mm"]),
+        ("Knee center height (mm)", f["knee_center_z_mm"]),
+        ("Ankle center height (mm)", f["ankle_center_z_mm"]),
+        ("Actuator dimensions", a["status"]),
+        ("Source", "design/cad/body-layout-v0.json"),
+    ]
+    sheet.setColumnWidth("A", 260)
+    sheet.setColumnWidth("B", 460)
+    for row, (label, value) in enumerate(rows, start=1):
+        sheet.set("A%d" % row, str(label))
+        sheet.set("B%d" % row, str(value))
+
+    doc.recompute()
+    root.Visibility = True
+    for obj in (structure, actuators, electronics):
+        obj.Visibility = False
+    for obj in (sheet,):
+        obj.Visibility = False
+    shells.Visibility = True
+
+    # A named complete assembly group for one-click visibility and neutral export.
+    export_shapes = [obj for obj in objects if not obj.Shape.isNull()]
+    compound = Part.makeCompound([obj.Shape for obj in export_shapes])
+    assembly = doc.addObject("Part::Feature", "CompleteEnvelopeAssembly")
+    assembly.Label = "Complete envelope assembly · STEP export"
+    assembly.Shape = compound
+    assembly.addProperty("App::PropertyString", "ReleaseStatus", "Design")
+    assembly.ReleaseStatus = "CONCEPT ENVELOPE — NOT FOR MANUFACTURE"
+    assembly.ViewObject.Visibility = False
+    objects.append(assembly)
+
+    doc.recompute()
+    native_path = os.path.join(OUTPUT_DIR, "hitmonlee_body_layout_00.FCStd")
+    doc.recompute()
+    doc.saveAs(native_path)
+
+    # STEP contains the named separate solids and keeps STEP products reviewable.
+    step_path = os.path.join(OUTPUT_DIR, "hitmonlee_body_layout_00.step")
+    import Import
+
+    Import.export(export_shapes, step_path)
+
+    report = {
+        "design_id": cfg["design_id"],
+        "status": cfg["status"],
+        "freecad_version": App.Version(),
+        "units": cfg["units"],
+        "overall_height_mm_parameter": h,
+        "native_document": native_path,
+        "step_export": step_path,
+        "generator": os.path.relpath(__file__, ROOT).replace("\\", "/"),
+        "parameter_source": os.path.relpath(CONFIG_PATH, ROOT).replace("\\", "/"),
+        "shape_count": len(export_shapes),
+        "invalid_shapes": [obj.Name for obj in export_shapes if not obj.Shape.isValid()],
+        "assembly_bounds_mm": {
+            "x": [float(compound.BoundBox.XMin), float(compound.BoundBox.XMax)],
+            "y": [float(compound.BoundBox.YMin), float(compound.BoundBox.YMax)],
+            "z": [float(compound.BoundBox.ZMin), float(compound.BoundBox.ZMax)],
+            "height": float(compound.BoundBox.ZLength),
+        },
+        "component_groups": {
+            "structure": len(structure.Group),
+            "actuator_envelopes": len(actuators.Group),
+            "sensor_and_power": len(electronics.Group),
+            "appearance_shells": len(shells.Group),
+        },
+        "not_verified": cfg["assumptions_and_gates"],
+    }
+    report_path = os.path.join(OUTPUT_DIR, "body_layout_00_validation.json")
+    with open(report_path, "w", encoding="utf-8") as stream:
+        json.dump(report, stream, indent=2)
+
+    try:
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.activeDocument().activeView().fitAll()
+        Gui.updateGui()
+        preview_path = os.path.join(OUTPUT_DIR, "body_layout_00_preview.png")
+        Gui.activeDocument().activeView().saveImage(preview_path, 1800, 1400)
+        report["preview_image"] = preview_path
+        with open(report_path, "w", encoding="utf-8") as stream:
+            json.dump(report, stream, indent=2)
+    except Exception:
+        with open(os.path.join(OUTPUT_DIR, "preview_error.txt"), "w", encoding="utf-8") as stream:
+            stream.write(traceback.format_exc())
+
+    App.Console.PrintMessage("Hitmonlee body layout 00 saved. Validation report: %s\n" % report_path)
+
+
+try:
+    main()
+except Exception:
+    error_path = os.path.join(OUTPUT_DIR, "build_error.txt")
+    with open(error_path, "w", encoding="utf-8") as stream:
+        stream.write(traceback.format_exc())
+    App.Console.PrintError("Hitmonlee body layout build failed; details: %s\n" % error_path)
+    raise

@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hitmonlee-sim"
+version = "0.1.0"
+description = "Simulation-first robotics research workspace for Project Hitmonlee"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = { text = "MIT" }
+dependencies = [
+  "gymnasium[mujoco]>=1.2,<2",
+  "imageio>=2.37,<3",
+  "imageio-ffmpeg>=0.6,<1",
+  "mujoco>=3.3,<4",
+  "numpy>=2.1,<3",
+  "stable-baselines3>=2.7,<3",
+  "torch>=2.6,<3",
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.14,<1"]
+speech = ["sounddevice>=0.5,<1", "vosk>=0.3.45,<1"]
+
+[project.scripts]
+hitmonlee-train = "hitmonlee_sim.train:main"
+hitmonlee-evaluate = "hitmonlee_sim.evaluate:main"
+hitmonlee-monitor = "hitmonlee_sim.dashboard:main"
+hitmonlee-command = "hitmonlee_sim.command_cli:main"
+hitmonlee-voice = "hitmonlee_sim.voice:main"
+hitmonlee-summarize = "hitmonlee_sim.summarize:main"
+hitmonlee-inspect-model = "hitmonlee_sim.inspect_model:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+hitmonlee_sim = ["static/*.html", "models/*.xml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+

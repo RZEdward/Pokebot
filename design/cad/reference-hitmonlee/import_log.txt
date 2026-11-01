@@ -1,0 +1,5 @@
+source_obj=C:\Users\ross\Projects\Pokebot\assets\reference_models\pokemon-3d-api\hitmonlee_106.obj
+saved=C:\Users\ross\Projects\Pokebot\design\cad\reference-hitmonlee\hitmonlee_appearance_reference.FCStd
+hitmonlee_106	Mesh::Feature	Hitmonlee appearance mesh · visual reference only	vertices=5947	faces=9200	bbox=BoundBox (-124.615, -0.923431, -30.037, 124.615, 154.733, 34.3126)
+hitmonlee_107	Mesh::Feature	Hitmonlee appearance mesh · visual reference only001	vertices=200	faces=292	bbox=BoundBox (-25.2099, 115.867, 15.7006, 25.2099, 133.074, 26.1121)
+status=success

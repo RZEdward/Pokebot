@@ -1,0 +1,23 @@
+What do I actually want ?
+
+project_hitmonlee_build_plan_final was a visual concept
+
+The end goal, which could take >1 year, is a lifesize Hitmonlee free-roaming humanoid with a metallic body.
+
+The intermediate goal, is a digital twin. Followed by a concrete physical build plan and parts list / assembly guide.
+
+
+---------------------------
+I believe Nvidia have opensource training simulations, IsaacSim, Omniverse. Perhaps there are others, perhaps we can also build our own.
+
+Step 1 is to research and decide which of these opensource tools we will use.
+Step 2 is to build the digital hitmonlee, shape/sprite and defined joints/points of motion and rotation, as well as realistic weight distribution
+Step 3 is to put that hitmonlee in the simulations, decide which actions we want it to be capable of, code the reinforcement learning, and train his motion.
+Step 4 will be coding a representation of what he can see and hear, and the computer vision to decide actions in respons to what he sees, and processing commands from words it hears, into actions.
+Step 5 is iteration to completion of the digital twin, all senses and actions
+Step 6 I guess is the CAD (or is that step 2?) to actually build the schematic and each component of his body
+Step 7 is sending aluminium/3d print files to suppliers - and shipping in all parts
+Step 8 is assembly
+Step 9 would be iteration to align real world with digital twin and retraining
+
+Start researching, and build a proposal for Step 1-3, outlining plans verbally, as well as this repo's architecture. First do some serious research into the frontier/latest methods and tools people are using to build digital twins for robots

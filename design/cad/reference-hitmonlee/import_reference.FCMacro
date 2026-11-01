@@ -1,0 +1,44 @@
+import os
+import traceback
+import FreeCAD as App
+import FreeCADGui as Gui
+import Mesh
+
+root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+source = os.path.join(root, "assets", "reference_models", "pokemon-3d-api", "hitmonlee_106.obj")
+outdir = os.path.join(root, "design", "cad", "reference-hitmonlee")
+out = os.path.join(outdir, "hitmonlee_appearance_reference.FCStd")
+preview = os.path.join(outdir, "hitmonlee_appearance_reference.png")
+log = os.path.join(outdir, "import_log.txt")
+
+try:
+    doc = App.newDocument("HitmonleeAppearanceReference")
+    Mesh.insert(source, doc.Name)
+    meshes = [obj for obj in doc.Objects if hasattr(obj, "Mesh")]
+    if not meshes:
+        raise RuntimeError("FreeCAD OBJ importer created no mesh objects")
+    doc.Label = "Hitmonlee appearance reference · sourced mesh"
+    for index, obj in enumerate(meshes):
+        obj.Label = "Hitmonlee appearance mesh · visual reference only"
+        obj.addProperty("App::PropertyString", "DesignRole", "Reference", "How this mesh is intended to be used")
+        obj.DesignRole = "Visual silhouette and surface-layout reference; not mechanical CAD"
+        obj.addProperty("App::PropertyString", "Source", "Reference", "Source asset path")
+        obj.Source = "assets/reference_models/pokemon-3d-api/hitmonlee_106.glb"
+        obj.ViewObject.DisplayMode = "Shaded"
+        obj.ViewObject.ShapeColor = (0.78, 0.62, 0.46) if index == 0 else (0.12, 0.08, 0.06)
+    doc.recompute()
+    doc.saveAs(out)
+    Gui.activeDocument().activeView().viewIsometric()
+    Gui.activeDocument().activeView().fitAll()
+    Gui.activeDocument().activeView().saveImage(preview, 1400, 1100, "Current")
+    with open(log, "w", encoding="utf-8") as f:
+        f.write("source_obj=" + source + "\n")
+        f.write("saved=" + out + "\n")
+        for obj in meshes:
+            bb = obj.Mesh.BoundBox
+            f.write(f"{obj.Name}\t{obj.TypeId}\t{obj.Label}\tvertices={obj.Mesh.CountPoints}\tfaces={obj.Mesh.CountFacets}\tbbox={bb}\n")
+        f.write("status=success\n")
+except Exception:
+    with open(log, "w", encoding="utf-8") as f:
+        f.write(traceback.format_exc())
+    raise

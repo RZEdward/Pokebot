@@ -1,0 +1,51 @@
+{
+  "design_id": "HITMONLEE-BODY-LAYOUT-00",
+  "status": "VISUAL_AND_PACKAGING_ENVELOPE_NOT_FOR_MANUFACTURE",
+  "freecad_version": [
+    "1",
+    "1",
+    "4",
+    "20260928 (Git shallow)",
+    "Unknown",
+    "2026/09/28 13:46:34",
+    "(HEAD detached at 4fd3bf320)",
+    "4fd3bf320d9566a27e60069fc8387448aaa3a094"
+  ],
+  "units": "mm",
+  "overall_height_mm_parameter": 1350,
+  "native_document": "C:\\Users\\ross\\Projects\\Pokebot\\design\\cad\\body-v0\\hitmonlee_body_layout_00.FCStd",
+  "step_export": "C:\\Users\\ross\\Projects\\Pokebot\\design\\cad\\body-v0\\hitmonlee_body_layout_00.step",
+  "generator": "tools/cad/build_hitmonlee_body.FCMacro",
+  "parameter_source": "design/cad/body-layout-v0.json",
+  "shape_count": 78,
+  "invalid_shapes": [],
+  "assembly_bounds_mm": {
+    "x": [
+      -158.00000000000003,
+      219.9350895216706
+    ],
+    "y": [
+      -319.97188308901,
+      319.97188308901
+    ],
+    "z": [
+      11.0,
+      1351.0
+    ],
+    "height": 1340.0
+  },
+  "component_groups": {
+    "structure": 13,
+    "actuator_envelopes": 26,
+    "sensor_and_power": 5,
+    "appearance_shells": 34
+  },
+  "not_verified": [
+    "The 1.35 m model is a visualization and packaging starting point, not the final height decision.",
+    "No motor, gearbox, bearing, link section, wall thickness, fastener, wiring, or thermal design has been selected.",
+    "Mass distribution and center of mass are not computed because no material or component masses are authoritative yet.",
+    "The appearance concept's fine exterior is represented by simplified solids; it is not a mold, sheet-metal, or additive-manufacturing design.",
+    "Before detailed CAD, validate required torques and speeds, actuator dimensions, joint axes and travel, self-collision, shell removal, fall impacts, and feet/contact against measured evidence."
+  ],
+  "preview_image": "C:\\Users\\ross\\Projects\\Pokebot\\design\\cad\\body-v0\\body_layout_00_preview.png"
+}

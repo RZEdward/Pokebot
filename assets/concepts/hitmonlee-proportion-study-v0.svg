@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000" role="img" aria-labelledby="title desc">
+<title id="title">Hitmonlee-inspired robot proportion study</title><desc id="desc">Front and side silhouette study of a one and a half metre Hitmonlee-inspired humanoid robot, with character-color shell, spring-like leg bands and visible rotary joints. Not for manufacturing.</desc>
+<defs>
+  <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#202523"/><stop offset="1" stop-color="#111614"/></linearGradient>
+  <linearGradient id="shell" x1="0" x2="1" y2=".5"><stop stop-color="#9c774e"/><stop offset=".48" stop-color="#d5b17d"/><stop offset="1" stop-color="#ad885b"/></linearGradient>
+  <linearGradient id="lightShell" x1="0" x2="1"><stop stop-color="#b9a27d"/><stop offset=".52" stop-color="#ead8ae"/><stop offset="1" stop-color="#b8a47f"/></linearGradient>
+  <linearGradient id="shorts" x1="0" x2="1"><stop stop-color="#4f252b"/><stop offset=".5" stop-color="#8e4145"/><stop offset="1" stop-color="#55292f"/></linearGradient>
+  <radialGradient id="joint"><stop stop-color="#9fa39a"/><stop offset=".42" stop-color="#454b48"/><stop offset=".8" stop-color="#242a28"/><stop offset="1" stop-color="#777a70"/></radialGradient>
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#d4dfcf" stroke-opacity=".055" stroke-width="1"/></pattern>
+  <filter id="shadow" x="-.5" y="-.5" width="2" height="2"><feGaussianBlur stdDeviation="13"/></filter>
+  <style>
+    text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#ebe9dd}.muted{fill:#aeb8ae}.tiny{font-size:11px;letter-spacing:1.3px}.label{font-size:14px;letter-spacing:1.5px}.head{font-size:32px;font-weight:650;letter-spacing:-1px}.rule{stroke:#859187;stroke-opacity:.5;stroke-width:1}.call{stroke:#c8b18a;stroke-width:1;fill:none}.shell{fill:url(#shell);stroke:#f0d7a5;stroke-opacity:.5;stroke-width:2}.light{fill:url(#lightShell);stroke:#f1e4c9;stroke-opacity:.6;stroke-width:2}.short{fill:url(#shorts);stroke:#bf7777;stroke-opacity:.6;stroke-width:2}.metal{fill:url(#joint);stroke:#b5b7ad;stroke-opacity:.75;stroke-width:2}.band{fill:#d7c7a5;stroke:#eee1c4;stroke-opacity:.5;stroke-width:1.5}.dark{fill:#202726;stroke:#737b73;stroke-width:2}.eye{fill:#141b1a;stroke:#c39a54;stroke-width:2}
+  </style>
+</defs>
+<rect width="1400" height="1000" fill="url(#bg)"/><rect width="1400" height="1000" fill="url(#grid)"/>
+<text x="58" y="66" class="tiny" fill="#d1b88a">PROJECT HITMONLEE  /  DESIGN STUDY 02</text><text x="58" y="112" class="head">Silhouette before surface detail.</text><text x="59" y="143" class="muted" font-size="14">Proportion study · 1,500 mm visual reference height · no mechanical dimensions released</text>
+<line x1="58" y1="168" x2="1342" y2="168" class="rule"/>
+<text x="294" y="205" class="label" text-anchor="middle">FRONT · NEUTRAL STANCE</text><text x="805" y="205" class="label" text-anchor="middle">SIDE · FORWARD IS RIGHT</text><text x="1111" y="205" class="label">DESIGN INTENT</text>
+<!-- shadow --> <ellipse cx="310" cy="870" rx="150" ry="18" fill="#000" opacity=".38" filter="url(#shadow)"/><ellipse cx="800" cy="870" rx="100" ry="15" fill="#000" opacity=".32" filter="url(#shadow)"/>
+<!-- front elevation; total nominal scale from y=230 to 850 -->
+<!-- head: tapered, small, feature-light -->
+<path class="shell" d="M278 240 Q282 215 303 212 Q327 209 339 229 L344 275 Q342 296 329 307 L322 322 L286 322 L278 306 Q266 293 267 274Z"/>
+<path d="M274 274 Q291 267 303 274 Q314 268 338 274 L337 283 Q320 279 304 286 Q289 280 272 284Z" class="eye"/>
+<path d="M284 290 Q303 299 330 288" fill="none" stroke="#694c34" stroke-width="2"/>
+<!-- neck and compact torso -->
+<path class="dark" d="M293 315 L327 315 L331 344 L290 344Z"/>
+<path class="shell" d="M290 337 Q271 338 259 352 L239 396 Q231 415 245 428 L260 434 L278 397 L282 446 Q283 469 298 478 L319 479 Q337 472 338 447 L342 397 L362 434 L379 427 Q391 416 382 397 L363 355 Q354 340 334 337Z"/>
+<path d="M280 351 Q304 361 343 350 M282 389 Q309 400 340 390 M290 434 Q311 442 336 434" fill="none" stroke="#eddaae" stroke-opacity=".35" stroke-width="2"/>
+<!-- shoulders --> <circle class="metal" cx="256" cy="357" r="17"/><circle class="metal" cx="365" cy="357" r="17"/><circle cx="256" cy="357" r="6" fill="#c79550"/><circle cx="365" cy="357" r="6" fill="#c79550"/>
+<!-- arms, long, slim, relaxed -->
+<path class="shell" d="M244 370 Q231 373 228 389 L212 453 Q208 468 217 478 L231 483 L243 469 L258 411 L268 390Z"/>
+<path class="light" d="M213 467 Q222 463 236 472 L224 534 Q220 548 208 548 Q197 545 199 531Z"/>
+<circle class="metal" cx="216" cy="477" r="10"/><path class="shell" d="M200 539 Q209 533 220 541 L219 565 L207 577 L201 565 L190 575 L186 566 L180 570 L176 562 Q181 548 200 539Z"/>
+<path class="shell" d="M380 370 Q393 373 396 389 L412 453 Q416 468 407 478 L393 483 L381 469 L366 411 L356 390Z"/>
+<path class="light" d="M411 467 Q402 463 388 472 L400 534 Q404 548 416 548 Q427 545 425 531Z"/>
+<circle class="metal" cx="408" cy="477" r="10"/><path class="shell" d="M424 539 Q415 533 404 541 L405 565 L417 577 L423 565 L434 575 L440 566 L446 570 L450 562 Q445 548 424 539Z"/>
+<!-- pelvis / shorts --> <path class="short" d="M264 466 Q307 450 357 466 L370 505 L346 536 L322 527 L310 550 L296 527 L274 536 L251 505Z"/>
+<path d="M310 468 L310 525" stroke="#d8a39b" stroke-opacity=".55" stroke-width="2"/>
+<!-- thighs -->
+<path class="shell" d="M270 518 Q288 515 300 530 L297 610 Q295 651 285 685 L258 701 Q243 695 246 675 L254 603Z"/>
+<path class="shell" d="M350 518 Q332 515 320 530 L323 610 Q325 651 335 685 L362 701 Q377 695 374 675 L366 603Z"/>
+<!-- knee drive / joint caps --> <circle class="metal" cx="267" cy="695" r="24"/><circle class="metal" cx="355" cy="695" r="24"/><circle cx="267" cy="695" r="8" fill="#bc955e"/><circle cx="355" cy="695" r="8" fill="#bc955e"/>
+<!-- banded spring-inspired shins -->
+<path class="light" d="M248 711 Q264 720 282 708 L293 746 L294 809 L271 824 L251 811 L251 765Z"/>
+<path class="light" d="M340 708 Q358 720 374 711 L371 765 L371 811 L351 824 L328 809 L329 746Z"/>
+<path class="band" d="M250 738 Q269 747 289 736 L291 750 Q270 762 251 751Z"/><path class="band" d="M252 778 Q271 787 293 776 L293 790 Q272 801 252 790Z"/>
+<path class="band" d="M330 736 Q350 747 372 738 L371 751 Q350 762 329 750Z"/><path class="band" d="M327 776 Q349 787 371 778 L371 790 Q350 801 328 790Z"/>
+<!-- ankle hubs and three-toe feet --> <circle class="metal" cx="272" cy="819" r="13"/><circle class="metal" cx="350" cy="819" r="13"/>
+<path class="dark" d="M263 825 Q278 820 287 832 L302 858 Q304 866 296 868 L225 868 Q215 867 220 857 L239 836Z"/><path class="dark" d="M337 825 Q352 820 361 832 L404 857 Q410 866 399 868 L329 868 Q320 867 324 857Z"/>
+<path class="light" d="M238 838 Q250 832 260 837 L264 862 L230 862Z"/><path class="light" d="M260 833 Q274 830 285 839 L292 861 L264 862Z"/><path class="light" d="M284 837 Q295 837 301 848 L306 860 L291 862Z"/>
+<path class="light" d="M335 837 Q347 831 360 837 L365 861 L333 862Z"/><path class="light" d="M357 836 Q371 833 382 841 L396 862 L365 862Z"/><path class="light" d="M379 844 Q391 840 401 850 L408 860 L395 862Z"/>
+<!-- side elevation -->
+<path class="shell" d="M781 240 Q785 216 803 212 Q823 214 828 237 L830 277 Q827 299 812 310 L811 324 L786 324 L785 310 Q773 296 773 276Z"/>
+<path class="eye" d="M819 270 Q831 275 830 284 L817 288Z"/>
+<path class="dark" d="M788 316 L810 316 L814 342 L785 342Z"/>
+<path class="shell" d="M788 339 Q765 348 757 365 L752 422 Q751 450 772 471 L807 481 L835 463 L845 413 L842 368 Q832 344 810 339Z"/>
+<path class="short" d="M765 468 Q800 452 835 468 L842 507 L812 538 L778 527 L754 503Z"/>
+<path class="shell" d="M762 516 Q785 510 797 530 L800 615 L780 679 L753 696 L742 677 L751 597Z"/>
+<circle class="metal" cx="763" cy="696" r="22"/>
+<path class="light" d="M744 713 Q763 721 781 708 L787 759 L774 814 L749 823 L737 811 L737 757Z"/>
+<path class="band" d="M739 747 Q761 758 784 747 L783 763 Q760 773 738 762Z"/><path class="band" d="M737 784 Q758 795 778 784 L776 799 Q755 808 737 798Z"/>
+<circle class="metal" cx="756" cy="820" r="13"/><path class="dark" d="M748 826 Q765 820 779 832 L831 857 Q839 867 827 868 L730 868 Q719 867 726 856Z"/>
+<path class="light" d="M765 837 Q784 832 799 842 L821 860 L768 861Z"/><path class="light" d="M790 840 Q805 839 816 850 L828 860 L795 861Z"/>
+<!-- ground, ruler and annotations -->
+<line x1="186" y1="868" x2="468" y2="868" stroke="#c2c8bd" stroke-width="2"/><line x1="668" y1="868" x2="893" y2="868" stroke="#c2c8bd" stroke-width="2"/>
+<line x1="126" y1="240" x2="126" y2="868" stroke="#c8b18a"/><path d="M119 240h14 M119 868h14" class="call"/><text x="104" y="552" class="label" transform="rotate(-90 104 552)" text-anchor="middle">1,500 mm character-scale reference</text>
+<path class="call" d="M340 267H493V260H548"/><circle cx="340" cy="267" r="3" fill="#c8b18a"/><text x="558" y="264" class="tiny">NARROW SENSOR HEAD</text>
+<path class="call" d="M350 487H497V490H548"/><circle cx="350" cy="487" r="3" fill="#c8b18a"/><text x="558" y="494" class="tiny">REMOVABLE PELVIC FAIRING</text>
+<path class="call" d="M372 768H500V760H548"/><circle cx="372" cy="768" r="3" fill="#c8b18a"/><text x="558" y="764" class="tiny">SPRING-INSPIRED SHIN COVERS</text>
+<path class="call" d="M787 697H907V684H949"/><circle cx="787" cy="697" r="3" fill="#c8b18a"/><text x="960" y="688" class="tiny">HINGE / ACTUATOR VOLUME</text>
+<!-- notes -->
+<line x1="1070" y1="235" x2="1070" y2="861" class="rule"/>
+<text x="1100" y="264" class="tiny" fill="#d4bb91">LOCK THE VISUAL READ</text>
+<text x="1100" y="303" font-size="16">01  Long leg-to-body ratio</text><text x="1124" y="326" class="muted" font-size="12">Silhouette first; details later.</text>
+<text x="1100" y="374" font-size="16">02  Tan shell / burgundy hips</text><text x="1124" y="397" class="muted" font-size="12">Signature color blocks.</text>
+<text x="1100" y="445" font-size="16">03  Pale segmented leg bands</text><text x="1124" y="468" class="muted" font-size="12">Hint at elastic spring motion.</text>
+<text x="1100" y="516" font-size="16">04  Grounded three-toe foot</text><text x="1124" y="539" class="muted" font-size="12">Replaceable sole; toe shells visual only.</text>
+<text x="1100" y="595" class="tiny" fill="#d4bb91">NOT YET SPECIFIED</text>
+<text x="1100" y="628" class="muted" font-size="12">Actuator dimensions / gearing</text><text x="1100" y="652" class="muted" font-size="12">Head sensor layout / field of view</text><text x="1100" y="676" class="muted" font-size="12">Mass, balance, structure and shell</text><text x="1100" y="700" class="muted" font-size="12">Impact protection and safety</text>
+<rect x="1095" y="754" width="240" height="82" rx="8" fill="#29261f" stroke="#8b7552"/><text x="1110" y="781" class="tiny" fill="#efd49f">CONCEPT — NOT FOR BUILD</text><text x="1110" y="804" class="muted" font-size="11">Visual proportions only. CAD must follow</text><text x="1110" y="821" class="muted" font-size="11">measured joints, loads and safety needs.</text>
+<text x="58" y="944" class="tiny muted">REFERENCE: OFFICIAL POKÉMON POKÉDEX 106 · 1.5 m CHARACTER HEIGHT · ROBOT MASS AND HARDWARE ARE OPEN</text><text x="1340" y="944" class="tiny muted" text-anchor="end">HITMONLEE ROBOT · APPEARANCE STUDY 02</text>
+</svg>

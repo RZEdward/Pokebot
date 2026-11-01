@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "design_id": "HITMONLEE-BODY-LAYOUT-00",
+  "status": "VISUAL_AND_PACKAGING_ENVELOPE_NOT_FOR_MANUFACTURE",
+  "units": "mm",
+  "coordinate_convention": {
+    "x": "forward",
+    "y": "left",
+    "z": "up",
+    "note": "Provisional convention chosen for this CAD study; reconcile with the canonical robot frames before publishing CAD."
+  },
+  "target_context": {
+    "project_height_range_mm": [1200, 1400],
+    "working_height_mm": 1350,
+    "project_mass_kg": 25,
+    "mass_is_requirement": false,
+    "project_dof_range": [23, 26],
+    "working_dof_count": 24,
+    "sources": [
+      "project_hitmonlee_build_plan_final.html",
+      "docs/architecture/provisional-model.md"
+    ],
+    "note": "Height, mass and DOF are still planning targets, not approved requirements. Robot weight and actuator layout will be recomputed from selected parts."
+  },
+  "overall_height_mm": 1350,
+  "front_back_axis": "x",
+  "laterality_axis": "y",
+  "ground_z_mm": 0,
+  "frames": {
+    "pelvis_origin_z_mm": 755,
+    "shoulder_center_z_mm": 1115,
+    "head_center_z_mm": 1260,
+    "ankle_center_z_mm": 112,
+    "knee_center_z_mm": 432,
+    "hip_center_z_mm": 752
+  },
+  "widths": {
+    "shoulder_mm": 340,
+    "pelvis_mm": 290,
+    "hip_spacing_mm": 205,
+    "stance_width_mm": 220,
+    "head_mm": 145,
+    "foot_mm": 125
+  },
+  "segment_envelopes": {
+    "head_shell_radii_mm": [76, 70, 91],
+    "torso_shell_radii_mm": [132, 108, 175],
+    "pelvic_shell_radii_mm": [158, 142, 86],
+    "upper_arm_radius_mm": 46,
+    "forearm_radius_mm": 37,
+    "thigh_radii_mm": [79, 75],
+    "shank_radii_mm": [59, 55],
+    "foot_length_mm": 285,
+    "foot_height_mm": 74,
+    "foot_sole_width_mm": 124
+  },
+  "actuator_envelopes": {
+    "status": "PLACEHOLDER_CLEARANCE_BOXES_NOT_VENDOR_MOTORS",
+    "hip": {"diameter_mm": 92, "axial_length_mm": 80},
+    "knee": {"diameter_mm": 78, "axial_length_mm": 68},
+    "ankle": {"diameter_mm": 70, "axial_length_mm": 62},
+    "shoulder": {"diameter_mm": 88, "axial_length_mm": 72},
+    "elbow": {"diameter_mm": 66, "axial_length_mm": 54},
+    "wrist": {"diameter_mm": 54, "axial_length_mm": 46},
+    "waist": {"diameter_mm": 100, "axial_length_mm": 82},
+    "neck": {"diameter_mm": 62, "axial_length_mm": 54}
+  },
+  "sensor_and_compute_envelopes": {
+    "head_camera": {"length_mm": 38, "width_mm": 30, "height_mm": 25, "position_mm": [72, 0, 1285]},
+    "head_compute": {"length_mm": 55, "width_mm": 52, "height_mm": 20, "position_mm": [-5, 0, 1280]},
+    "torso_imu": {"length_mm": 35, "width_mm": 35, "height_mm": 18, "position_mm": [0, 0, 1115]},
+    "battery_placeholder": {"length_mm": 220, "width_mm": 95, "height_mm": 120, "position_mm": [-30, 0, 865]},
+    "compute_placeholder": {"length_mm": 120, "width_mm": 90, "height_mm": 35, "position_mm": [-15, 0, 1000]}
+  },
+  "leg_bandings": {
+    "count_per_shank": 3,
+    "band_width_mm": 32,
+    "visual_only": true,
+    "note": "Character-inspired flexible gaiter / cover breaks; not a telescoping mechanism specification."
+  },
+  "assumptions_and_gates": [
+    "The 1.35 m model is a visualization and packaging starting point, not the final height decision.",
+    "No motor, gearbox, bearing, link section, wall thickness, fastener, wiring, or thermal design has been selected.",
+    "Mass distribution and center of mass are not computed because no material or component masses are authoritative yet.",
+    "The appearance concept's fine exterior is represented by simplified solids; it is not a mold, sheet-metal, or additive-manufacturing design.",
+    "Before detailed CAD, validate required torques and speeds, actuator dimensions, joint axes and travel, self-collision, shell removal, fall impacts, and feet/contact against measured evidence."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "source": "assets\\reference_models\\pokemon-3d-api\\hitmonlee_106_decoded.glb",
+  "output": "assets\\reference_models\\pokemon-3d-api\\hitmonlee_106.obj",
+  "mesh_groups": [
+    {
+      "name": "Object_0",
+      "vertices": 5947,
+      "indices": 27600,
+      "triangles": 9200
+    },
+    {
+      "name": "Object_1",
+      "vertices": 200,
+      "indices": 876,
+      "triangles": 292
+    }
+  ],
+  "total_vertices": 6147,
+  "total_triangles": 9492,
+  "materials_and_textures": "preserved in source GLB; OBJ is geometry reference only"
+}
