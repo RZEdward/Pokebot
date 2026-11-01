@@ -20,8 +20,8 @@ This is a deliberately conditional recommendation. Isaac Lab 3.0's current insta
 
 The folder currently contains two documents and no source-code packages, robot assets, CAD, environment lockfiles, or tests:
 
-- `initial_project_plan.txt` describes a long-range lifesize metallic Hitmonlee goal. It asks for research and a verbal proposal for Steps 1–3, but explicitly treats the initial simulator and workflow as open questions.
-- `project_hitmonlee_build_plan_final.html` is a substantial engineering concept. It sketches a 1.2–1.4 m, approximately 25 kg humanoid, around 23–26 actuated joints, machined aluminium structure, ROS 2 and simulation-first work. It currently favors MuJoCo/MJX with Isaac Sim as a secondary tool, and recognizes actuator selection, locomotion, and calibration as major risks.
+- `docs/planning/initial_project_plan.txt` describes a long-range lifesize metallic Hitmonlee goal. It asks for research and a verbal proposal for Steps 1–3, but explicitly treats the initial simulator and workflow as open questions.
+- `docs/planning/project_hitmonlee_build_plan_final.html` is a substantial engineering concept. It sketches a 1.2–1.4 m, approximately 25 kg humanoid, around 23–26 actuated joints, machined aluminium structure, ROS 2 and simulation-first work. It currently favors MuJoCo/MJX with Isaac Sim as a secondary tool, and recognizes actuator selection, locomotion, and calibration as major risks.
 
 These numbers are planning hypotheses, not frozen requirements. The robot's mass, proportions, joint count, actuator technology, and target skills should be revisited as the actuator and safety envelopes become measurable. There is no existing code architecture to preserve; the repo layout below is a proposed starting structure.
 

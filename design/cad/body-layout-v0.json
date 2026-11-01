@@ -17,7 +17,7 @@
     "project_dof_range": [23, 26],
     "working_dof_count": 24,
     "sources": [
-      "project_hitmonlee_build_plan_final.html",
+      "docs/planning/project_hitmonlee_build_plan_final.html",
       "docs/architecture/provisional-model.md"
     ],
     "note": "Height, mass and DOF are still planning targets, not approved requirements. Robot weight and actuator layout will be recomputed from selected parts."

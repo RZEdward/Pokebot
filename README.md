@@ -46,7 +46,7 @@ Use `--camera head_camera` to record the robot's RGB sensor view. Open the MP4 i
 
 ## Current training evidence
 
-Across four controlled 50,000-step training seeds (42–45), the best checkpoints completed 25/30, 9/30, 4/30 and 6/30 randomized held-out starts. The descriptive mean was 11/30; the range was 4–25 completions. Three reset seeds (12010, 12020 and 12029) failed for all four policies. A zero-action baseline completed 0/30. Extending seed 43 to 100,000 steps selected the same 10,000-step best checkpoint, while its final checkpoint completed 0/30. This is evidence of large run/checkpoint sensitivity and shows why training return alone is inadequate; it is not a formal robustness estimate. Evaluation JSON now records initial pose and velocity to make those cases inspectable. The full run record, per-seed reports, and limits are in [`runs/balance-multiseed-summary.json`](runs/balance-multiseed-summary.json), [`docs/verification/first-run.md`](docs/verification/first-run.md) and [`phase_1_to_4_foundation.html`](phase_1_to_4_foundation.html).
+Across four controlled 50,000-step training seeds (42–45), the best checkpoints completed 25/30, 9/30, 4/30 and 6/30 randomized held-out starts. The descriptive mean was 11/30; the range was 4–25 completions. Three reset seeds (12010, 12020 and 12029) failed for all four policies. A zero-action baseline completed 0/30. Extending seed 43 to 100,000 steps selected the same 10,000-step best checkpoint, while its final checkpoint completed 0/30. This is evidence of large run/checkpoint sensitivity and shows why training return alone is inadequate; it is not a formal robustness estimate. Evaluation JSON now records initial pose and velocity to make those cases inspectable. The run history, reported outcomes, reproducibility details, and limits are summarized in [`docs/verification/first-run.md`](docs/verification/first-run.md) and the [visual overview](docs/overview/phase_1_to_4_foundation.html). Generated checkpoints, per-seed JSON, and videos stay under `runs/` locally and are excluded by `.gitignore`.
 
 To reproduce the controlled seed-43 run against the exact MJCF archived with seed 42:
 
@@ -104,14 +104,16 @@ The learned policy is one skill. It does not access hardware or issue bus comman
 
 ## Repository map
 
-- `phase_1_to_4_foundation.html` — visual overview of the runnable base, training evidence, live viewing, and upstream references.
+- `docs/overview/phase_1_to_4_foundation.html` — visual overview of the runnable base, training evidence, live viewing, and upstream references.
 - `docs/design/hitmonlee-robot-appearance.html` — generated industrial-design concept, editable proportion sheet, design critique and CAD gate.
 - `docs/design/body-design-and-motion-validation.md` — CAD/motion distinction, current model boundaries, validation plan and staged path toward calibrated simulator and supplier geometry.
 - `design/cad/body-layout-v1.json` + `tools/cad/build_hitmonlee_body_v1.FCMacro` — reproducible FreeCAD concept envelope assembly inputs and generator; not a manufacturing release.
 - `design/cad/body-v1/` — editable FCStd, concept STEP, shell-only STEP/STL prototypes, validation report and engineering preview images. The last verified full STEP round-trip passed 87/87 solids, and all 87 solids carry their JSON source path and resolved value. The JSON/generator now define a 28-joint study chain, but the saved FCStd/report still contain the earlier 14 axis references pending rebuild. The shell STL contains 30 hollow split panels (285,718 facets); the shell STEP round-trip imports 30 valid features but narrowly misses its volume-delta threshold. All geometry remains prototype-only; physical fit and manufacturing validation are open.
 - `design/cad/reference-hitmonlee/` — licensed appearance reference import and attribution; source mesh is visual reference only.
 - `assets/concepts/` — versioned appearance studies and image-generation prompt provenance.
-- `step_1_to_3_research_proposal.html` — visual toolchain research and staged proposal.
+- `docs/research/step_1_to_3_research_proposal.html` — visual toolchain research and staged proposal.
+- `docs/planning/` — original project brief and engineering concept.
+- `docs/research/step_1_to_3_research_proposal.md` — readable research and staged proposal.
 - `docs/research/open-source-reference-workflows.md` — architecture patterns and upstream references.
 - `docs/architecture/` — software boundaries, state/action schemas, and model-format decisions.
 - `docs/architecture/voice-command-pipeline.md` — optional offline ASR and safe intent-dispatch path.
