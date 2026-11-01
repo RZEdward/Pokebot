@@ -17,6 +17,17 @@ def validate_model(model: mujoco.MjModel, config: dict[str, Any]) -> dict[str, A
         raise ValueError("joint_frames must enumerate each configured joint exactly once")
     if model.nu != len(names):
         raise ValueError(f"MJCF has {model.nu} actuators but config has {len(names)} joints")
+    for baseline_name, baseline in config.get("evaluation_baselines", {}).items():
+        for field in ("pitch_ankle_joints", "roll_ankle_joints"):
+            if not baseline.get(field) or any(joint not in names for joint in baseline[field]):
+                raise ValueError(f"Baseline {baseline_name} has invalid joint mapping: {field}")
+        if any(
+            not np.isfinite(baseline.get(key, np.nan)) or baseline[key] < 0
+            for key in ("proportional_gain", "angular_damping")
+        ):
+            raise ValueError(f"Baseline {baseline_name} gains must be finite and nonnegative")
+        if "residual_scale" in baseline and not 0.0 <= baseline["residual_scale"] <= 1.0:
+            raise ValueError(f"Baseline {baseline_name} residual_scale must be in [0, 1]")
     if not np.isclose(model.opt.timestep, config["timestep_s"], atol=1e-9):
         raise ValueError("MJCF and robot config physics timesteps differ")
 

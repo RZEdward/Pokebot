@@ -12,6 +12,7 @@ import mujoco
 import numpy as np
 from gymnasium import spaces
 
+from robot_twin.controllers import ankle_upright_pd_action
 from robot_twin.model_validation import validate_model
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -37,6 +38,7 @@ class HumanoidBalanceEnv(gym.Env[np.ndarray, np.ndarray]):
         render_mode: str | None = None,
         episode_seconds: float | None = None,
         randomize: bool = True,
+        control_mode: str = "direct",
     ) -> None:
         super().__init__()
         self.config_path = config_path.resolve()
@@ -54,6 +56,14 @@ class HumanoidBalanceEnv(gym.Env[np.ndarray, np.ndarray]):
             raise ValueError(f"Unsupported render mode: {render_mode}")
         self.render_mode = render_mode
         self.randomize = randomize
+        if control_mode not in ("direct", "ankle_pd_residual"):
+            raise ValueError(f"Unsupported control mode: {control_mode}")
+        self.control_mode = control_mode
+        self.baseline_settings = self.config.get(
+            "evaluation_baselines", load_config(CONFIG_PATH).get("evaluation_baselines", {})
+        ).get("ankle_upright_pd")
+        if control_mode == "ankle_pd_residual" and self.baseline_settings is None:
+            raise ValueError("ankle_pd_residual mode requires ankle_upright_pd configuration")
         self.randomization_intensity = 1.0
         self.model = mujoco.MjModel.from_xml_path(str(self.model_path))
         self.validation = validate_model(self.model, self.config)
@@ -214,7 +224,12 @@ class HumanoidBalanceEnv(gym.Env[np.ndarray, np.ndarray]):
         a = np.clip(np.asarray(action, dtype=np.float64), -1, 1)
         if a.shape != (self.model.nu,) or not np.all(np.isfinite(a)):
             raise ValueError(f"Expected {self.model.nu} finite normalized actions")
-        self.data.ctrl[:] = self.neutral_targets + self.action_spans * a
+        commanded_action = a
+        if self.control_mode == "ankle_pd_residual":
+            baseline = ankle_upright_pd_action(self, self.baseline_settings)
+            residual_scale = self.baseline_settings["residual_scale"]
+            commanded_action = np.clip(baseline + residual_scale * a, -1.0, 1.0)
+        self.data.ctrl[:] = self.neutral_targets + self.action_spans * commanded_action
         for _ in range(self.config["control_decimation"]):
             mujoco.mj_step(self.model, self.data)
         self.steps += 1
@@ -225,8 +240,8 @@ class HumanoidBalanceEnv(gym.Env[np.ndarray, np.ndarray]):
         height = float(self.data.qpos[2])
         upright = float(np.clip(-gravity_body[2], -1, 1))
         xy_speed = float(np.linalg.norm(self.data.qvel[:2]))
-        action_cost = float(np.mean(a * a))
-        action_smooth = float(np.mean((a - self.last_action) ** 2))
+        action_cost = float(np.mean(commanded_action * commanded_action))
+        action_smooth = float(np.mean((commanded_action - self.last_action) ** 2))
         reward = (
             1.0
             + 2.0 * upright
@@ -234,7 +249,7 @@ class HumanoidBalanceEnv(gym.Env[np.ndarray, np.ndarray]):
         )
         reward += 0.8 * np.exp(-((np.linalg.norm(self.data.qpos[:2]) / 0.25) ** 2))
         reward -= 0.06 * action_cost + 0.04 * action_smooth + 0.08 * min(xy_speed, 5.0)
-        self.last_action[:] = a
+        self.last_action[:] = commanded_action
         fallen = (
             height < 0.42
             or upright < 0.35

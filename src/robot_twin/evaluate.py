@@ -11,8 +11,10 @@ from pathlib import Path
 import imageio.v2 as imageio
 import mujoco
 import numpy as np
+import torch
 from stable_baselines3 import PPO
 
+from robot_twin.controllers import ankle_upright_pd_action
 from robot_twin.env import CONFIG_PATH, HumanoidBalanceEnv, load_config
 
 
@@ -26,7 +28,26 @@ def main():
         help="Robot config snapshot; defaults to the checkpoint's run snapshot if present",
     )
     ap.add_argument("--output", type=Path, default=None, help="Optional MP4 replay path")
+    ap.add_argument(
+        "--record-controller",
+        choices=("neutral_hold", "ankle_upright_pd", "ppo"),
+        default="ppo",
+        help="Controller to record when --output is set",
+    )
     ap.add_argument("--episodes", type=int, default=1)
+    ap.add_argument("--torch-threads", type=int, default=1, help="Limit PyTorch CPU threads")
+    ap.add_argument(
+        "--policy-mode",
+        choices=("direct", "ankle_pd_residual"),
+        default=None,
+        help="Override the controller mode recorded in the run manifest",
+    )
+    ap.add_argument(
+        "--residual-scale",
+        type=float,
+        default=None,
+        help="Override ankle-PD residual amplitude during evaluation (0 to 1)",
+    )
     ap.add_argument(
         "--mass-scales",
         type=float,
@@ -38,22 +59,50 @@ def main():
     a = ap.parse_args()
     if a.episodes < 1:
         ap.error("--episodes must be positive")
+    if a.torch_threads < 1:
+        ap.error("--torch-threads must be positive")
+    if a.residual_scale is not None and not 0.0 <= a.residual_scale <= 1.0:
+        ap.error("--residual-scale must be in [0, 1]")
     if not a.mass_scales or any(scale <= 0 for scale in a.mass_scales):
         ap.error("--mass-scales must contain positive values")
     if a.live and a.output:
         ap.error("Use either --live or --output for an evaluation run, not both.")
     if not a.model.is_file():
         ap.error(f"Checkpoint does not exist: {a.model}")
+    torch.set_num_threads(a.torch_threads)
+    try:
+        torch.set_num_interop_threads(1)
+    except RuntimeError:
+        pass
     policy = PPO.load(a.model, device="cpu")
     config_path = a.config or (
         a.model.parent / "robot_config_snapshot.json"
         if (a.model.parent / "robot_config_snapshot.json").is_file()
         else CONFIG_PATH
     )
+    run_manifest_path = a.model.parent / "run.json"
+    run_manifest = (
+        json.loads(run_manifest_path.read_text(encoding="utf-8"))
+        if run_manifest_path.is_file()
+        else {}
+    )
+    policy_mode = a.policy_mode or run_manifest.get("control_mode", "direct")
+    if policy_mode not in ("direct", "ankle_pd_residual"):
+        ap.error(f"Unsupported policy mode in run manifest: {policy_mode}")
     cfg = load_config(config_path)
+    baseline_settings = cfg.get(
+        "evaluation_baselines", load_config(CONFIG_PATH)["evaluation_baselines"]
+    )
+    if "ankle_upright_pd" not in baseline_settings:
+        baseline_settings = load_config(CONFIG_PATH)["evaluation_baselines"]
+    else:
+        baseline_settings = json.loads(json.dumps(baseline_settings))
+    if a.residual_scale is not None:
+        baseline_settings["ankle_upright_pd"]["residual_scale"] = a.residual_scale
     rows = []
     render_mode = "rgb_array" if a.output else "human" if a.live else None
     env = HumanoidBalanceEnv(config_path=config_path, render_mode=render_mode)
+    env.baseline_settings = baseline_settings["ankle_upright_pd"]
     conditions = list(cfg["surfaces"].items())
     mass_bounds = cfg["randomization"]["mass_scale"]
     if any(scale < mass_bounds[0] or scale > mass_bounds[1] for scale in a.mass_scales):
@@ -68,7 +117,8 @@ def main():
                 for episode in range(a.episodes):
                     env.randomize = False
                     seed = 2000 + idx * 10000 + mass_index * 1000 + episode
-                    for controller in ("neutral_hold", "ppo"):
+                    for controller in ("neutral_hold", "ankle_upright_pd", "ppo"):
+                        env.control_mode = policy_mode if controller == "ppo" else "direct"
                         obs, _ = env.reset(seed=seed)
                         rng = env.np_random
                         env.data.qpos[3:7] = env._tilt_quat(
@@ -126,13 +176,17 @@ def main():
                         while steps < env.max_steps:
                             if controller == "ppo":
                                 action, _ = policy.predict(obs, deterministic=True)
+                            elif controller == "ankle_upright_pd":
+                                action = ankle_upright_pd_action(
+                                    env, baseline_settings["ankle_upright_pd"]
+                                )
                             else:
                                 action = np.zeros(env.model.nu, dtype=np.float32)
                             obs, reward, terminated, truncated, info = env.step(action)
                             total += reward
                             steps += 1
                             min_upright = min(min_upright, info["upright"])
-                            if writer is not None and controller == "ppo":
+                            if writer is not None and controller == a.record_controller:
                                 writer.append_data(env.render())
                             if terminated:
                                 fell = True
@@ -142,6 +196,7 @@ def main():
                         rows.append(
                             {
                                 "controller_type": controller,
+                                "policy_mode": policy_mode if controller == "ppo" else "direct",
                                 "surface": name,
                                 "episode": episode,
                                 "seed": seed,
@@ -168,7 +223,7 @@ def main():
         surface_metrics[name] = {}
         for mass_scale in a.mass_scales:
             surface_metrics[name][str(mass_scale)] = {}
-            for controller in ("neutral_hold", "ppo"):
+            for controller in ("neutral_hold", "ankle_upright_pd", "ppo"):
                 samples = [
                     row
                     for row in rows
@@ -185,10 +240,12 @@ def main():
                 }
     report = {
         "controller": str(a.model.resolve()),
+        "policy_mode": policy_mode,
         "robot_config": str(config_path.resolve()),
         "robot_config_sha256": hashlib.sha256(config_path.read_bytes()).hexdigest(),
         "mass_status": cfg["mass_authority"],
         "mass_cases_are_synthetic": True,
+        "torch_threads": a.torch_threads,
         "mass_scales_tested": a.mass_scales,
         "episodes": rows,
         "per_surface": surface_metrics,
@@ -205,8 +262,9 @@ def main():
                     * env.dt
                 ),
             }
-            for controller in ("neutral_hold", "ppo")
+            for controller in ("neutral_hold", "ankle_upright_pd", "ppo")
         },
+        "baseline_parameters": baseline_settings,
         "video": str(a.output.resolve()) if a.output else None,
     }
     path = (

@@ -33,9 +33,21 @@ def write_json_atomic(path: Path, payload: dict) -> None:
             json.dump(payload, stream)
             stream.flush()
             os.fsync(stream.fileno())
-        os.replace(temporary, path)
+        replace_with_retry(Path(temporary), path)
     finally:
         Path(temporary).unlink(missing_ok=True)
+
+
+def replace_with_retry(source: Path, destination: Path) -> None:
+    """Retry transient Windows sharing violations from live dashboard readers."""
+    for attempt in range(5):
+        try:
+            os.replace(source, destination)
+            return
+        except PermissionError:
+            if attempt == 4:
+                raise
+            time.sleep(0.01 * (2**attempt))
 
 
 class RunTelemetry(BaseCallback):
@@ -72,7 +84,7 @@ class RunTelemetry(BaseCallback):
             checkpoint = self.run_dir / "policy-checkpoint.zip"
             temporary = self.run_dir / f".policy-checkpoint-{self.num_timesteps}.zip"
             self.model.save(temporary)
-            os.replace(temporary, checkpoint)
+            replace_with_retry(temporary, checkpoint)
             write_json_atomic(
                 self.run_dir / "checkpoint.json",
                 {"step": int(self.num_timesteps), "path": checkpoint.name},
@@ -83,7 +95,7 @@ class RunTelemetry(BaseCallback):
             if frame is not None:
                 temporary = self.run_dir / "latest.tmp.png"
                 imageio.imwrite(temporary, frame)
-                temporary.replace(self.run_dir / "latest.png")
+                replace_with_retry(temporary, self.run_dir / "latest.png")
         return True
 
 
@@ -92,16 +104,51 @@ def main():
     ap.add_argument("--steps", type=int, default=20000)
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--run-dir", type=Path)
+    ap.add_argument("--resume", type=Path, help="Resume from a saved Stable-Baselines3 checkpoint")
     ap.add_argument("--live", action="store_true")
     ap.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cpu")
+    ap.add_argument("--torch-threads", type=int, default=2, help="Limit PyTorch CPU threads")
     ap.add_argument("--gamma", type=float, default=0.995, help="PPO discount factor")
+    ap.add_argument(
+        "--control-mode",
+        choices=("direct", "ankle_pd_residual"),
+        default="ankle_pd_residual",
+        help="Learn direct targets or bounded residuals over the ankle-PD stabilizer",
+    )
+    ap.add_argument(
+        "--residual-scale",
+        type=float,
+        default=None,
+        help="Override residual amplitude from the robot config for this run",
+    )
     a = ap.parse_args()
+    if a.torch_threads < 1:
+        ap.error("--torch-threads must be positive")
+    if a.residual_scale is not None and not 0.0 <= a.residual_scale <= 1.0:
+        ap.error("--residual-scale must be in [0, 1]")
     if not 0.0 < a.gamma <= 1.0:
         ap.error("--gamma must be in (0, 1]")
+    if a.resume and not a.resume.is_file():
+        ap.error(f"Resume checkpoint does not exist: {a.resume}")
+    if a.resume:
+        source_manifest = a.resume.parent / "run.json"
+        if source_manifest.is_file():
+            source_mode = json.loads(source_manifest.read_text(encoding="utf-8")).get(
+                "control_mode", "direct"
+            )
+            if source_mode != a.control_mode:
+                ap.error(f"Resume control mode {source_mode!r} does not match {a.control_mode!r}")
+    torch.set_num_threads(a.torch_threads)
+    try:
+        torch.set_num_interop_threads(1)
+    except RuntimeError:
+        pass
     run = a.run_dir or ROOT / "runs" / datetime.now(UTC).strftime("humanoid-balance-%Y%m%d-%H%M%S")
     run = run.resolve()
     run.mkdir(parents=True, exist_ok=False)
     robot = load_config()
+    if a.residual_scale is not None:
+        robot["evaluation_baselines"]["ankle_upright_pd"]["residual_scale"] = a.residual_scale
     model_source = ROOT / robot["model_path"]
     shutil.copy2(model_source, run / "robot_model.xml")
     run_config = dict(robot)
@@ -111,7 +158,13 @@ def main():
     torch.manual_seed(a.seed)
 
     def make_env():
-        return Monitor(HumanoidBalanceEnv(render_mode="human" if a.live else "rgb_array"))
+        return Monitor(
+            HumanoidBalanceEnv(
+                render_mode="human" if a.live else "rgb_array",
+                config_path=run / "robot_config_snapshot.json",
+                control_mode=a.control_mode,
+            )
+        )
 
     env = DummyVecEnv([make_env])
     ppo = {
@@ -125,7 +178,12 @@ def main():
         "ent_coef": 0.005,
         "policy_kwargs": {"net_arch": {"pi": [128, 128], "vf": [128, 128]}, "log_std_init": -0.7},
     }
-    model = PPO("MlpPolicy", env, seed=a.seed, device=a.device, verbose=1, **ppo)
+    model = (
+        PPO.load(a.resume, env=env, device=a.device)
+        if a.resume
+        else PPO("MlpPolicy", env, seed=a.seed, device=a.device, verbose=1, **ppo)
+    )
+    starting_timesteps = int(model.num_timesteps)
     meta = {
         "status": "running",
         "started_utc": datetime.now(UTC).isoformat(),
@@ -133,7 +191,12 @@ def main():
         "requested_steps": a.steps,
         "algorithm": "PPO",
         "device": str(model.device),
+        "torch_threads": a.torch_threads,
         "task": "proprioceptive_stand",
+        "control_mode": a.control_mode,
+        "residual_scale_override": a.residual_scale,
+        "resumed_from": str(a.resume.resolve()) if a.resume else None,
+        "resume_source_timesteps": starting_timesteps if a.resume else 0,
         "model_path": "src/robot_twin/models/humanoid_28dof.xml",
         "robot_config_path": str(CONFIG_PATH.relative_to(ROOT)),
         "nominal_total_mass_kg": 25.0,
@@ -169,7 +232,12 @@ def main():
     write_json_atomic(run / "run.json", meta)
     started = time.perf_counter()
     try:
-        model.learn(total_timesteps=a.steps, callback=RunTelemetry(run), progress_bar=False)
+        model.learn(
+            total_timesteps=a.steps,
+            callback=RunTelemetry(run),
+            progress_bar=False,
+            reset_num_timesteps=True,
+        )
         model.save(run / "policy")
         meta.update(
             status="completed",

@@ -77,3 +77,5 @@
     <position name="act_right_shoulder_yaw" joint="right_shoulder_yaw" kp="38" kv="4.5" ctrlrange="-1.571 1.571" forcerange="-35 35"/><position name="act_right_shoulder_roll" joint="right_shoulder_roll" kp="38" kv="4.5" ctrlrange="-1.571 1.571" forcerange="-35 35"/><position name="act_right_shoulder_pitch" joint="right_shoulder_pitch" kp="38" kv="4.5" ctrlrange="-2.094 1.571" forcerange="-35 35"/><position name="act_right_elbow_pitch" joint="right_elbow_pitch" kp="25" kv="3" ctrlrange="0 2.356" forcerange="-22 22"/><position name="act_right_wrist_yaw" joint="right_wrist_yaw" kp="12" kv="1.5" ctrlrange="-0.785 0.785" forcerange="-9 9"/><position name="act_right_wrist_pitch" joint="right_wrist_pitch" kp="12" kv="1.5" ctrlrange="-0.785 0.785" forcerange="-9 9"/>
   </actuator>
 </mujoco>
+
+

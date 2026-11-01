@@ -9,7 +9,7 @@ The repository contains two MuJoCo paths:
 - `robot_twin` is the new generic **3D 28-DoF humanoid** foundation. It has a free pelvis, explicit per-link mass/inertia allocations, 28 finite-gain torque-limited position actuators, collision proxies, named sensor frames, CAD-reference validation, PPO standing training, a local live monitor, and replayable surface evaluation.
 - `hitmonlee_sim` retains the earlier **planar biped** example and its command/voice experiments. It remains useful as a small, reproducible baseline; it is not the 3D body model.
 
-The 3D model is a provisional simulation embodiment, not a calibrated digital twin or manufacturing release. Its 25 kg mass case, link mass/inertias, actuator limits, contact compliance and 1.35 m working height are design assumptions until components are selected and physical measurements are made. Only proprioceptive standing is implemented; walking and whole-body action skills remain untrained.
+The 3D model is a provisional simulation embodiment, not a calibrated digital twin or manufacturing release. Its 25 kg mass case, link mass/inertias, actuator limits, contact compliance and 1.35 m working height are design assumptions until components are selected and physical measurements are made. Proprioceptive standing is the only implemented motion task. A bounded residual PPO policy matches the ankle-PD reference on 48/54 three-seed surface/mass trials; it does not yet outperform the reference. Walking and whole-body actions remain untrained.
 
 See [the phase 1–4 engineering report](docs/design/phase1-4-progress.html), [robot-twin architecture](docs/design/robot-twin-architecture.md), and [runbook](docs/design/robot-twin-runbook.md).
 
@@ -17,7 +17,7 @@ See [the phase 1–4 engineering report](docs/design/phase1-4-progress.html), [r
 
 ~~~powershell
 $env:PYTHONPATH = "src"
-.\.venv\Scripts\python.exe -m robot_twin.train --steps 100000 --run-dir runs\my-balance --device cpu
+.\.venv\Scripts\python.exe -m robot_twin.train --steps 100000 --run-dir runs\my-balance --device cpu --control-mode ankle_pd_residual --residual-scale 0.05 --torch-threads 2
 .\.venv\Scripts\python.exe -m robot_twin.monitor --run-dir runs\my-balance
 ~~~
 

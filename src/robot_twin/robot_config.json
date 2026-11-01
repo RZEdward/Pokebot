@@ -117,6 +117,15 @@
       0.04
     ]
   },
+  "evaluation_baselines": {
+    "ankle_upright_pd": {
+      "proportional_gain": 0.5,
+      "angular_damping": 0.08,
+      "residual_scale": 0.05,
+      "pitch_ankle_joints": ["left_ankle_pitch", "right_ankle_pitch"],
+      "roll_ankle_joints": ["left_ankle_roll", "right_ankle_roll"]
+    }
+  },
   "surfaces": {
     "nominal": {
       "friction": 0.9,

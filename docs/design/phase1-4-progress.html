@@ -20,7 +20,7 @@
 </head>
 <body>
 <header>
-  <div class="label">Engineering notebook · 1 November 2026</div>
+  <div class="label">Engineering notebook · updated 2 November 2026</div>
   <h1>Robot twin · Phase 1–4</h1>
   <p class="sub">A runnable 3D simulation foundation, traceable joint/mass assumptions, real PPO training, and local visualization. The system is still a provisional design study; no physical prototype measurements exist yet.</p>
 </header>
@@ -72,15 +72,24 @@
   </section>
 
   <section class="card">
-    <h2>Latest 3D run · PPO did not learn balance</h2>
-    <p><b>100,096 PPO steps</b> ran on CPU in 7m41s with a nominal-to-randomized curriculum and 50 Hz control. The full evaluation paired PPO with neutral hold on identical starts across six surfaces and three synthetic total-mass scales, with per-link mass redistribution. PPO fell in all 18 cases and averaged <b>2.37 s</b> survival. Neutral hold completed 5 of 6 cases at 0.8× mass, but none at 1.0× or 1.2×; its overall mean was <b>4.51 s</b>. The learned controller regressed against its baseline.</p>
-    <table class="table"><thead><tr><th>Mass scale</th><th>Neutral hold</th><th>PPO</th></tr></thead><tbody>
-      <tr><td>0.8× · 20 kg placeholder case</td><td>5/6 completed · 6.97 s mean</td><td>0/6 completed · 3.06 s mean</td></tr>
-      <tr><td>1.0× · 25 kg placeholder case</td><td>0/6 completed · 3.70 s mean</td><td>0/6 completed · 2.13 s mean</td></tr>
-      <tr><td>1.2× · 30 kg placeholder case</td><td>0/6 completed · 2.87 s mean</td><td>0/6 completed · 1.93 s mean</td></tr>
+    <h2>Current balance result · residual PPO matches ankle PD</h2>
+    <p>A four-stage run trained about <b>150k PPO transitions</b> over a physics-based ankle stabilizer. At residual amplitude 0.05, a three-seed evaluation paired residual PPO, ankle PD, and neutral hold across six surfaces and three synthetic total-mass scales. Residual PPO and PD each completed <b>48/54</b> full 8 s episodes, with mean survival of <b>7.29 s</b>. PPO matches the stabilizing controller here; it has not improved on it. Neutral hold completed 15/54.</p>
+    <table class="table"><thead><tr><th>Mass scale</th><th>Neutral hold</th><th>Ankle PD</th><th>Residual PPO</th></tr></thead><tbody>
+      <tr><td>0.8× · 20 kg placeholder case</td><td>15/18 · 6.97 s mean</td><td>18/18 · 8.00 s mean</td><td>18/18 · 8.00 s mean</td></tr>
+      <tr><td>1.0× · 25 kg placeholder case</td><td>0/18 · 3.73 s mean</td><td>15/18 · 6.96 s mean</td><td>15/18 · 6.96 s mean</td></tr>
+      <tr><td>1.2× · 30 kg placeholder case</td><td>0/18 · 2.90 s mean</td><td>15/18 · 6.91 s mean</td><td>15/18 · 6.92 s mean</td></tr>
     </tbody></table>
-    <p class="muted">The replay shows a separate nominal-mass PPO pass; the full paired metrics, run manifest, exact config snapshot, MJCF, and <a href="results/balance-v4-policy.zip">policy checkpoint</a> are archived under <code>docs/design/results/</code>. One seed per condition is diagnostic only, not a robustness claim. Total/link masses and actuator properties remain placeholders, not calibrated robot values.</p>
-    <video controls preload="metadata" src="assets/balance-v4-surface-matrix.mp4">Latest nominal-mass surface matrix replay.</video>
+    <p class="muted">There are three reset seeds per surface/mass condition. These remain synthetic-mass simulation trials, not calibrated hardware tests or a broad robustness guarantee. The four-stage training chain, exact MJCF/config, manifests, full 162-episode JSON, and <a href="results/residual-v1/balance-residual-v1-policy.zip">final checkpoint</a> are archived under <a href="results/README.md">the results guide</a>.</p>
+    <h3>Residual PPO · six-profile nominal-mass replay</h3>
+    <video controls preload="metadata" src="assets/balance-residual-v1-surfaces.mp4">Residual PPO simulation replay on six surface profiles.</video>
+    <h3>Ankle-PD · interpretable reference controller</h3>
+    <video controls preload="metadata" src="assets/balance-v4-ankle-pd-reference.mp4">Ankle-PD nominal-mass surface matrix replay.</video>
+  </section>
+
+  <section class="card">
+    <h2>Earlier direct-action PPO · preserved failure</h2>
+    <p>The initial 100,096-step PPO policy issued full joint targets directly and fell in all 18 one-seed surface/mass cases. Adding the ankle-PD base controller and limiting PPO to a small residual corrected this failure mode. Both earlier and later runs remain available for comparison.</p>
+    <video controls preload="metadata" src="assets/balance-v4-surface-matrix.mp4">Direct-action PPO fall cases on six surface profiles.</video>
   </section>
 
   <section class="card">
@@ -92,7 +101,7 @@
   <section class="card">
     <h2>Run and watch it</h2>
     <p>Open PowerShell at the repository root:</p>
-    <code class="command">$env:PYTHONPATH = "src"<br>.\.venv\Scripts\python.exe -m robot_twin.train --steps 100000 --run-dir runs\my-run --device cpu</code>
+    <code class="command">$env:PYTHONPATH = "src"<br>.\.venv\Scripts\python.exe -m robot_twin.train --steps 100000 --run-dir runs\my-run --device cpu --control-mode ankle_pd_residual --residual-scale 0.05 --torch-threads 2</code>
     <p>In a second terminal, serve the live dashboard:</p>
     <code class="command">.\.venv\Scripts\python.exe -m robot_twin.monitor --run-dir runs\my-run</code>
     <p>When the checkpoint is saved, record the surface suite:</p>
