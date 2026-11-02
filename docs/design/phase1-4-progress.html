@@ -73,8 +73,8 @@
   </section>
 
   <section class="card">
-    <h2>Mass-envelope stress test · 35 kg and 50 kg fail</h2>
-    <p>The three-seed balance policy was trained around the provisional 25 kg model and only randomized through 0.8–1.2×. I evaluated it outside that training range at 35 kg (1.4×) and 50 kg (2.0×) across six surfaces, alongside ankle PD and neutral hold. At 35 kg, PPO passed only 1/18 episodes (4.91 s mean survival), while PD and neutral hold passed 0/18. At 50 kg, all controllers passed 0/18; PPO averaged 2.34 s. These are synthetic extrapolations with fixed actuator caps and mass-scaled inertias, not hardware predictions. They show the 25 kg balance claim cannot be carried over to a likely heavier build.</p>
+    <h2>Mass-envelope stress test · outside the provisional training range</h2>
+    <p>The three-seed balance policy was trained around the provisional 25 kg model and only randomized through 0.8–1.2×. I evaluated it outside that training range at 35 kg (1.4×) and 50 kg (2.0×) across six surfaces, alongside ankle PD and neutral hold. At 35 kg, PPO passed only 1/18 episodes (4.91 s mean survival), while PD and neutral hold passed 0/18. At 50 kg, all controllers passed 0/18; PPO averaged 2.34 s. These were deliberately heavy stress-test points, with 50 kg chosen near the fictional character reference; neither is a proposed build mass or a prediction of the finished robot. These synthetic extrapolations hold actuator caps fixed and scale inertias with link mass, so they are not hardware predictions. They only show the current 25 kg-trained policy does not transfer to these test points.</p>
     <p><a href="results/mass-envelope/evaluation.json">Full 108-episode metrics</a> · <a href="results/mass-envelope/policy.zip">Policy</a> · <a href="results/mass-envelope/evaluation_config.json">Evaluation-only mass envelope config</a> · <a href="results/mass-envelope/robot_config_snapshot.json">Exact 25 kg training config</a> · <a href="results/mass-envelope/run.json">Original training manifest</a></p>
   </section>
 
